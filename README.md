@@ -28,3 +28,7 @@ corresponding 64bit or 32bit so that Godot and Mono match.
 In order to edit the C# scripts [you will want a C# development IDE](http://docs.godotengine.org/en/3.0/getting_started/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor).
 VisualStudioCode and MonoDevelop are the two best supported options currently,
 although it's likely that other IDE's will work too.
+
+## Notes/Discussion
+
+C# is listed as an alpha feature in Godot, not recommended for production. It appears to be fairly well documented in their documentation, and bugs are getting fixed quickly, but do we want to take the risk of using it? Or do we want to use GDScript, or do we want to switch to Unity?
