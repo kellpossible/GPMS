@@ -31,4 +31,6 @@ although it's likely that other IDE's will work too.
 
 ## Notes/Discussion
 
-C# is listed as an alpha feature in Godot, not recommended for production. It appears to be fairly well documented in their documentation, and bugs are getting fixed quickly, but do we want to take the risk of using it? Or do we want to use GDScript, or do we want to switch to Unity?
+C# is listed as an alpha feature in Godot, not recommended for production. It appears to be fairly well documented in their documentation, I got it working easily for a hello world example, and bugs are getting fixed quickly, but do we want to take the risk of using it? Or do we want to use GDScript, or do we want to switch to Unity? GDScript is nice to use, it's very similar to python and it's easy to learn, but it is very understandeable if people want to stick to C#
+
+It might be good if the group has a play with the C# script and maybe a GDScript hello world example too [Godot Scripting Tutorial](http://docs.godotengine.org/en/3.0/getting_started/step_by_step/scripting.html) and [Godot C# Introduction](http://docs.godotengine.org/en/3.0/getting_started/scripting/c_sharp/c_sharp_basics.html) so we can make up our about what to use.
