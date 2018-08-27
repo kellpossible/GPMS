@@ -6,7 +6,7 @@ This project is part of the Swinburne University SWE30010 subject.
 
 | Name |                     Github                     |
 | ---- | ---------------------------------------------- |
-| Dale | [daldesilva](https://github.com/daledesilva)   |
+| Dale | [daledesilva](https://github.com/daledesilva)  |
 | Luke | [kellpossible](http://github.com/kellpossible) |
 | Tom  |                                                |
 | Sang |                                                |
