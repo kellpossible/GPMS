@@ -10,7 +10,7 @@ This project is part of the Swinburne University SWE30010 subject.
 | Luke | [kellpossible](http://github.com/kellpossible) |
 | Tom  |                                                |
 | Sang |                                                |
-| Hei  | [w0nght]                                       |
+| Hei  | [w0nght](https://github.com/w0nght)            |
 
 ## Setup Instructions
 
