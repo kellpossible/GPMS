@@ -1,0 +1,60 @@
+
+
+
+
+//////////////////////////////////
+Individual tile transition methods
+//////////////////////////////////
+
+// Basic Pop
+
+// Sudden Scale
+
+// Fade And Scale
+
+// Flip On Spot
+
+// Folder Under From Last
+
+// Folder Over From Last
+
+// Sudden Fall
+
+// Fade And Fall
+
+// Sudden Rise
+
+// Fade and Rise
+
+// Slide then Vertical Scale
+
+
+/////////////////////////////////
+Ordering of Tile Intro Animations
+/////////////////////////////////
+
+// No Animation
+
+// Ripple from Start Tile (Contiguous[true/false])
+	// Ripple from X,Y
+
+// Ripple from End Tile (Contiguous[true/false])
+	// Ripple from X,Y
+
+// Ripple from centre (Contiguous[true/false])
+	// Ripple from X,Y
+
+// Main Path Then Offshoots
+
+// Turrets then Path
+
+// Plain Tiles then Objects
+	// this should be more of a global control for all
+	// ability to define plain tile motion seperately to object motion, offset (number or wait till all tiles are done) or specify to be attached at exact same time.
+
+
+/////////////////////////////////
+Ordering of Tile Outro Animations
+/////////////////////////////////
+
+// similar to above
