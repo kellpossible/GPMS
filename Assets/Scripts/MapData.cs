@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapData : MonoBehaviour {
+public class MapData {
 
 	private MapTile[,] mapDataArray;
 	public MapTile[,] MapDataArray { get {return mapDataArray;} }
@@ -21,9 +21,9 @@ public class MapData : MonoBehaviour {
 	
 
 
-	public MapData(MapTile[,] newMapDataArray) {
+	public MapData(MapTile[,] newGeneratedMapArray) {
 
-		mapDataArray = newMapDataArray;
+		mapDataArray = newGeneratedMapArray;
 
 		// populate main path
 
