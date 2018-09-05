@@ -25,6 +25,7 @@ public class ProcGen : MonoBehaviour {
     DIR dir;
     public int levelSize = 80;
     public MapTile[,] level = new MapTile[80, 80];
+    public float tileChance = 0.5f;
 
     // Use this for initialization
     void Start ()
@@ -103,7 +104,8 @@ public class ProcGen : MonoBehaviour {
     }
 
     void populate()
-    { //at the moment this just adds basic 3 * 1 objects to the level. It will be expanded to support different sizes as we progress
+    { //adds tiles to the map. Uses the tileChance float as the chance a tile is placed (can be altered to change the difficulty)
+        
         //checking for cross
         for (int y = 0; y < 80; y++)
         {
@@ -114,15 +116,18 @@ public class ProcGen : MonoBehaviour {
                     //if there is a cross make the centre a turret
                     if ((level[x, y].type == TileType.Tile && level[x, y + 1].type == TileType.Tile && level[x + 1, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile && level[x - 1, y].type == TileType.Tile))
                     {
-                        level[x, y].type = TileType.Turret; //randomize this line?
-                        //Debug.Log("turrent at " + x + " " + y);
-                        level[x, y].tileType = (int)level[x, y].type;
+                        float rnJesus = Random.value;
+                        if(rnJesus > tileChance)
+                        {
+                            level[x, y].type = TileType.Turret; //randomize this line?
+                            level[x, y].tileType = (int)level[x, y].type;
+                        }
+                        
                     }
                 }
             }
         }
 
-        
         //vertical 3 * 1 object placement
         for (int y = 0; y < 80; y++)
         {
@@ -133,8 +138,12 @@ public class ProcGen : MonoBehaviour {
                     //if there are 3 tiles in a row, make the middle one a gap
                     if (level[x, y].type == TileType.Tile && level[x - 1, y].type == TileType.Tile && level[x + 1, y].type == TileType.Tile)
                     {
-                        level[x, y].type = TileType.Gap; //randomize this line?
-                        level[x, y].tileType = (int)level[x, y].type;
+                        float rnJesus = Random.value;
+                        if (rnJesus > tileChance)
+                        {
+                            level[x, y].type = TileType.Gap; //randomize this line?
+                            level[x, y].tileType = (int)level[x, y].type;
+                        }
                     }
                 }
             }
@@ -149,13 +158,59 @@ public class ProcGen : MonoBehaviour {
                     //if there are 3 tiles in a row, make the middle one a gap
                     if (level[x, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile && level[x, y + 1].type == TileType.Tile)
                     {
-                        level[x, y].type = TileType.Gap; //randomize this line?
-                        level[x, y].tileType = (int)level[x, y].type;
+                        float rnJesus = Random.value;
+                        if (rnJesus > tileChance)
+                        {
+                            level[x, y].type = TileType.Gap; //randomize this line?
+                            level[x, y].tileType = (int)level[x, y].type;
+                        }
+                    }
+                }
+            }
+        }
+        //2 * 1 placement vertical
+        for (int y = 0; y < 80; y++)
+        {
+            for (int x = 0; x < 80; x++)
+            {
+                if (level[x, y] != null && level[x - 1, y] != null)
+                {
+                    //if there is a cross make the centre a turret
+                    if (level[x, y].type == TileType.Tile && level[x - 1, y].type == TileType.Tile)
+                    {
+                        float rnJesus = Random.value;
+                        if (rnJesus > tileChance)
+                        {
+                            level[x, y].type = TileType.Crumble; //randomize this line?
+                            level[x, y].tileType = (int)level[x, y].type;
+                        }
+                    }
+                }
+            }
+        }
+        //2 * 1 placement horizontal
+        for (int y = 0; y < 80; y++)
+        {
+            for (int x = 0; x < 80; x++)
+            {
+                if (level[x, y] != null && level[x, y - 1] != null)
+                {
+                    //if there is a cross make the centre a turret
+                    if (level[x, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile)
+                    {
+                        float rnJesus = Random.value;
+                        if (rnJesus > tileChance)
+                        {
+                            level[x, y].type = TileType.Crumble; //randomize this line?
+                            level[x, y].tileType = (int)level[x, y].type;
+                        }
                     }
                 }
             }
         }
     }
+
+    
 
     void layTile(DIR dir, TileType type)
     { //lay a tile in a given direction, if not null then skip over that position in the current direction
@@ -270,10 +325,12 @@ public class ProcGen : MonoBehaviour {
         findTopLeft();
         findBottomRight();
 
-        //print the array to console
+        
         if (tiles == 0)
         {
+            //place tiles into the array
             populate();
+            //print the array to console
             printLevel();
             tiles = -5;
         }
