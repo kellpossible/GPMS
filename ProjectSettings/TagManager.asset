@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Entry Tile
+  - Floor Tile
+  - Exit Tile
+  - Gap Tile
+  - Jump Tile
+  - Crumble Tile
+  - Door Tile
+  - Switch Tile
+  - Turret Tile
+  - Moving Tile
   layers:
   - Default
   - TransparentFX
