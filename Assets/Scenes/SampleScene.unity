@@ -195,13 +195,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd96c3f3a8887c74fa7cb6ec00ad6743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiles: 25
-  tile: {fileID: 0}
-  turret: {fileID: 0}
+  tiles: 60
   chance: 0.6
-  posX: 20
-  posY: 20
+  posX: 40
+  posY: 40
   _collider: {fileID: 0}
+  levelSize: 80
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
