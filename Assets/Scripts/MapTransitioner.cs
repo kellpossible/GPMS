@@ -29,28 +29,6 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    //public LevelTransitioner Instance { get { return m_Instance; } };
-    //private LevelTransitioner m_Instance;
-    
-	// void Awake()
-	// {
-	// 	//m_Instance = this;
-	// }
-
-	// void OnDestroy()
-	// {
-	// 	//m_Instance = null;
-	// }
-
-
-
-
-
-
-
-
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -62,41 +40,10 @@ public class MapTransitioner : MonoBehaviour {
 
         // TODO: Warn when tile types aren't found. - describe that they must be active (and will be made inactive on launch)
 
-        Debug.Log("jumpTiles found: "+jumpTiles[0].ToString());
 
         // iterate through the animation on each prefab type and remember what's available for each one
         // TODO
 
-
-
-
-        // temporary run of ProcGen
-        MapTile[,] testMap = new MapTile[20,20];
-
-        for(int j=0; j<20; j++) {
-
-            for(int k=0; k<20; k++) {
-
-                float randomNumber = Random.Range(0.0f, 10.0f);
-
-                if(randomNumber > 6.0f) {
-                    testMap[j,k] = new MapTile();
-                    testMap[j,k].type = TileType.Tile;
-                } else if(randomNumber > 4.0f) {
-                    testMap[j,k] = new MapTile();
-                    testMap[j,k].type = TileType.Jump;
-                } else {
-                    // leave spot as null
-                }
-
-
-            }
-
-        }
-
-        Debug.Log("Created Test Map");
-
-        StartTransitioning(testMap);
 
 	}
 	
@@ -145,19 +92,57 @@ public class MapTransitioner : MonoBehaviour {
         setAllInactive(turretTiles, "Turret Tiles");
         setAllInactive(movingTiles, "Moving Tiles");
 
+
     }
 
     private void setAllInactive(GameObject[] objectArray, string tagName) {
 
         if(objectArray.Length <= 0) {
+            Debug.Log("---------------------------------------------------");
             Debug.Log("WARNING: No " + tagName + " have been found. If these are needed during map creation you will get a runtime error.");
             Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
+            Debug.Log("---------------------------------------------------");
             return;
         }
+
+        Debug.Log(tagName+" tiles found: " + objectArray.Length);
 
         for(int k=0; k<objectArray.Length; k++) {
             objectArray[k].SetActive(false);
         }
+
+    }
+
+
+
+    public void RunTestTransition() {
+
+        MapTile[,] testMap = new MapTile[20,20];
+
+        for(int j=0; j<20; j++) {
+
+            for(int k=0; k<20; k++) {
+
+                float randomNumber = Random.Range(0.0f, 10.0f);
+
+                if(randomNumber > 6.0f) {
+                    testMap[j,k] = new MapTile();
+                    testMap[j,k].type = TileType.Tile;
+                } else if(randomNumber > 4.0f) {
+                    testMap[j,k] = new MapTile();
+                    testMap[j,k].type = TileType.Jump;
+                } else {
+                    // leave spot as null
+                }
+
+
+            }
+
+        }
+
+        Debug.Log("Created Test Map");
+
+        StartTransitioning(testMap);
 
     }
 
@@ -224,7 +209,7 @@ public class MapTransitioner : MonoBehaviour {
             // TODO: overwrite this is it's specified in code directly (needs to be passed throught he functions)
         }
 
-        Debug.Log(mapTransitionType);
+        Debug.Log(mapTransitionDirection + ": " + mapTransitionType);
         
         switch(mapTransitionType)
         {
@@ -260,11 +245,10 @@ public class MapTransitioner : MonoBehaviour {
 
             for(int k=0; k<newGeneratedMapArray.GetLength(1); k++) {
 
-                if(newGeneratedMapArray[j,k] != null) {
+                if(newGeneratedMapArray[j,k] == null) { continue; }
+                if(newGeneratedMapArray[j,k].type == null) { continue; }
                     
-                    newMapObjectArray[j,k] = CreateMapTile(newGeneratedMapArray[j,k].type); // TODO: This variable now shouldn't be lowercase
-                
-                }
+                newMapObjectArray[j,k] = CreateMapTile(newGeneratedMapArray[j,k].type); // TODO: This variable now shouldn't be lowercase
 
             }
 
@@ -277,9 +261,11 @@ public class MapTransitioner : MonoBehaviour {
 
 
     private GameObject CreateMapTile(TileType tileType) {
-        Debug.Log("CreateMapTile");
+        Debug.Log("CreateMapTile: "+tileType);
 
         GameObject newTileObject;
+
+        newTileObject = Instantiate(floorTiles[0]);
 
         switch(tileType)
         {
@@ -358,6 +344,7 @@ public class MapTransitioner : MonoBehaviour {
                 GameObject tile = mapData.MapObjArray[j,k];
 
                 if(tile == null) {
+                    // Debug.Log(j + " : "+k);
                     continue;
                 }
 

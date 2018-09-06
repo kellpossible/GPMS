@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4880580630065216}
   - component: {fileID: 33468244032532678}
   - component: {fileID: 23262442897765808}
-  - component: {fileID: 95690276168415786}
+  - component: {fileID: 95072027715617740}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896778125826756}
   m_Mesh: {fileID: 4300112, guid: 590ce862e38bcce4a90d45519f991c0d, type: 3}
---- !u!95 &95690276168415786
+--- !u!95 &95072027715617740
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -94,10 +94,10 @@ Animator:
   m_GameObject: {fileID: 1896778125826756}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: abb8936a0a758824491aa477389f67a1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

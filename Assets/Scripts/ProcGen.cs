@@ -343,7 +343,7 @@ public class ProcGen : MonoBehaviour {
         }
     }
 
-    MapTile[,] createLevel()
+    public MapTile[,] createLevel()
     {
         //randomize initial direction and place the first tile (for debug)
         dir = rndDir();
