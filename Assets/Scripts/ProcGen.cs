@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class MapTile
 {
-    public int mainPath; //order in which the tile was placed (NO WAY OF DETECTING MAIN PATH YET)
-    public int tileType; //type of tile int
+    public int mainPath; //place upon the main path 
+    public int creationOrder; //order in which the tile was placed 
     public TileType type; // type of tile enum
+    public int variation;
 }
 
 public enum TileType
@@ -30,11 +31,7 @@ public class ProcGen : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        dir = DIR.E;
-        //generate (tiles, rand);
-        _collider = GetComponent<BoxCollider2D> ();
-
-        createLevel();
+        MapTile[,] lvl = createLevel();
     }
 
 
@@ -52,7 +49,7 @@ public class ProcGen : MonoBehaviour {
         {
             if (MapTile != null)
             {
-                output += MapTile.tileType;
+                output += (int)MapTile.type;
                 //output += MapTile.mainPath;
             }
             else
@@ -79,7 +76,6 @@ public class ProcGen : MonoBehaviour {
                 if (level[x, y] != null)
                 {
                     level[x, y].type = TileType.Entry;
-                    level[x, y].tileType = (int)level[x, y].type;
                     return;
                 }
             }
@@ -96,17 +92,32 @@ public class ProcGen : MonoBehaviour {
                 if (level[x, y] != null)
                 {
                     level[x, y].type = TileType.Exit;
-                    level[x, y].tileType = (int)level[x, y].type;
                     return;
                 }
             }
         }
     }
 
+    MapTile randomTile()
+    { //returns a random tile, will not return moving
+        MapTile output = new MapTile();
+        float rand = Random.value * 10;
+        if (rand > 1.0 && rand <= 8.0)
+        {
+            output.type = (TileType)(int)rand;
+        }
+        else
+        {
+            output.type = TileType.Jump;
+        }
+        return output;
+    }
+    
+
     void populate()
     { //adds tiles to the map. Uses the tileChance float as the chance a tile is placed (can be altered to change the difficulty)
         
-        //checking for cross
+        //checking for cross 
         for (int y = 0; y < 80; y++)
         {
             for (int x = 0; x < 80; x++)
@@ -119,10 +130,37 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if(rnJesus > tileChance)
                         {
-                            level[x, y].type = TileType.Turret; //randomize this line?
-                            level[x, y].tileType = (int)level[x, y].type;
+                            // level[x, y].type = TileType.Turret; //randomize this line?
+                            level[x, y] = randomTile();
                         }
                         
+                    }
+                }
+            }
+        } 
+
+        //check for square (moving platforms)
+        for (int y = 0; y < 80; y++)
+        {
+            for (int x = 0; x < 80; x++)
+            {
+                if (level[x, y] != null && level[x, y + 1] != null && level[x + 1, y] != null && level[x + 1, y + 1] != null)
+                {
+                    //if there is a square make the top right a moving platform
+                    if ((level[x, y].type == TileType.Tile && level[x, y + 1].type == TileType.Tile && level[x + 1, y].type == TileType.Tile && level[x + 1, y + 1].type == TileType.Tile ))
+                    {
+                        float rnJesus = Random.value;
+                        if (rnJesus > tileChance)
+                        {
+                            // level[x, y].type = TileType.Turret; //randomize this line?
+                            level[x, y].type = TileType.Moving;
+                            level[x, y].variation = 0;
+                            level[x, y + 1] = null;
+                            level[x + 1, y] = null;
+                            level[x + 1, y + 1] = null;
+
+                        }
+
                     }
                 }
             }
@@ -141,8 +179,8 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if (rnJesus > tileChance)
                         {
-                            level[x, y].type = TileType.Gap; //randomize this line?
-                            level[x, y].tileType = (int)level[x, y].type;
+                            //level[x, y].type = TileType.Gap; //randomize this line?
+                            level[x, y] = randomTile();
                         }
                     }
                 }
@@ -161,8 +199,8 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if (rnJesus > tileChance)
                         {
-                            level[x, y].type = TileType.Gap; //randomize this line?
-                            level[x, y].tileType = (int)level[x, y].type;
+                            //level[x, y].type = TileType.Gap; //randomize this line?
+                            level[x, y] = randomTile();
                         }
                     }
                 }
@@ -181,8 +219,8 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if (rnJesus > tileChance)
                         {
-                            level[x, y].type = TileType.Crumble; //randomize this line?
-                            level[x, y].tileType = (int)level[x, y].type;
+                         //   level[x, y].type = TileType.Crumble; //randomize this line?
+                            level[x, y] = randomTile();
                         }
                     }
                 }
@@ -201,8 +239,8 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if (rnJesus > tileChance)
                         {
-                            level[x, y].type = TileType.Crumble; //randomize this line?
-                            level[x, y].tileType = (int)level[x, y].type;
+                            //level[x, y].type = TileType.Crumble; //randomize this line?
+                            level[x, y] = randomTile();
                         }
                     }
                 }
@@ -220,8 +258,7 @@ public class ProcGen : MonoBehaviour {
             {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
-                level[posX, posY].tileType = (int)level[posX, posY].type;
-                level[posX, posY].mainPath = tiles;
+                level[posX, posY].creationOrder = tiles;
                 tiles -= 1;
             }
             posX += 1;
@@ -232,8 +269,7 @@ public class ProcGen : MonoBehaviour {
             {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
-                level[posX, posY].tileType = (int)level[posX, posY].type;
-                level[posX, posY].mainPath = tiles;
+                level[posX, posY].creationOrder = tiles;
                 tiles -= 1;
             }
             posX -= 1;
@@ -244,8 +280,7 @@ public class ProcGen : MonoBehaviour {
             {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
-                level[posX, posY].tileType = (int)level[posX, posY].type;
-                level[posX, posY].mainPath = tiles;
+                level[posX, posY].creationOrder = tiles;
                 tiles -= 1;
             }
             posY -= 1;
@@ -256,8 +291,7 @@ public class ProcGen : MonoBehaviour {
             {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
-                level[posX, posY].tileType = (int)level[posX, posY].type;
-                level[posX, posY].mainPath = tiles;
+                level[posX, posY].creationOrder = tiles;
                 tiles -= 1;
             }
             posY += 1;
@@ -309,7 +343,7 @@ public class ProcGen : MonoBehaviour {
         }
     }
 
-    void createLevel()
+    MapTile[,] createLevel()
     {
         //randomize initial direction and place the first tile (for debug)
         dir = rndDir();
@@ -334,6 +368,7 @@ public class ProcGen : MonoBehaviour {
             printLevel();
             tiles = -5;
         }
+        return level;
     }
 
 }
