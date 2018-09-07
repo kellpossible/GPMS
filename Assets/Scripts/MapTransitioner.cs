@@ -267,55 +267,55 @@ public class MapTransitioner : MonoBehaviour {
 
         newTileObject = Instantiate(floorTiles[0]);
 
-        switch(tileType)
-        {
-            case TileType.Entry:
-                newTileObject = Instantiate(entryTiles[0]);
-                break;
+        // switch(tileType)
+        // {
+        //     case TileType.Entry:
+        //         newTileObject = Instantiate(entryTiles[0]);
+        //         break;
 
-            case TileType.Tile:
-                newTileObject = Instantiate(floorTiles[0]);
-                break;
+        //     case TileType.Tile:
+        //         newTileObject = Instantiate(floorTiles[0]);
+        //         break;
 
-            case TileType.Exit:
-                newTileObject = Instantiate(exitTiles[0]);
-                break;
+        //     case TileType.Exit:
+        //         newTileObject = Instantiate(exitTiles[0]);
+        //         break;
 
-            case TileType.Gap:
-                newTileObject = Instantiate(gapTiles[0]);
-                break;
+        //     case TileType.Gap:
+        //         newTileObject = Instantiate(gapTiles[0]);
+        //         break;
 
-            case TileType.Jump:
-                newTileObject = Instantiate(jumpTiles[0]);
-                break;
+        //     case TileType.Jump:
+        //         newTileObject = Instantiate(jumpTiles[0]);
+        //         break;
 
-            case TileType.Crumble:
-                newTileObject = Instantiate(crumbleTiles[0]);
-                break;
+        //     case TileType.Crumble:
+        //         newTileObject = Instantiate(crumbleTiles[0]);
+        //         break;
 
-            case TileType.Door:
-                newTileObject = Instantiate(doorTiles[0]);
-                break;
+        //     case TileType.Door:
+        //         newTileObject = Instantiate(doorTiles[0]);
+        //         break;
 
-            case TileType.Switch:
-                newTileObject = Instantiate(switchTiles[0]);
-                break;
+        //     case TileType.Switch:
+        //         newTileObject = Instantiate(switchTiles[0]);
+        //         break;
 
-            case TileType.Turret:
-                newTileObject = Instantiate(turretTiles[0]);
-                break;
+        //     case TileType.Turret:
+        //         newTileObject = Instantiate(turretTiles[0]);
+        //         break;
 
-            case TileType.Moving:
-                newTileObject = Instantiate(movingTiles[0]);
-                break;
+        //     case TileType.Moving:
+        //         newTileObject = Instantiate(movingTiles[0]);
+        //         break;
 
-            default:
-                // TODO: Default should probably be a normal floor so that the game is still playable - but maybe something that visually represents and error so devs notice? (or maybe just log it)
-                Debug.Log("Error in CreateMapTile function");
-                newTileObject = Instantiate(floorTiles[0]);
-                break;
+        //     default:
+        //         // TODO: Default should probably be a normal floor so that the game is still playable - but maybe something that visually represents and error so devs notice? (or maybe just log it)
+        //         Debug.Log("Error in CreateMapTile function");
+        //         newTileObject = Instantiate(floorTiles[0]);
+        //         break;
 
-        }
+        // }
 
         return newTileObject;
 

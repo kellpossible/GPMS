@@ -207,7 +207,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 202857110}
   m_LocalRotation: {x: 0.3613298, y: -0, z: -0, w: 0.9324381}
-  m_LocalPosition: {x: -1.56, y: 0.1, z: -6.02}
+  m_LocalPosition: {x: -1.56, y: -12.6, z: 7.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -299,10 +299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd96c3f3a8887c74fa7cb6ec00ad6743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiles: 0
-  chance: 0.9
-  posX: 0
-  posY: 20
+  tiles: 60
+  chance: 0.6
+  posX: 40
+  posY: 40
   _collider: {fileID: 0}
   levelSize: 80
   tileChance: 0.5
