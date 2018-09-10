@@ -338,6 +338,8 @@ public class MapTransitioner : MonoBehaviour {
     private IEnumerator RunScanlineTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunScalineTransition");
 
+        float deltaTimeConsumed = 0.0f;
+
         for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
             for(int k=0; k<mapData.MapObjArray.GetLength(0); k++) {
 
@@ -362,9 +364,12 @@ public class MapTransitioner : MonoBehaviour {
                 //tile.transform.eulerAngles = new Vector3(0, 0, 90);
                 tile.SetActive(true);
                 
-                // pause
-                // TODO: This can't go faster than the framerate - thus I need to calculate how much time the last frame took and start as many tiles as should have fit in there
-                yield return new WaitForSeconds(TileSeparationDelay);
+                // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
+                deltaTimeConsumed += TileSeparationDelay;
+                if(deltaTimeConsumed >= Time.deltaTime) {
+                    deltaTimeConsumed = 0.0f;
+                    yield return new WaitForSeconds(TileSeparationDelay);
+                }
                 
 
             }
