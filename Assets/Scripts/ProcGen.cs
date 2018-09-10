@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MapTile
@@ -8,12 +9,23 @@ public class MapTile
     public int creationOrder; //order in which the tile was placed 
     public TileType type; // type of tile enum
     public int variation;
+    public Coords pos;
 }
 
 public enum TileType
 {
     Entry, Exit, Tile, Gap, Jump, Crumble, Door, Switch, Turret, Moving
 };
+
+public class Coords
+{ //holds x and y coordinates
+    public int x, y;
+    public Coords(int xPos, int yPos)
+    {
+        x = xPos;
+        y = yPos;
+    }
+}
 
 
 public class ProcGen : MonoBehaviour {
@@ -22,16 +34,17 @@ public class ProcGen : MonoBehaviour {
     public float chance = 0.90f;
     public enum DIR { N, E, S, W };
     public int posX, posY = 20;
-    public BoxCollider2D _collider;
     DIR dir;
     public int levelSize = 80;
     public MapTile[,] level = new MapTile[80, 80];
     public float tileChance = 0.5f;
+    private Coords entryCoords, exitCoords;
 
     // Use this for initialization
     void Start ()
     {
         MapTile[,] lvl = createLevel();
+        Coords[] test = findPath(entryCoords, exitCoords);
     }
 
 
@@ -51,6 +64,7 @@ public class ProcGen : MonoBehaviour {
             {
                 output += (int)MapTile.type;
                 //output += MapTile.mainPath;
+                //output += MapTile.pos.x;
             }
             else
             {
@@ -76,6 +90,7 @@ public class ProcGen : MonoBehaviour {
                 if (level[x, y] != null)
                 {
                     level[x, y].type = TileType.Entry;
+                    entryCoords = new Coords(level[x, y].pos.x, level[x, y].pos.y);
                     return;
                 }
             }
@@ -92,23 +107,24 @@ public class ProcGen : MonoBehaviour {
                 if (level[x, y] != null)
                 {
                     level[x, y].type = TileType.Exit;
+                    exitCoords = new Coords(level[x, y].pos.x, level[x, y].pos.y);
                     return;
                 }
             }
         }
     }
 
-    MapTile randomTile()
+    TileType randomType()
     { //returns a random tile, will not return moving
-        MapTile output = new MapTile();
+        TileType output = new TileType();
         float rand = Random.value * 10;
         if (rand > 1.0 && rand <= 8.0)
         {
-            output.type = (TileType)(int)rand;
+            output = (TileType)(int)rand;
         }
         else
         {
-            output.type = TileType.Jump;
+            output = TileType.Jump;
         }
         return output;
     }
@@ -131,7 +147,7 @@ public class ProcGen : MonoBehaviour {
                         if(rnJesus > tileChance)
                         {
                             // level[x, y].type = TileType.Turret; //randomize this line?
-                            level[x, y] = randomTile();
+                            level[x, y].type = randomType();
                         }
                         
                     }
@@ -180,7 +196,7 @@ public class ProcGen : MonoBehaviour {
                         if (rnJesus > tileChance)
                         {
                             //level[x, y].type = TileType.Gap; //randomize this line?
-                            level[x, y] = randomTile();
+                            level[x, y].type = randomType();
                         }
                     }
                 }
@@ -200,7 +216,7 @@ public class ProcGen : MonoBehaviour {
                         if (rnJesus > tileChance)
                         {
                             //level[x, y].type = TileType.Gap; //randomize this line?
-                            level[x, y] = randomTile();
+                            level[x, y].type = randomType();
                         }
                     }
                 }
@@ -219,8 +235,8 @@ public class ProcGen : MonoBehaviour {
                         float rnJesus = Random.value;
                         if (rnJesus > tileChance)
                         {
-                         //   level[x, y].type = TileType.Crumble; //randomize this line?
-                            level[x, y] = randomTile();
+                            //   level[x, y].type = TileType.Crumble; //randomize this line?
+                            level[x, y].type = randomType();
                         }
                     }
                 }
@@ -240,7 +256,7 @@ public class ProcGen : MonoBehaviour {
                         if (rnJesus > tileChance)
                         {
                             //level[x, y].type = TileType.Crumble; //randomize this line?
-                            level[x, y] = randomTile();
+                            level[x, y].type = randomType();
                         }
                     }
                 }
@@ -259,6 +275,7 @@ public class ProcGen : MonoBehaviour {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
                 level[posX, posY].creationOrder = tiles;
+                level[posX, posY].pos = new Coords(posX, posY);
                 tiles -= 1;
             }
             posX += 1;
@@ -270,6 +287,7 @@ public class ProcGen : MonoBehaviour {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
                 level[posX, posY].creationOrder = tiles;
+                level[posX, posY].pos = new Coords(posX, posY);
                 tiles -= 1;
             }
             posX -= 1;
@@ -281,6 +299,7 @@ public class ProcGen : MonoBehaviour {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
                 level[posX, posY].creationOrder = tiles;
+                level[posX, posY].pos = new Coords(posX, posY);
                 tiles -= 1;
             }
             posY -= 1;
@@ -292,6 +311,7 @@ public class ProcGen : MonoBehaviour {
                 level[posX, posY] = new MapTile();
                 level[posX, posY].type = type;
                 level[posX, posY].creationOrder = tiles;
+                level[posX, posY].pos = new Coords(posX, posY);
                 tiles -= 1;
             }
             posY += 1;
@@ -363,12 +383,125 @@ public class ProcGen : MonoBehaviour {
         if (tiles == 0)
         {
             //place tiles into the array
-            populate();
+            //populate();
             //print the array to console
             printLevel();
             tiles = -5;
         }
         return level;
     }
+
+    //==================================================================================================
+    //=================Pathfinding======================================================================
+
+    public Coords checkTile(int dir, Coords pos)
+    {//returns coordinates of an available move or null
+        switch (dir)
+        {
+            case 0:
+                if(level[pos.x - 1, pos.y] != null)
+                {
+                    Coords output = new Coords(pos.x - 1, pos.y);
+                    return output;
+                }
+                break;
+            case 1:
+                if (level[pos.x, pos.y + 1] != null)
+                {
+                    Coords output = new Coords(pos.x, pos.y + 1);
+                    return output;
+                }
+                break;
+            case 2:
+                if (level[pos.x + 1, pos.y] != null)
+                {
+                    Coords output = new Coords(pos.x + 1, pos.y);
+                    return output;
+                }
+                break;
+            case 3:
+                if (level[pos.x, pos.y - 1] != null)
+                {
+                    Coords output = new Coords(pos.x, pos.y - 1);
+                    return output;
+                }
+                break;
+            default: return null;
+        }
+        return null;
+    }
+
+
+    public Coords[] checkMoves(Coords tile, int dir)
+    {
+        //returns an array of coordinates of available moves up to length 4
+        //if null no moves
+        Coords[] allMoves = new Coords[4];
+        int j = 0;
+        for(int i = 0; i < 4; i++)
+        {
+            if (i != dir)
+            {
+                allMoves[i] = checkTile(i, tile);
+                if (allMoves[i] != null)
+                {
+                    j += 1;
+                }
+            }
+        }
+        Coords[] moves = new Coords[j];
+        j = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if(allMoves[i] != null)
+            {
+                moves[j] = allMoves[i];
+                j += 1;
+            }
+        }
+        if (moves[0] != null)
+        {
+            return moves;
+        }
+        else return null;
+    }
+
+    public bool isExit(Coords pos)
+    {
+        if (pos == exitCoords)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /*
+    public Coords[][] findPath(Coords start, Coords finish)
+    {
+        Coords[,][] temp = new Coords[100,100][];
+        temp[0,0] = checkMoves(start, (int)DIR.N);
+
+        Debug.Log("moves from start");
+        int i = 1 ,j = 1;
+        foreach (Coords pos in temp[0,0])
+        {
+            temp[i,j] = checkMoves(pos, )
+        }
+
+
+
+        return null;
+    }
+
+    */
+
+
+        
+        
+
+        return null;
+    }
+
 
 }
