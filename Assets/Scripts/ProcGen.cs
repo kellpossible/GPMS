@@ -432,25 +432,23 @@ public class ProcGen : MonoBehaviour {
     }
 
 
-    public Coords[] checkMoves(Coords tile, int dir)
+    public Coords[] checkMoves(Coords tile)
     {
         //returns an array of coordinates of available moves up to length 4
         //if null no moves
         Coords[] allMoves = new Coords[4];
-        int j = 0;
+        int j = 1;
         for(int i = 0; i < 4; i++)
         {
-            if (i != dir)
+            allMoves[i] = checkTile(i, tile);
+            if (allMoves[i] != null)
             {
-                allMoves[i] = checkTile(i, tile);
-                if (allMoves[i] != null)
-                {
-                    j += 1;
-                }
+                j += 1;
             }
         }
         Coords[] moves = new Coords[j];
-        j = 0;
+        j = 1;
+        moves[0] = tile;
         for (int i = 0; i < 4; i++)
         {
             if(allMoves[i] != null)
@@ -497,7 +495,13 @@ public class ProcGen : MonoBehaviour {
     */
 
 
-        
+    public Coords[][] createPairList(MapTile[,] level)
+    {
+        Coords[][] pairs = new Coords[60][];
+        foreach(MapTile tile in level)
+        {
+
+        }
         
 
         return null;
