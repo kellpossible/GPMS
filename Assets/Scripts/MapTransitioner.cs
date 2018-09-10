@@ -222,7 +222,7 @@ public class MapTransitioner : MonoBehaviour {
                 break;
 
             case MapTransitionType.RippleFromCentre:
-                StartCoroutine( RunRippleFromCentreTransition(mapData, mapTransitionDirection) );
+                RunRippleFromCentreTransition(mapData, mapTransitionDirection);
                 break;
 
             default:
@@ -336,32 +336,41 @@ public class MapTransitioner : MonoBehaviour {
 
 
     private IEnumerator RunScanlineTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("Running RunScalineTransition");
+        Debug.Log("Running RunScanlineTransition");
 
         float deltaTimeConsumed = 0.0f;
 
+        // position all tiles first so their positions can be checked easily
         for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(0); k++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
 
                 GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
 
-                if(tile == null) {
-                    // Debug.Log(j + " : "+k);
-                    continue;
-                }
-
-                // TODO: Calculate mapWidth and height in MapData so it can merely be offset here
+                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
+                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
+                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
+                // for now it's here.
                 Vector3 size = tile.GetComponent<Renderer>().bounds.size;
-                float mapWidth = mapData.MapObjArray.GetLength(0) * size.x;
-                float mapDepth = mapData.MapObjArray.GetLength(1) * size.z;
 
-                Vector3 mapOffset = new Vector3(-mapWidth/2, -mapDepth/2, 0);
+                // TODO: the offset doesn't seem visually accurate
+                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
 
                 Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
+                tile.transform.position = mapOffset + tilePosition;
+
+            }
+        } 
+
+        // now start them animating on at the appropriate time
+        // position all tiles first so their positions can be checked easily
+        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
 
                 tile.GetComponent<Animator>().Play("Pop Up");
-                tile.transform.position = mapOffset + tilePosition;
-                //tile.transform.eulerAngles = new Vector3(0, 0, 90);
                 tile.SetActive(true);
                 
                 // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
@@ -370,10 +379,9 @@ public class MapTransitioner : MonoBehaviour {
                     deltaTimeConsumed = 0.0f;
                     yield return new WaitForSeconds(TileSeparationDelay);
                 }
-                
 
             }
-        } 
+        }
 
 
     }
@@ -390,18 +398,102 @@ public class MapTransitioner : MonoBehaviour {
 
     }
 
-    private IEnumerator RunRippleFromCentreTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    
+    private void RunRippleFromCentreTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunRippleFromCentreTransition");
+    
+        Vector3 point = new Vector3(0,0,0);
+        StartCoroutine( RunRippleFromPointTransition(mapData, mapTransitionDirection, point) );
+    }
 
-        // Show the first item
+    
 
-        // pause
-        yield return new WaitForSeconds(TileSeparationDelay);
+    private IEnumerator RunRippleFromPointTransition(MapData mapData, MapTransitionDirection mapTransitionDirection, Vector3 point) {
 
-        // etc
+        float deltaTimeConsumed = 0.0f;
+        float radius = 0.0f;
+        float maxRadius = 0;
+
+        // position all tiles first so their positions can be checked easily
+        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
+
+                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
+                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
+                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
+                // for now it's here.
+                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+                // TODO: this shouldn't be calculated in this loop either
+                // should also be based off point position or there'll need to be too much excess
+                maxRadius = GetMax(mapData.MapWidth,mapData.MapDepth); ///2;
+
+                // TODO: the offset doesn't seem visually accurate
+                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
+
+                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
+                tile.transform.position = mapOffset + tilePosition;
+
+            }
+        } 
+
+        // now start them animating on at the appropriate time
+        while (radius < maxRadius) {
+
+            // NOTE: this is rather inefficient as it goes through the whole array for every increase in radius
+            for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+                for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                    GameObject tile = mapData.MapObjArray[j,k];
+                    if(tile == null) { continue; }
+                    if(tile.activeSelf == true) { continue; }
+
+                    // if the tile is within the current radius
+                    if( Vector3.Distance(point, tile.transform.position) <= radius ) {
+                        tile.GetComponent<Animator>().Play("Pop Up");
+                        tile.SetActive(true);
+                    }
+
+                }
+            }
+
+            // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
+            deltaTimeConsumed += TileSeparationDelay;
+            if(deltaTimeConsumed >= Time.deltaTime) {
+                deltaTimeConsumed = 0.0f;
+                yield return new WaitForSeconds(TileSeparationDelay);
+            }
+
+            // TODO: Easing would be nice
+            radius++;
+        }
+        
+
+
 
     }
 
+
+
+
+
+
+
+
+
+
+
+    /*
+    Utilities
+     */
+
+
+    private float GetMax(float first, float second)
+    {
+        return first > second ? first : second;
+    }
 
 
 

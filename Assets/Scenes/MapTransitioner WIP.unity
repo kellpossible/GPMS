@@ -206,13 +206,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 202857110}
-  m_LocalRotation: {x: 0.3613298, y: -0, z: -0, w: 0.9324381}
-  m_LocalPosition: {x: -1.56, y: -12.6, z: 7.5}
+  m_LocalRotation: {x: 0.17853175, y: -0.2696776, z: 0.045859255, w: 0.9451442}
+  m_LocalPosition: {x: 8.12, y: 5.77, z: -19.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 42.364002, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 21.236, y: -31.961002, z: -0.59000003}
 --- !u!4 &258161104 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4880580630065216, guid: 3b86d098d459e4f4bb7c5b49306f17fd,
@@ -370,8 +370,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionSeparationDelay: 3
-  TileSeparationDelay: 0
-  MapTransitionOnType: 0
+  TileSeparationDelay: 0.05
+  MapTransitionOnType: 2
   MapTransitionOffType: 0
 --- !u!4 &804884086
 Transform:

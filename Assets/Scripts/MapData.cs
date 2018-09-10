@@ -18,12 +18,69 @@ public class MapData {
 
 	private GameObject[] branches;
 	public GameObject[] Branches { get {return branches;} }
+
+    private int mapWidth;
+	public int MapWidth { get {return mapWidth;} }
+	private int mapDepth;
+	public int MapDepth { get {return mapDepth;} }
 	
 
 
 	public MapData(MapTile[,] newGeneratedMapArray) {
 
-		mapDataArray = newGeneratedMapArray;
+		// old version (copy in the whole array)
+		//mapDataArray = newGeneratedMapArray;
+
+		// new version (trim off any unecessary tiles from borders of array)
+		int jMin = newGeneratedMapArray.GetLength(0)+1;
+		int jMax = -1;
+		int kMin = newGeneratedMapArray.GetLength(1)+1;
+		int kMax = -1;
+		for(int j=0; j<newGeneratedMapArray.GetLength(0); j++) {
+			for(int k=0; k<newGeneratedMapArray.GetLength(1); k++) {
+
+				if(newGeneratedMapArray[j,k] != null) {
+
+					if(j<jMin){
+						jMin = j;
+					}
+					if(k<kMin){
+						kMin = k;
+					}
+					if(j>jMax){
+						jMax = j;
+					}
+					if(k>kMax){
+						kMax = k;
+					}
+
+				}
+				
+			}
+		}
+		// create splice of array
+		mapWidth = jMax-jMin+1;
+		mapDepth = kMax-kMin+1;
+		mapDataArray = new MapTile[mapWidth,mapDepth];
+		int jNew = 0;
+		for(int j=jMin; j<=jMax; j++) {
+			
+			int kNew = 0;
+			for(int k=kMin; k<=kMax; k++) {
+
+				if(newGeneratedMapArray[j,k] != null) {
+					mapDataArray[jNew,kNew] = newGeneratedMapArray[j,k];
+				}
+				
+				kNew++;
+			}
+			jNew++;
+		}
+
+
+		
+
+		
 
 		// populate main path
 
