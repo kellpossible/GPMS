@@ -44,7 +44,7 @@ public class ProcGen : MonoBehaviour {
     void Start ()
     {
         MapTile[,] lvl = createLevel();
-        Coords[] test = findPath(entryCoords, exitCoords);
+        //Coords[] test = findPath(entryCoords, exitCoords);
     }
 
 
