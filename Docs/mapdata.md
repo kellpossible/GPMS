@@ -2,15 +2,15 @@ When a map transition is called, the MapTransitioner class takes the data array 
 These fields are stored in the MapData class.
 
 Each levels MapData is populated into the GameController script. It can be accessed with the following code:
+
 **This is not yet implemented**
-`
-// create reference to the game controller object (this is an expensive operation and should only be done once (in startup)
-GameObject gameController = GameObject.Find("Game Ctrl");
-// create a reference to the script component on the GameController object
-GameController gameControllerScript = (MapTransitioner) gameController.GetComponent(typeof(GameController));
-// access mapData
-gameControllerScript.mapData
-`
+
+`// create reference to the game controller object (this is an expensive operation and should only be done once (in startup)`
+`GameObject gameController = GameObject.Find("Game Ctrl");`
+`// create a reference to the script component on the GameController object`
+`GameController gameControllerScript = (MapTransitioner) gameController.GetComponent(typeof(GameController));`
+`// access mapData`
+`gameControllerScript.mapData`
 
 A GameObjects position in the MapData arrays can also be found by accessing the variables directly on it. See below for details.
 
