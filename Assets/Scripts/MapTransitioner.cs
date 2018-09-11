@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapTransitioner : MonoBehaviour {
 
-    public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre };
+    public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
     public enum MapTransitionDirection { On, Off }; // TODO: This should be defined in the global class
     
 
@@ -225,8 +225,12 @@ public class MapTransitioner : MonoBehaviour {
                 RunRippleFromCentreTransition(mapData, mapTransitionDirection);
                 break;
 
+            case MapTransitionType.JumpsLast:
+                StartCoroutine( RunJumpsLastTransition(mapData, mapTransitionDirection) );
+                break;
+
             default:
-                Debug.Log("mapTransitionType");
+                Debug.Log("mapTransitionType Issue");
                 break;
         }
 
@@ -471,6 +475,85 @@ public class MapTransitioner : MonoBehaviour {
         }
         
 
+
+
+    }
+
+
+
+
+
+
+    private IEnumerator RunJumpsLastTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+        Debug.Log("Running RunJumpsLastTransition");
+
+        float deltaTimeConsumed = 0.0f;
+
+        // position all tiles first so their positions can be checked easily
+        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
+
+                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
+                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
+                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
+                // for now it's here.
+                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+
+                // TODO: the offset doesn't seem visually accurate
+                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
+
+                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
+                tile.transform.position = mapOffset + tilePosition;
+
+            }
+        } 
+
+
+        // now start them animating on at the appropriate time
+        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
+
+                // don't do jumps
+                if(mapData.MapDataArray[j,k].type == TileType.Jump) { continue; };
+                
+                //tile.GetComponent<Animator>().Play("Pop Up");
+                tile.SetActive(true);
+                
+                // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
+                deltaTimeConsumed += TileSeparationDelay;
+                if(deltaTimeConsumed >= Time.deltaTime) {
+                    deltaTimeConsumed = 0.0f;
+                    yield return new WaitForSeconds(TileSeparationDelay);
+                }
+
+            }
+        }
+
+
+        // pause before doing features tiles
+        yield return new WaitForSeconds(1);
+
+
+        // now pop on the doors
+        foreach(GameObject jumpTile in mapData.Jumps) {
+            
+            Debug.Log("starting jump transition");
+            jumpTile.SetActive(true);
+            
+            // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
+            deltaTimeConsumed += TileSeparationDelay;
+            if(deltaTimeConsumed >= Time.deltaTime) {
+                deltaTimeConsumed = 0.0f;
+                yield return new WaitForSeconds(TileSeparationDelay);
+            }
+
+        }
 
 
     }
