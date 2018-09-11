@@ -6,10 +6,15 @@ Each levels MapData is populated into the GameController script. It can be acces
 **This is not yet implemented**
 
 `// create reference to the game controller object (this is an expensive operation and should only be done once (in startup)`
+
 `GameObject gameController = GameObject.Find("Game Ctrl");`
+
 `// create a reference to the script component on the GameController object`
+
 `GameController gameControllerScript = (MapTransitioner) gameController.GetComponent(typeof(GameController));`
+
 `// access mapData`
+
 `gameControllerScript.mapData`
 
 A GameObjects position in the MapData arrays can also be found by accessing the variables directly on it. See below for details.
@@ -28,7 +33,9 @@ The width of the map (x-axis) in world units.
 The depth of the map (z-axis) in world units.
 
 ## MainPath _(ArrayList)_ ##
+
 **This is not yet implemented**
+
 This will be a list of all tiles that make up the shortest route from the entry point to exit point on the map.
 
 ## Entries _(ArrayList)_ ##
@@ -63,9 +70,12 @@ This also means taht any GameObject tile must have a script component that is ei
 ## Access BaseTile Data ##
 `
 // Access the classes script on the GameObject
+
 TileBase gameObjectScript = (TileBase) gameObjectTile.GetComponent(typeof(TileBase));
+
 // Use the script to access the public variables on that tile
-Debig.Log( gameObjectScript.TileType );
+
+Debug.Log( gameObjectScript.TileType );
 `
 
 ## TypeType ##
