@@ -4,8 +4,11 @@ using UnityEngine;
 using System;
 
 public class CharacterMovement : MonoBehaviour {
-	private static float GROUND_ACCELERATION = 10000.0f;
+	private static float LATERAL_FORCE_ON_GROUND = 120000.0f;
+	private static float LATERAL_FORCE_IN_AIR = 10000.0f;
+	private static float JUMP_FORCE = 8000.0f;
 	private static float MAX_GROUND_VELOCITY = 5.0f;
+	private static float MAX_Z_GROUNDED_VELOCITY = 0.01f;
 
 	public Vector3 characterFacingVelocity = Vector3.zero;
 	public Rigidbody rb;
@@ -13,6 +16,17 @@ public class CharacterMovement : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		
+	}
+
+	private void OnCollisionEnter(Collision collision) {
+		if(collision.contacts.Length > 0)
+		{
+			ContactPoint contact = collision.contacts[0];
+			if(Vector3.Dot(contact.normal, Vector3.up) > 0.5)
+			{
+				//collision was from below
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -22,9 +36,25 @@ public class CharacterMovement : MonoBehaviour {
 
 		var jump = Input.GetButtonDown("Jump");
 
-		var xAcceleration = xInput * Time.deltaTime * GROUND_ACCELERATION * (MAX_GROUND_VELOCITY - Math.Abs(rb.velocity.x))/MAX_GROUND_VELOCITY;
-		var zAcceleration = zInput * Time.deltaTime * GROUND_ACCELERATION * (MAX_GROUND_VELOCITY - Math.Abs(rb.velocity.z))/MAX_GROUND_VELOCITY;
-		rb.AddForce(xAcceleration, 0, zAcceleration);
+		Vector3 lateralForceDirection = new Vector3(xInput, 0.0f, zInput);
+		Vector3 lateralForce = lateralForceDirection.normalized;
+		
+		float lateralForceMagnitude = LATERAL_FORCE_IN_AIR;
+		
+
+		if (Math.Abs(rb.velocity.y) < MAX_Z_GROUNDED_VELOCITY) {
+			lateralForceMagnitude = LATERAL_FORCE_ON_GROUND;
+
+			if (jump) {
+				Debug.Log("Jumping");
+				rb.AddForce(0.0f, JUMP_FORCE, 0.0f);
+			}
+		}
+
+		lateralForce = lateralForce * lateralForceMagnitude * Time.deltaTime;
+
+		
+		rb.AddForce(lateralForce);
 
 		// if (Math.Abs(rb.velocity.x) < MAX_GROUND_VELOCITY) {
 		// 	rb.AddForce(x, 0, 0);
@@ -43,9 +73,6 @@ public class CharacterMovement : MonoBehaviour {
 			// transform.rotation=Quaternion.LookRotation(velocity_planar);
 		}
 
-		if (jump) {
-			Debug.Log("Jumping");
-			rb.AddForce(0.0f, 400.0f, 0.0f);
-		}
+		
 	}
 }
