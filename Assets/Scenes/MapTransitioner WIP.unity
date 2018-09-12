@@ -159,7 +159,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 24
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -184,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 202857110}
   m_LocalRotation: {x: 0.33836356, y: -0.32712644, z: 0.12676504, w: 0.87317187}
-  m_LocalPosition: {x: 14.7, y: 22.9, z: -18.4}
+  m_LocalPosition: {x: 55.2, y: 63.4, z: -55.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -271,7 +271,6 @@ MonoBehaviour:
   chance: 0.6
   posX: 40
   posY: 40
-  _collider: {fileID: 0}
   levelSize: 80
   tileChance: 0.5
 --- !u!4 &570709729
@@ -315,8 +314,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionSeparationDelay: 3
-  TileSeparationDelay: 0
-  MapTransitionOnType: 0
+  TileSeparationDelay: 0.01
+  MapTransitionOnType: 3
   MapTransitionOffType: 0
 --- !u!4 &804884086
 Transform:
@@ -417,6 +416,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1074643828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1074643823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79fb420cf357004c97b1f07029d3b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArrayIndices: 0000000000000000
+  TileType: 0
 --- !u!1 &1294773081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1720864281859136, guid: fa64a03bf89140e4fae94e8bd7f09e69,
@@ -445,6 +457,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1294773086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1294773081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79fb420cf357004c97b1f07029d3b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArrayIndices: 0000000000000000
+  TileType: 0
 --- !u!1001 &1368098027
 Prefab:
   m_ObjectHideFlags: 0
@@ -554,6 +579,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1768524510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1768524504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79fb420cf357004c97b1f07029d3b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArrayIndices: 0000000000000000
+  TileType: 0
 --- !u!1 &1873877984
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a55a9831d533940b574ba65f9f9061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelAvailable: 0
 --- !u!4 &1873877986
 Transform:
   m_ObjectHideFlags: 0
