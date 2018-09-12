@@ -9,6 +9,7 @@ public class CharacterMovement : MonoBehaviour {
 	private static float JUMP_FORCE = 8000.0f;
 	private static float MAX_GROUND_VELOCITY = 5.0f;
 	private static float MAX_Z_GROUNDED_VELOCITY = 0.01f;
+	private static float ROTATION_START_THRESHOLD_VELOCITY = 0.1f;
 
 	public Vector3 characterFacingVelocity = Vector3.zero;
 	public Rigidbody rb;
@@ -17,7 +18,9 @@ public class CharacterMovement : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		
 	}
-
+	
+	/// This override currently just handles the collision with the 
+	/// ground
 	private void OnCollisionEnter(Collision collision) {
 		if(collision.contacts.Length > 0)
 		{
@@ -27,6 +30,10 @@ public class CharacterMovement : MonoBehaviour {
 				//collision was from below
 			}
 		}
+	}
+
+	private bool OnGround() {
+		return Math.Abs(rb.velocity.y) < MAX_Z_GROUNDED_VELOCITY;
 	}
 	
 	// Update is called once per frame
@@ -40,9 +47,8 @@ public class CharacterMovement : MonoBehaviour {
 		Vector3 lateralForce = lateralForceDirection.normalized;
 		
 		float lateralForceMagnitude = LATERAL_FORCE_IN_AIR;
-		
 
-		if (Math.Abs(rb.velocity.y) < MAX_Z_GROUNDED_VELOCITY) {
+		if (this.OnGround()) {
 			lateralForceMagnitude = LATERAL_FORCE_ON_GROUND;
 
 			if (jump) {
@@ -53,24 +59,22 @@ public class CharacterMovement : MonoBehaviour {
 
 		lateralForce = lateralForce * lateralForceMagnitude * Time.deltaTime;
 
-		
 		rb.AddForce(lateralForce);
-
-		// if (Math.Abs(rb.velocity.x) < MAX_GROUND_VELOCITY) {
-		// 	rb.AddForce(x, 0, 0);
-		// }
-
-		// if (Math.Abs(rb.velocity.z) < MAX_GROUND_VELOCITY) {
-		// 	rb.AddForce(0, 0, z);
-		// }
 
 		var velocity_planar = rb.velocity;
 		//todo change this to be maybe a small factor of the y so the
 		// character follows their velocity a little during a jump!
-		velocity_planar.y = rb.velocity.y * 0.3f; 
+		// velocity_planar.y = rb.velocity.y * 0.3f; 
+		velocity_planar.y = 0.0f;
 
-		if (velocity_planar.magnitude > 0.1) {
-			// transform.rotation=Quaternion.LookRotation(velocity_planar);
+		var playerMesh = GameObject.Find("PlayerMesh");
+		
+
+		if (velocity_planar.magnitude > ROTATION_START_THRESHOLD_VELOCITY) {
+			transform.rotation=Quaternion.LookRotation(velocity_planar);
+			playerMesh.transform.Rotate(new Vector3(1, 0, 0), 60.0f * velocity_planar.magnitude * Time.deltaTime);
+		} else {
+			
 		}
 
 		
