@@ -9,13 +9,12 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
+
 		// get references to required classes
 		GameObject mapTransitionerCtrl = GameObject.Find("MapTransition Ctrl");
 		MapTransitioner mapTransitioner = (MapTransitioner) mapTransitionerCtrl.GetComponent(typeof(MapTransitioner));
 		GameObject procGenCtrl = GameObject.Find("ProcGen Ctrl");
 		ProcGen procGen = (ProcGen) procGenCtrl.GetComponent(typeof(ProcGen));
-<<<<<<< HEAD
 		
 		// Run level generation
 		MapTile[,] mapArray = procGen.createLevel();
@@ -30,21 +29,6 @@ public class GameController : MonoBehaviour {
 	
 	
 	void Update () {
-=======
-
-        // Run level generation
-        MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
-        // transition level on
-        mapTransitioner.StartTransitioning(mapArray); 
-
-        // run a test transition using randomised tiles
-        // mapTransitioner.RunTestTransition();
-        
-    }
-
-    // Update is called once per frame
-    void Update () {
->>>>>>> ProcGen
 		
 
 		// this code is just a test of MapData and LevelAvailable
