@@ -68,15 +68,18 @@ public class CharacterMovement : MonoBehaviour {
 		velocity_planar.y = 0.0f;
 
 		var playerMesh = GameObject.Find("PlayerMesh");
-		
 
 		if (velocity_planar.magnitude > ROTATION_START_THRESHOLD_VELOCITY) {
+			// when the player has moving, rotate the collision mesh on the plane
 			transform.rotation=Quaternion.LookRotation(velocity_planar);
+
+			// when the player is moving, rotate the visual mesh around the x axis
+			// to give the impression of rotating to move
 			playerMesh.transform.Rotate(new Vector3(1, 0, 0), 60.0f * velocity_planar.magnitude * Time.deltaTime);
 		} else {
-			
+			// rotate back to face up when the player has stopped
+			var upAngle = Vector3.Dot(playerMesh.transform.up, new Vector3(0, 1, 0)) * 90.0f;
+			playerMesh.transform.Rotate(new Vector3(1, 0, 0), upAngle * 10f * Time.deltaTime);
 		}
-
-		
 	}
 }
