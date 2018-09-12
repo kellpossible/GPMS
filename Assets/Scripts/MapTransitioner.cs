@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MapTransitioner : MonoBehaviour {
 
+    // reference to GameController class
+    private GameController gameCtrlScript;
+
     public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
     public enum MapTransitionDirection { On, Off }; // TODO: This should be defined in the global class
     
@@ -33,6 +36,9 @@ public class MapTransitioner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
+        // get references to required classes
+		GameObject gameCtrl = GameObject.Find("Game Ctrl");
+		gameCtrlScript = (GameController) gameCtrl.GetComponent(typeof(GameController));
 
         findAndHideTemplateMapTiles();
 
@@ -153,7 +159,7 @@ public class MapTransitioner : MonoBehaviour {
 
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
-
+        
         StartCoroutine( InitMapTransitions(currentMapData, newMapData) );
 
     }
@@ -178,6 +184,10 @@ public class MapTransitioner : MonoBehaviour {
 
     private IEnumerator InitMapTransitions(MapData currentMapData, MapData newMapData) {
         Debug.Log("InitMapTransitions - part 1");
+
+        // get references to required classes
+		gameCtrlScript.LevelAvailable = false;
+        // this is made true again during final transition method
 
         // start animating the existing level off
         // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
@@ -388,6 +398,8 @@ public class MapTransitioner : MonoBehaviour {
         }
 
 
+        finalizeLevel(mapData, mapTransitionDirection);
+
     }
 
     private IEnumerator RunMainPathFirstTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
@@ -398,7 +410,9 @@ public class MapTransitioner : MonoBehaviour {
         // pause
         yield return new WaitForSeconds(TileSeparationDelay);
 
-        // etc
+
+
+        finalizeLevel(mapData, mapTransitionDirection);
 
     }
 
@@ -475,7 +489,7 @@ public class MapTransitioner : MonoBehaviour {
         }
         
 
-
+        finalizeLevel(mapData, mapTransitionDirection);
 
     }
 
@@ -556,6 +570,11 @@ public class MapTransitioner : MonoBehaviour {
         }
 
 
+        
+        
+        finalizeLevel(mapData, mapTransitionDirection);
+
+
     }
 
 
@@ -564,6 +583,21 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
+
+
+
+
+    private void finalizeLevel(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+        
+        if(mapTransitionDirection == MapTransitionDirection.On) {
+            // replace old mapData with newly created mapData
+            gameCtrlScript.MapData = mapData;
+
+            // set the flag to say the level can be played
+            gameCtrlScript.LevelAvailable = true;
+        }
+
+    }
 
 
 
