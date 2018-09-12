@@ -1,20 +1,27 @@
 When a map transition is called, the MapTransitioner class takes the data array and parses it into a number of fields for access during the levels play.
 These fields are stored in the MapData class.
 
-Each levels MapData is populated into the GameController script. It can be accessed with the following code:
-
-**This is not yet implemented**
+# GameController Class #
+This should be attached as a script component on a GameObject named `Game Ctrl` within the scene.
+It can be accessed with the following code:  
 
 // create reference to the game controller object (this is an expensive operation and should only be done once (in startup)  
 `GameObject gameController = GameObject.Find("Game Ctrl");`  
 // create a reference to the script component on the GameController object  
 `GameController gameControllerScript = (MapTransitioner) gameController.GetComponent(typeof(GameController));`  
+
+## MapData ##
+When a level is available, this public variable in GameController provides access to it's information (see MapData Class described below).
+
+## LevelAvailable (bool)
+When a transition is occuring, this bool is false, the the transition is complete, this becomes true. Watch this variable to know when a level is ready to go and all MapData is available.
+(example at the bottom of this page)
+
+# MapData Class #
+This class is included at runtime by GameController and should be accessed through that. Each levels MapData is populated into the GameController script and can be accessed with the following syntax. 
+
 // access mapData  
 `gameControllerScript.mapData`  
-
-A GameObjects position in the MapData arrays can also be found by accessing the variables directly on it. See below for details.
-
-# Map Data Class #
 
 
 ## MapObjArray[,] ##
@@ -58,14 +65,19 @@ You shouldn't need to use this as the above fields provide more cleaned data.
 While the MapData class provides access to GameObjects by iterating through arrays and ArrayLists (and accessing other fields), During gameplay, you may require going the other direction, ie. The player steps on a tile and you want to know where that tile sits in the array and what tiles surround it.
 To do this, MapData also populates some information on the tile itself.
 
-This also means taht any GameObject tile must have a script component that is either extends BaseTile.cs or uses it directly.
+This also means that any GameObject tile must have a script component that is either extends BaseTile.cs or uses it directly.
 
-## Access BaseTile Data ##
+# Access BaseTile Data #
+A Tile's position in the MapData arrays or it's type can be found by accessing the variables directly on it's GameObject's class.
+Here is an example of accessing the MapData after a transition is finished.
+This example code is _within_ GameController so it doesn't require referencing the GameController from another class like shown at the top of this page.
 
 // Access the classes script on the GameObject  
 `TileBase gameObjectScript = (TileBase) gameObjectTile.GetComponent(typeof(TileBase));`  
 // Use the script to access the public variables on that tile  
 `Debug.Log( gameObjectScript.TileType );`  
+
+![Code sample](/images/map-data_use-example.jpg)
 
 ## TypeType ##
 This field returns the type of tile this GameObject represents.
