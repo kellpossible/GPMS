@@ -77,7 +77,7 @@ This example code is _within_ GameController so it doesn't require referencing t
 // Use the script to access the public variables on that tile  
 `Debug.Log( gameObjectScript.TileType );`  
 
-![Code sample](/images/map-data_use-example.jpg)
+![Code sample](images/map-data_use-example.jpg)
 
 ## TypeType ##
 This field returns the type of tile this GameObject represents.
