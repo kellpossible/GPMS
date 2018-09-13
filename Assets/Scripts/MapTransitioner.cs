@@ -300,7 +300,9 @@ public class MapTransitioner : MonoBehaviour {
             //     break;
 
             case TileType.Jump:
-                newTileObject = Instantiate(jumpTiles[0]);
+                System.Random rnd = new System.Random();
+                int variation = rnd.Next(0, 2); 
+                newTileObject = Instantiate(jumpTiles[variation]);
                 break;
 
             // case TileType.Crumble:

@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour {
 		ProcGen procGen = (ProcGen) procGenCtrl.GetComponent(typeof(ProcGen));
 		
 		// Run level generation
-		MapTile[,] mapArray = procGen.createLevel();
+		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		// transition level on
 		mapTransitioner.StartTransitioning(mapArray);
 		
