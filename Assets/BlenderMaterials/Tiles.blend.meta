@@ -1,39 +1,89 @@
 fileFormatVersion: 2
-guid: 4b469093a4a4cc445bafcf7c4aefa9cf
+guid: 875a9967b988e5542b11dc1d9a10cdb2
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: PlainTile
-    100002: //RootNode
-    100004: TilewGate
-    100006: TilewFence
-    100008: PlainTile_001
+    100000: ActivatorTile
+    100002: Cylinder
+    100004: EndRing
+    100006: EndTile
+    100008: PlainTile
     100010: Spike
-    400000: PlainTile
-    400002: //RootNode
-    400004: TilewGate
-    400006: TilewFence
-    400008: PlainTile_001
+    100012: StartRing
+    100014: StartTile
+    100016: //RootNode
+    100018: TilewFence
+    100020: Turrent
+    100022: TurretTile
+    100024: Activator
+    100026: Button
+    100028: Pressable
+    400000: ActivatorTile
+    400002: Cylinder
+    400004: EndRing
+    400006: EndTile
+    400008: PlainTile
     400010: Spike
-    2100000: FloorMat__Untitled
-    2100002: WoodMat
-    2100004: SpikeMat
-    2100006: SpikeMat2
-    2300000: PlainTile
-    2300002: TilewGate
-    2300004: TilewFence
-    2300006: PlainTile_001
-    2300008: Spike
-    3300000: PlainTile
-    3300002: TilewGate
-    3300004: TilewFence
-    3300006: PlainTile_001
-    3300008: Spike
-    4300000: PlainTile
-    4300002: TilewGate
-    4300004: TilewFence
-    4300006: PlainTile_001
-    4300008: Spike
+    400012: StartRing
+    400014: StartTile
+    400016: //RootNode
+    400018: TilewFence
+    400020: Turrent
+    400022: TurretTile
+    400024: Activator
+    400026: Button
+    400028: Pressable
+    2100000: ActivatorMat
+    2100002: EndRingMat
+    2100004: FloorMat__Untitled
+    2100006: TurretMat
+    2100008: StillTurretMat
+    2100010: StartRingMat
+    2100012: SpikeMat
+    2100014: SpikeMat2
+    2100016: WoodMat
+    2300000: ActivatorTile
+    2300002: Cylinder
+    2300004: EndRing
+    2300006: EndTile
+    2300008: PlainTile
+    2300010: Spike
+    2300012: StartRing
+    2300014: StartTile
+    2300016: TilewFence
+    2300018: Turrent
+    2300020: TurretTile
+    2300022: Activator
+    2300024: Button
+    2300026: Pressable
+    3300000: ActivatorTile
+    3300002: Cylinder
+    3300004: EndRing
+    3300006: EndTile
+    3300008: PlainTile
+    3300010: Spike
+    3300012: StartRing
+    3300014: StartTile
+    3300016: TilewFence
+    3300018: Turrent
+    3300020: TurretTile
+    3300022: Activator
+    3300024: Button
+    3300026: Pressable
+    4300000: Cylinder
+    4300002: TurretTile
+    4300004: Turrent
+    4300006: ActivatorTile
+    4300008: StartTile
+    4300010: StartRing
+    4300012: EndTile
+    4300014: EndRing
+    4300016: Spike
+    4300018: PlainTile
+    4300020: TilewFence
+    4300022: Activator
+    4300024: Button
+    4300026: Pressable
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs
@@ -64,7 +114,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Default Take
+      takeName: Default Take
+      firstFrame: 0
+      lastFrame: 249
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

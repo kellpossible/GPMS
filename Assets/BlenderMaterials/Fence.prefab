@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4161918306029630}
   - component: {fileID: 33492489013696968}
   - component: {fileID: 23895663004632276}
+  - component: {fileID: 65694649182618840}
   m_Layer: 0
   m_Name: Fence
   m_TagString: Untagged
@@ -56,8 +57,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 4b469093a4a4cc445bafcf7c4aefa9cf, type: 3}
-  - {fileID: 2100002, guid: 4b469093a4a4cc445bafcf7c4aefa9cf, type: 3}
+  - {fileID: 2100004, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}
+  - {fileID: 2100016, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,4 +84,16 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1720864281859136}
-  m_Mesh: {fileID: 4300004, guid: 4b469093a4a4cc445bafcf7c4aefa9cf, type: 3}
+  m_Mesh: {fileID: 4300020, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}
+--- !u!65 &65694649182618840
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720864281859136}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7955078, y: 0.408979, z: 3.872833}
+  m_Center: {x: -0.0019628406, y: -0.0301003, z: 1.6834544}
