@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+	public MapData MapData;
+	public bool LevelAvailable = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -14,7 +17,7 @@ public class GameController : MonoBehaviour {
 		ProcGen procGen = (ProcGen) procGenCtrl.GetComponent(typeof(ProcGen));
 		
 		// Run level generation
-		MapTile[,] mapArray = procGen.createLevel();
+		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		// transition level on
 		mapTransitioner.StartTransitioning(mapArray);
 		
@@ -23,8 +26,23 @@ public class GameController : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
+	
+	
 	void Update () {
 		
+
+		// this code is just a test of MapData and LevelAvailable
+		// if(LevelAvailable) {
+		// 	GameObject entryTile = (GameObject) MapData.Entries[0];
+		// 	TileBase gameObjectScript = (TileBase) entryTile.GetComponent(typeof(TileBase));
+
+		// 	int colIndex = gameObjectScript.ArrayIndices[0];
+		// 	int rowIndex = gameObjectScript.ArrayIndices[1];
+
+		// 	Debug.Log("The first Entry Tile is at ("+colIndex+","+rowIndex+") in the array.");
+		// }
+
 	}
+
+
 }
