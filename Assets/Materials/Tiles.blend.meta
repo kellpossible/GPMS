@@ -18,6 +18,7 @@ ModelImporter:
     100024: Activator
     100026: Button
     100028: Pressable
+    100030: TurrentBase
     400000: ActivatorTile
     400002: Cylinder
     400004: EndRing
@@ -33,6 +34,7 @@ ModelImporter:
     400024: Activator
     400026: Button
     400028: Pressable
+    400030: TurrentBase
     2100000: ActivatorMat
     2100002: EndRingMat
     2100004: FloorMat__Untitled
@@ -56,6 +58,7 @@ ModelImporter:
     2300022: Activator
     2300024: Button
     2300026: Pressable
+    2300028: TurrentBase
     3300000: ActivatorTile
     3300002: Cylinder
     3300004: EndRing
@@ -70,6 +73,7 @@ ModelImporter:
     3300022: Activator
     3300024: Button
     3300026: Pressable
+    3300028: TurrentBase
     4300000: Cylinder
     4300002: TurretTile
     4300004: Turrent
@@ -84,6 +88,7 @@ ModelImporter:
     4300022: Activator
     4300024: Button
     4300026: Pressable
+    4300028: TurrentBase
     7400000: Default Take
     9500000: //RootNode
     2186277476908879412: ImportLogs
