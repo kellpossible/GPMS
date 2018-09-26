@@ -105,7 +105,7 @@ public class MapTransitioner : MonoBehaviour {
 
         if(objectArray.Length <= 0) {
             Debug.Log("---------------------------------------------------");
-            Debug.Log("WARNING: No " + tagName + " have been found. If these are needed during map creation you will get a runtime error.");
+            Debug.Log("WARNING: No " + tagName + "'s have been found. If these are needed during map creation you will get a runtime error.");
             Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
             Debug.Log("---------------------------------------------------");
             return;
@@ -213,13 +213,13 @@ public class MapTransitioner : MonoBehaviour {
 
         if(mapTransitionDirection == MapTransitionDirection.On) {
             mapTransitionType = MapTransitionOnType;
-            // TODO: overwrite this is it's specified in code directly (needs to be passed throught he functions)
+            // TODO: overwrite this as it's specified in code directly (needs to be passed through the functions)
         } else {
             mapTransitionType = MapTransitionOffType;
-            // TODO: overwrite this is it's specified in code directly (needs to be passed throught he functions)
+            // TODO: overwrite this is at's specified in code directly (needs to be passed through the functions)
         }
 
-        Debug.Log(mapTransitionDirection + ": " + mapTransitionType);
+        Debug.Log(mapTransitionDirection + " / " + mapTransitionType);
         
         switch(mapTransitionType)
         {
@@ -275,7 +275,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
     private GameObject CreateMapTile(TileType tileType) {
-        Debug.Log("CreateMapTile: "+tileType);
+        //Debug.Log("CreateMapTile: "+tileType);
 
         GameObject newTileObject;
 
@@ -283,20 +283,20 @@ public class MapTransitioner : MonoBehaviour {
 
         switch(tileType)
         {
-            // case TileType.Entry:
-            //     newTileObject = Instantiate(entryTiles[0]);
-            //     break;
+            case TileType.Entry:
+                newTileObject = Instantiate(entryTiles[0]);
+                break;
 
             case TileType.Tile:
                 newTileObject = Instantiate(floorTiles[0]);
                 break;
 
-            // case TileType.Exit:
-            //     newTileObject = Instantiate(exitTiles[0]);
-            //     break;
+            case TileType.Exit:
+                newTileObject = Instantiate(exitTiles[0]);
+                break;
 
             // case TileType.Gap:
-            //     newTileObject = Instantiate(gapTiles[0]);
+            //     newTileObject = Instantiate(floorTiles[0]);
             //     break;
 
             case TileType.Jump:
@@ -313,13 +313,13 @@ public class MapTransitioner : MonoBehaviour {
             //     newTileObject = Instantiate(doorTiles[0]);
             //     break;
 
-            // case TileType.Switch:
-            //     newTileObject = Instantiate(switchTiles[0]);
-            //     break;
+            case TileType.Switch:
+                newTileObject = Instantiate(switchTiles[0]);
+                break;
 
-            // case TileType.Turret:
-            //     newTileObject = Instantiate(turretTiles[0]);
-            //     break;
+            case TileType.Turret:
+                newTileObject = Instantiate(turretTiles[0]);
+                break;
 
             // case TileType.Moving:
             //     newTileObject = Instantiate(movingTiles[0]);
@@ -327,7 +327,7 @@ public class MapTransitioner : MonoBehaviour {
 
             default:
                 // TODO: Default should probably be a normal floor so that the game is still playable - but maybe something that visually represents and error so devs notice? (or maybe just log it)
-                Debug.Log("Error in CreateMapTile function");
+                Debug.Log("CreateMapTile function: Unsupported TileType (using floor tile instead)");
                 newTileObject = Instantiate(floorTiles[0]);
                 break;
 
@@ -356,27 +356,35 @@ public class MapTransitioner : MonoBehaviour {
 
         float deltaTimeConsumed = 0.0f;
 
-        // position all tiles first so their positions can be checked easily
-        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+        if(mapTransitionDirection == MapTransitionDirection.On) {
+            // TODO: this is getting too deep - rethink how transitions are run with map direction present
 
-                GameObject tile = mapData.MapObjArray[j,k];
-                if(tile == null) { continue; }
+            // position all tiles first so their positions can be checked easily
+            for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+                for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
 
-                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
-                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
-                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
-                // for now it's here.
-                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+                    GameObject tile = mapData.MapObjArray[j,k];
+                    if(tile == null) { continue; }
 
-                // TODO: the offset doesn't seem visually accurate
-                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
+                    // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
+                    // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
+                    // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
+                    // for now it's here.
+                    Vector3 size = tile.GetComponent<Renderer>().bounds.size;
 
-                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
-                tile.transform.position = mapOffset + tilePosition;
+                    // TODO: the offset doesn't seem visually accurate
+                    Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
 
-            }
-        } 
+                    Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
+                    tile.transform.position = mapOffset + tilePosition;
+
+                    // Vector3 tileScale = new Vector3(0, 0.3f, 1);
+                    // tile.transform.localScale = tileScale;
+
+                }
+            } 
+
+        }
 
         // now start them animating on at the appropriate time
         // position all tiles first so their positions can be checked easily
@@ -386,10 +394,23 @@ public class MapTransitioner : MonoBehaviour {
                 GameObject tile = mapData.MapObjArray[j,k];
                 if(tile == null) { continue; }
 
-                tile.GetComponent<Animator>().Play("Pop Up");
-                tile.SetActive(true);
+                switch(mapTransitionDirection) {
+
+                    case MapTransitionDirection.On:
+                        tile.GetComponent<TileBase>().TransitionOn();
+                        break;
+                    
+                    case MapTransitionDirection.Off:
+                        tile.GetComponent<TileBase>().TransitionOff();
+                        break;
+                    
+                    default:
+                        Debug.Log("RunScanlineTransition: Error in called mapTransition Direction");
+                        break;
+
+                }
                 
-                // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
+                // pause for a frame if as many tiles as should have fit in the previous frames time have been initiated (according to the tileDelay set)
                 deltaTimeConsumed += TileSeparationDelay;
                 if(deltaTimeConsumed >= Time.deltaTime) {
                     deltaTimeConsumed = 0.0f;
