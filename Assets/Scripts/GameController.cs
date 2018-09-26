@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour {
 	ProcGen procGen;
 	MapTransitioner mapTransitioner;
 
+	private GameObject playerObject;
+
 	// Use this for initialization
 	void Start () {
 
@@ -18,19 +20,33 @@ public class GameController : MonoBehaviour {
 		mapTransitioner = (MapTransitioner) mapTransitionerCtrl.GetComponent(typeof(MapTransitioner));
 		GameObject procGenCtrl = GameObject.Find("ProcGen Ctrl");
 		procGen = (ProcGen) procGenCtrl.GetComponent(typeof(ProcGen));
+		playerObject = GameObject.Find("Player");
 		
 		// Run level generation
 		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		// transition level on
 		mapTransitioner.StartTransitioning(mapArray);
+
+		
 		
 
 		// run a demo to transition the level every few seconds
-		StartCoroutine( levelTransitionDemo() );
+		// StartCoroutine( levelTransitionDemo() );
 
 		// run a test transition using randomised tiles
 		// mapTransitioner.RunTestTransition();
 		
+	}
+
+	private void placePlayerOnStart() {
+		GameObject entryTile = (GameObject) this.MapData.Entries[0];
+		var entryPosition = entryTile.transform.position;
+		var startPosition = new Vector3(entryPosition.x, 4.0f, entryPosition.z);
+
+		Debug.Log("Moving player to " + startPosition);
+
+		CharacterController characterController = (CharacterController) playerObject.GetComponent(typeof(CharacterController));
+		characterController.moveToStartPosition(startPosition);
 	}
 
 
@@ -53,6 +69,10 @@ public class GameController : MonoBehaviour {
 	
 	
 	void Update () {
+		if (LevelAvailable) {
+			placePlayerOnStart();
+			LevelAvailable = false;
+		}
 		
 		// This code is just an example of using MapData and LevelAvailable
 		// if(LevelAvailable) {
