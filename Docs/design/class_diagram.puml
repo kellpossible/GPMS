@@ -1,0 +1,32 @@
+@startuml
+class MonoBehaviour
+
+note left of MonoBehaviour
+Base class that every script 
+in Unity derives from
+end note
+
+class GameController
+class MapData
+class TileBase
+class CharacterController
+class CharacterMovement
+
+class MapTile
+class Coords
+enum TileType
+
+
+class MapTransitioner {
+    +StartTransitioning(MapTile[][])
+}
+
+class ProcGen {
+    +createLevel(int, int, float)
+}
+
+class PauseMenu
+class Menu
+
+
+@enduml
