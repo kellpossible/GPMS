@@ -29,8 +29,19 @@ public class TileBase : MonoBehaviour {
 
 	public void TransitionOff() {
 
-		tileAnimator.Play("off_floatUp");
-		float lengthOfAnim = getStateLength("off_floatUp");
+		string transitionName;
+
+		//transitionName = "off_flip";
+		
+		float randomNumber = Random.Range(0.0f, 1.0f);
+		if(randomNumber < 0.5f) {
+			transitionName = "off_flip";
+		} else {
+			transitionName = "off_floatUp";
+		}
+
+		tileAnimator.Play(transitionName);
+		float lengthOfAnim = getStateLength(transitionName);
 
 		Destroy(gameObject, lengthOfAnim);
 	}
