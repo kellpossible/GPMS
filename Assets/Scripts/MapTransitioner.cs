@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapTransitioner : MonoBehaviour {
 
     // reference to GameController class
+    public event System.Action OnLevelAvailable;
     private GameController gameCtrlScript;
 
     public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
@@ -184,10 +185,6 @@ public class MapTransitioner : MonoBehaviour {
 
     private IEnumerator InitMapTransitions(MapData currentMapData, MapData newMapData) {
         Debug.Log("InitMapTransitions - part 1");
-
-        // get references to required classes
-		gameCtrlScript.LevelAvailable = false;
-        // this is made true again during final transition method
 
         // start animating the existing level off
         // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
@@ -615,9 +612,9 @@ public class MapTransitioner : MonoBehaviour {
         if(mapTransitionDirection == MapTransitionDirection.On) {
             // replace old mapData with newly created mapData
             gameCtrlScript.MapData = mapData;
-
-            // set the flag to say the level can be played
-            gameCtrlScript.LevelAvailable = true;
+            
+            // fire this event to say the level can be played
+            OnLevelAvailable();
         }
 
     }
