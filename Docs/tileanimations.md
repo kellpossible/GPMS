@@ -1,3 +1,8 @@
+
+># Please Note: #
+>## Currently, these settings are only tested for the scanline transition type in MapTransition CTRL ##
+
+
 # Basic Tile Setup #
 
 ## TileBase Class ##
@@ -41,7 +46,7 @@ Each node clip must also have **_Write Defaults_** checked.
 
 
 
-# Specifying Tile Animation Types to Use#
+# Specifying Tile Animation Types to Use #
 
 If left alone, the code will automatically choose which tile transition type to use. If no logic exists yet for your particular type, it will probably randomly selected from those you've made available in the animation controller.
 
@@ -63,8 +68,6 @@ Type `random` to force a random transition to be chosen.
 
 
 
-# Please Note: #
-## Currently, these settings are only tested for the scanline transition type in MapTransition CTRL ##
 
 
 
