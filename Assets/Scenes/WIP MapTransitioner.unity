@@ -227,7 +227,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4020371410467568, guid: 5f368a4f8d1445b4ca1d72a8740d7df1, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1748103182322456, guid: 5f368a4f8d1445b4ca1d72a8740d7df1, type: 2}
       propertyPath: m_Name
@@ -239,7 +239,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4020371410467568, guid: 5f368a4f8d1445b4ca1d72a8740d7df1, type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.30000013
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4020371410467568, guid: 5f368a4f8d1445b4ca1d72a8740d7df1, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -289,7 +289,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4940972792142452, guid: 09391e56f4b44fa47b190756cf466152, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747888237088190, guid: 09391e56f4b44fa47b190756cf466152, type: 2}
       propertyPath: m_TagString
@@ -297,7 +297,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4940972792142452, guid: 09391e56f4b44fa47b190756cf466152, type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09391e56f4b44fa47b190756cf466152, type: 2}
@@ -462,7 +462,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4577875634918632, guid: 92aa8eba228d2a94baa0799115d61422, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1052309318741100, guid: 92aa8eba228d2a94baa0799115d61422, type: 2}
       propertyPath: m_Name
@@ -520,8 +520,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionSeparationDelay: 2
   TileSeparationDelay: 0.02
-  MapTransitionOnType: 3
+  MapTransitionOnType: 0
   MapTransitionOffType: 0
+  tileOnTransitionOveride: 
+  tileOffTransitionOveride: 
 --- !u!4 &804884086
 Transform:
   m_ObjectHideFlags: 0
@@ -572,7 +574,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4473797436961426, guid: 94594dfc412cc324eb30e40681dae698, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1499848832168432, guid: 94594dfc412cc324eb30e40681dae698, type: 2}
       propertyPath: m_Name
@@ -584,7 +586,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4473797436961426, guid: 94594dfc412cc324eb30e40681dae698, type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.30000013
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4473797436961426, guid: 94594dfc412cc324eb30e40681dae698, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -638,6 +640,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1 &902019752
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +783,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 11.56
       objectReference: {fileID: 0}
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_LocalPosition.y
@@ -799,7 +803,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_LocalRotation.w
@@ -807,7 +811,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1720864281859136, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_TagString
@@ -823,7 +827,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4161918306029630, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa64a03bf89140e4fae94e8bd7f09e69, type: 2}
@@ -869,6 +877,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1 &1074643823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1090779433535990, guid: 48339a0ea49cdba4caeaa9f4f3df2f11,
@@ -910,6 +920,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1 &1291394414 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1052309318741100, guid: 92aa8eba228d2a94baa0799115d61422,
@@ -951,6 +963,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1 &1294773081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1720864281859136, guid: fa64a03bf89140e4fae94e8bd7f09e69,
@@ -992,6 +1006,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1001 &1368098027
 Prefab:
   m_ObjectHideFlags: 0
@@ -1021,7 +1037,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_LocalRotation.w
@@ -1029,7 +1045,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1090779433535990, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_TagString
@@ -1037,11 +1053,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4423102006631596, guid: 48339a0ea49cdba4caeaa9f4f3df2f11, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -1087,12 +1103,12 @@ Transform:
   m_LocalPosition: {x: -3.7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1294773082}
   - {fileID: 1074643824}
   - {fileID: 1768524505}
   - {fileID: 1063769192}
   - {fileID: 866439601}
   - {fileID: 1291394415}
+  - {fileID: 1294773082}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1137,6 +1153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ArrayIndices: 0000000000000000
   TileType: 0
+  onTransitionOveride: 
+  offTransitionOveride: 
 --- !u!1001 &1791905491
 Prefab:
   m_ObjectHideFlags: 0
@@ -1187,6 +1205,10 @@ Prefab:
     - target: {fileID: 1562865693431950, guid: d1a8c66aefd6ffa43bf13f4e81730812, type: 2}
       propertyPath: m_TagString
       value: Switch Tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316133646720002, guid: d1a8c66aefd6ffa43bf13f4e81730812, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1a8c66aefd6ffa43bf13f4e81730812, type: 2}

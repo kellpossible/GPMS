@@ -4,54 +4,135 @@ using UnityEngine;
 
 public class TileBase : MonoBehaviour {
 
+	[Tooltip("Changing this value won't do anything, it is only for viewing the arraIndices during debugging")]
 	public int[] ArrayIndices = new int[2];
-	public TileType TileType;
-	private Animator tileAnimator;
-	private AnimationClip[] animationClips;
 
-	// Use this for initialization
-	void Start () {
+	[Tooltip("Changing this value won't do anything, it is only for viewing the tileType during debugging")]
+	public TileType TileType;
+
+	[Tooltip("Type in the name of the transition you would like to override with.")]
+	public string onTransitionOveride;
+
+	[Tooltip("Type in the name of the transition you would like to override with.")]
+	public string offTransitionOveride;
+
+	private Animator tileAnimator;
+	private ArrayList onAnimClips = new ArrayList();
+	private ArrayList offAnimClips = new ArrayList();
+	//private AnimationClip[] animationClips;
+
+	// Use this for initialization (start wasn't early enough for the on transition)
+	void Awake () {
 		tileAnimator = gameObject.GetComponent<Animator>();
-		animationClips = tileAnimator.runtimeAnimatorController.animationClips;
+		sortAnimClips( tileAnimator.runtimeAnimatorController.animationClips);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 
-	public void TransitionOn() {
-		gameObject.GetComponent<Animator>().Play("on_popUp");
-        gameObject.SetActive(true);
-	}
+	private void sortAnimClips( AnimationClip[] allClips ) {
 
+		foreach(AnimationClip animClip in allClips) {
+			if(animClip.name.IndexOf("on_") == 0) {
+				// it's an on transition
+				onAnimClips.Add(animClip);
 
-	public void TransitionOff() {
+			} else if (animClip.name.IndexOf("off_") == 0) {
+				// it's an off transition
+				offAnimClips.Add(animClip);
 
-		string transitionName;
-
-		//transitionName = "off_flip";
-		
-		float randomNumber = Random.Range(0.0f, 1.0f);
-		if(randomNumber < 0.5f) {
-			transitionName = "off_flip";
-		} else {
-			transitionName = "off_floatUp";
+			}
 		}
 
-		tileAnimator.Play(transitionName);
-		float lengthOfAnim = getStateLength(transitionName);
+		
+	}
 
+
+	
+	public void TransitionOn(string transitionName) {
+		onTransitionOveride = transitionName;
+		TransitionOn();
+	}
+	public void TransitionOn() {
+		gameObject.SetActive(true);
+		startTransitionOn();
+	}
+
+
+	public void TransitionOff(string transitionName) {
+		offTransitionOveride = transitionName;
+		TransitionOff();
+	}
+	public void TransitionOff() {
+		float lengthOfAnim = startTransitionOff();
 		Destroy(gameObject, lengthOfAnim);
 	}
 
 
 
-	private float getStateLength(string clipName)
-	{
+
+
+	private float startTransitionOn() {
+		return startTransitionOn("random");
+	}
+	private float startTransitionOn(string type) {
+		if(onTransitionOveride != null &&
+			onTransitionOveride != "" &&
+			onTransitionOveride != " "
+			) {
+			
+			type = onTransitionOveride;
+		}
+		return startTransitionFromSet(type, onAnimClips);
+	}
+
+	private float startTransitionOff() {
+		return startTransitionOff("random");
+	}
+	private float startTransitionOff(string type) {
+		if(	offTransitionOveride != null &&
+			offTransitionOveride != "" &&
+			offTransitionOveride != " "
+			) {
+			
+			type = offTransitionOveride;
+		}
+		return startTransitionFromSet(type, offAnimClips);
+	}
+
+	private float startTransitionFromSet(string type, ArrayList animClipSet) {
+		int clipIndex = 0;
+		AnimationClip animClip;
+		
+		if(type != "random" ) {
+
+			// search the onTransition for the index of the one specified
+			for(int k = 0; k<animClipSet.Count; k++) {
+				if( ((AnimationClip)animClipSet[k]).name == type) {
+					clipIndex = k;
+				}
+			}
+
+		}
+
+		if(type == "random") {
+			clipIndex = Random.Range(0, animClipSet.Count);
+		}
+
+		// get a reference to the actual anim clip
+		animClip = (AnimationClip)animClipSet[clipIndex];
+
+		tileAnimator.Play(animClip.name);
+
+		// return the length of the clip
+		return getClipLength(animClip.name, animClipSet);
+
+	}
+
+
+
+	private float getClipLength(string clipName, ArrayList animClipSet) {
 		float clipLength = 0;
-		foreach(AnimationClip clip in animationClips)
+		foreach(AnimationClip clip in animClipSet)
         {
             if( clip.name==clipName ) {
 				clipLength = clip.length;

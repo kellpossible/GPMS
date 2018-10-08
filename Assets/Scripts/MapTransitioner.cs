@@ -16,6 +16,12 @@ public class MapTransitioner : MonoBehaviour {
     public float TileSeparationDelay;
     public MapTransitionType MapTransitionOnType;
     public MapTransitionType MapTransitionOffType;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string tileOnTransitionOveride;
+
+	[Tooltip("Type in the name of the transition you would like to override with.")]
+	public string tileOffTransitionOveride;
 	
     
     private GameObject[] entryTiles;
@@ -386,6 +392,9 @@ public class MapTransitioner : MonoBehaviour {
 
         }
 
+        // TODO: Try removing - This is just put in to try and solve animation on selection bug
+        yield return new WaitForSeconds(0.5f);
+
         // now start them animating on at the appropriate time
         // position all tiles first so their positions can be checked easily
         for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
@@ -397,11 +406,11 @@ public class MapTransitioner : MonoBehaviour {
                 switch(mapTransitionDirection) {
 
                     case MapTransitionDirection.On:
-                        tile.GetComponent<TileBase>().TransitionOn();
+                        startTileOnTransition(tile);
                         break;
                     
                     case MapTransitionDirection.Off:
-                        tile.GetComponent<TileBase>().TransitionOff();
+                        startTileOffTransition(tile);
                         break;
                     
                     default:
@@ -423,6 +432,35 @@ public class MapTransitioner : MonoBehaviour {
 
         finalizeLevel(mapData, mapTransitionDirection);
 
+    }
+
+
+    private void startTileOnTransition(GameObject tile) {
+        if( tileOnTransitionOveride != null &&
+            tileOnTransitionOveride != "" &&
+            tileOnTransitionOveride != " "
+            ) {
+
+            tile.GetComponent<TileBase>().TransitionOn(tileOnTransitionOveride);
+
+        } else {
+            tile.GetComponent<TileBase>().TransitionOn();
+
+        }
+    }
+
+    private void startTileOffTransition(GameObject tile) {
+        if( tileOnTransitionOveride != null &&
+            tileOnTransitionOveride != "" &&
+            tileOnTransitionOveride != " "
+            ) {
+
+            tile.GetComponent<TileBase>().TransitionOff(tileOnTransitionOveride);
+
+        } else {
+            tile.GetComponent<TileBase>().TransitionOff();
+
+        }
     }
 
     private IEnumerator RunMainPathFirstTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
@@ -493,8 +531,7 @@ public class MapTransitioner : MonoBehaviour {
 
                     // if the tile is within the current radius
                     if( Vector3.Distance(point, tile.transform.position) <= radius ) {
-                        tile.GetComponent<Animator>().Play("Pop Up");
-                        tile.SetActive(true);
+                        startTileOnTransition(tile);
                     }
 
                 }
