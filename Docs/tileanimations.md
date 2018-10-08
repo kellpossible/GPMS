@@ -1,6 +1,8 @@
 
-># Please Note: #
->## Currently, these settings are only tested for the scanline transition type in MapTransition CTRL ##
+>## Please Note: ##
+> Currently, these settings are only tested for the scanline transition type in MapTransition CTRL
+ 
+ 
 
 
 # Basic Tile Setup #
