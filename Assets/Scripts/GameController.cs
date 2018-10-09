@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour {
 
 		while(true) {
 
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(10);
 
 			MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 			// transition level on

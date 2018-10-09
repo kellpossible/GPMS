@@ -12,16 +12,31 @@ public class MapTransitioner : MonoBehaviour {
     
 
     // visibile in developer GUI
-    public float TransitionSeparationDelay;
-    public float TileSeparationDelay;
-    public MapTransitionType MapTransitionOnType;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
     public MapTransitionType MapTransitionOffType;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float TileOffSeparationDelay = 0.02f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string tileOffTransitionOveride;
+
+    [Tooltip("The delay between starting a level animating off and starting a new one animating on.")]
+    public float TransitionSeparationDelay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public MapTransitionType MapTransitionOnType;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float TileOnSeparationDelay = 0.01f;
 
     [Tooltip("Type in the name of the transition you would like to override with.")]
 	public string tileOnTransitionOveride;
 
-	[Tooltip("Type in the name of the transition you would like to override with.")]
-	public string tileOffTransitionOveride;
+    
+
+    
 	
     
     private GameObject[] entryTiles;
@@ -361,6 +376,25 @@ public class MapTransitioner : MonoBehaviour {
         Debug.Log("Running RunScanlineTransition");
 
         float deltaTimeConsumed = 0.0f;
+        float tileSeparationDelay = 0f;
+
+        // set the tile transition delay based on whether it's animating on or off
+        switch(mapTransitionDirection) {
+
+            case MapTransitionDirection.On:
+                tileSeparationDelay = TileOnSeparationDelay;
+                break;
+            
+            case MapTransitionDirection.Off:
+                tileSeparationDelay = TileOffSeparationDelay;
+                break;
+            
+            default:
+                tileSeparationDelay = 0;
+                break;
+        }
+
+
 
         if(mapTransitionDirection == MapTransitionDirection.On) {
             // TODO: this is getting too deep - rethink how transitions are run with map direction present
@@ -420,10 +454,10 @@ public class MapTransitioner : MonoBehaviour {
                 }
                 
                 // pause for a frame if as many tiles as should have fit in the previous frames time have been initiated (according to the tileDelay set)
-                deltaTimeConsumed += TileSeparationDelay;
+                deltaTimeConsumed += tileSeparationDelay;
                 if(deltaTimeConsumed >= Time.deltaTime) {
                     deltaTimeConsumed = 0.0f;
-                    yield return new WaitForSeconds(TileSeparationDelay);
+                    yield return new WaitForSeconds(tileSeparationDelay);
                 }
 
             }
@@ -450,12 +484,12 @@ public class MapTransitioner : MonoBehaviour {
     }
 
     private void startTileOffTransition(GameObject tile) {
-        if( tileOnTransitionOveride != null &&
-            tileOnTransitionOveride != "" &&
-            tileOnTransitionOveride != " "
+        if( tileOffTransitionOveride != null &&
+            tileOffTransitionOveride != "" &&
+            tileOffTransitionOveride != " "
             ) {
 
-            tile.GetComponent<TileBase>().TransitionOff(tileOnTransitionOveride);
+            tile.GetComponent<TileBase>().TransitionOff(tileOffTransitionOveride);
 
         } else {
             tile.GetComponent<TileBase>().TransitionOff();
@@ -469,7 +503,7 @@ public class MapTransitioner : MonoBehaviour {
         // Show the first item
 
         // pause
-        yield return new WaitForSeconds(TileSeparationDelay);
+        yield return new WaitForSeconds(TileOnSeparationDelay);
 
 
 
@@ -538,10 +572,10 @@ public class MapTransitioner : MonoBehaviour {
             }
 
             // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileSeparationDelay;
+            deltaTimeConsumed += TileOnSeparationDelay;
             if(deltaTimeConsumed >= Time.deltaTime) {
                 deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileSeparationDelay);
+                yield return new WaitForSeconds(TileOnSeparationDelay);
             }
 
             // TODO: Easing would be nice
@@ -600,10 +634,10 @@ public class MapTransitioner : MonoBehaviour {
                 tile.SetActive(true);
                 
                 // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-                deltaTimeConsumed += TileSeparationDelay;
+                deltaTimeConsumed += TileOnSeparationDelay;
                 if(deltaTimeConsumed >= Time.deltaTime) {
                     deltaTimeConsumed = 0.0f;
-                    yield return new WaitForSeconds(TileSeparationDelay);
+                    yield return new WaitForSeconds(TileOnSeparationDelay);
                 }
 
             }
@@ -621,10 +655,10 @@ public class MapTransitioner : MonoBehaviour {
             jumpTile.SetActive(true);
             
             // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileSeparationDelay;
+            deltaTimeConsumed += TileOnSeparationDelay;
             if(deltaTimeConsumed >= Time.deltaTime) {
                 deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileSeparationDelay);
+                yield return new WaitForSeconds(TileOnSeparationDelay);
             }
 
         }
