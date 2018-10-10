@@ -12,18 +12,62 @@ class TileBase
 class CharacterController
 class CharacterMovement
 
-class MapTile
-class Coords
-enum TileType
+abstract class MonoBehaviour <<Provided by Unity>> {
+    +Start()
+    +Update()
+}
+
+package "ProcGen.cs" {
+    class MapTile {
+        +int mainPath
+        +int creationOrder
+        +TileType TileType
+        +int variation
+        +Coords pos
+    }
+
+    class Coords {
+        +int x
+        +int y
+    }
+
+    MapTile *-- Coords
+    
+    enum TileType {
+        Entry
+        Exit
+        Tile
+        Gap
+        Jump
+        Crumble
+        Turret
+        Door
+        Switch
+        Moving
+    }
+
+    MapTile *-- TileType
+    
+    class ProcGen {
+        +MapTile[][] level
+        +createLevel(int, int, float)
+    }
+
+    ProcGen "1" *-- "many" MapTile
+    note left on link
+    Tiles contained in
+    in the level
+    endnote
+
+    MonoBehaviour <|-- ProcGen
+}
 
 
 class MapTransitioner {
     +StartTransitioning(MapTile[][])
 }
 
-class ProcGen {
-    +createLevel(int, int, float)
-}
+
 
 class PauseMenu
 class Menu
