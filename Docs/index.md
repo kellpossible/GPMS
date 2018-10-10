@@ -1,5 +1,4 @@
-# GPMS Documentation
-
+# Generative Platformer Mechanics System (GPMS) #
 This is the documentation for the `GPMS` Project.
 
 **General Guides:**
