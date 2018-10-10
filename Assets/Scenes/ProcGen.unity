@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 112531360}
   - component: {fileID: 112531359}
   - component: {fileID: 112531358}
+  - component: {fileID: 112531361}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -190,6 +191,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &112531361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 112531357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd96c3f3a8887c74fa7cb6ec00ad6743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tiles: 60
+  chance: 0.6
+  baseDirChance: 0.6
+  posX: 40
+  posY: 40
+  levelSize: 80
+  tileChance: 0.5
 --- !u!1 &223283847
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,68 +275,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1001 &1282409042
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.22599995
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 9.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 406512, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: efba8ab6e40eaa9428514c61fd6396b7, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1 &1282409043 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 109810, guid: efba8ab6e40eaa9428514c61fd6396b7,
-    type: 2}
-  m_PrefabInternal: {fileID: 1282409042}
---- !u!114 &1282409044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1282409043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd96c3f3a8887c74fa7cb6ec00ad6743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tiles: 60
-  chance: 0.6
-  posX: 40
-  posY: 40
-  _collider: {fileID: 0}
-  levelSize: 80
-  tileChance: 0.5
