@@ -35,40 +35,48 @@ public class ProcGen : MonoBehaviour
 {
 
     public int tiles; //the amount of tiles to place
+    int baseTiles;
     public float chance;
-    public float baseDirChance; //chance that path changes direction
+    float baseDirChance; //chance that path changes direction
     public enum DIR { N, E, S, W };
-    public int posX, posY;
     DIR dir;
+    int posX, posY;
     public int levelSize;
-    public MapTile[,] level;
     public MapTile[,] lvl;
-    public float tileChance = 0.5f; //chacne that a tile will spawn
+    public float obsRate = 0.5f; //chacne that a tile will spawn
     public Coords entryCoords, exitCoords;
     public Coords[] moveList;
 
     // Use this for initialization
     void Start()
     {
+        MapTile[,] lvldone = createLevel(levelSize, tiles, chance);
+        printLevel(1, lvldone); //print the main path
+        printLevel(0, lvldone); //print the level
+    }
+
+    public MapTile[,] createLevel(int levelSize, int tiles, float chance)
+    {
+        posX = levelSize / 2;
+        posY = levelSize / 2;
+        baseTiles = tiles;
         baseDirChance = chance; //set the base dir from main chance (IMPORTANT)
-        lvl = createLevel(levelSize, tiles, chance); //create a level
+        lvl = setupLevel(levelSize, tiles, chance, lvl); //create a level
         int attempt = 1; //attempts at making a solvable level
 
-        bool levelMade = pathfindTest(moveList, lvl); //test making a level
+        bool levelMade = pathfindTest(moveList, lvl, baseTiles); //test making a level
 
         while (!levelMade) //keep trying to make levels if one fails, so far works 100%
         {
             attempt++;
             Debug.Log("generating attempt " + attempt);
-            lvl = createLevel(levelSize, 60, 0.6f);
+            lvl = setupLevel(levelSize, baseTiles, 0.6f, lvl);
             Debug.Log("testing path");
-            levelMade = pathfindTest(moveList, lvl);
+            levelMade = pathfindTest(moveList, lvl, baseTiles);
         }
         Debug.Log("path found on attempt " + attempt);
-
-        printLevel(1); //print the main path
-        printLevel(0); //print the level
-
+        
+        return lvl;
     }
 
 
@@ -81,7 +89,7 @@ public class ProcGen : MonoBehaviour
 
     }
 
-    void printLevel(int var)
+    void printLevel(int var, MapTile[,] level)
     {
         string output = "";
         int range = 0;
@@ -123,7 +131,7 @@ public class ProcGen : MonoBehaviour
     }
 
 
-    void findTopLeft()
+    void findTopLeft(MapTile[,] level)
     {
         //find top left tile for entry point
         for (int x = 0; x < levelSize; x++)
@@ -140,7 +148,7 @@ public class ProcGen : MonoBehaviour
         }
     }
 
-    void findBottomRight()
+    void findBottomRight(MapTile[,] level)
     {
         //find bottom left for exit point
         for (int x = levelSize - 1; x >= 0; x--)
@@ -173,8 +181,8 @@ public class ProcGen : MonoBehaviour
     }
 
 
-    void populate()
-    { //adds tiles to the map. Uses the tileChance float as the chance a tile is placed (can be altered to change the difficulty)
+    void populate(MapTile[,] level)
+    { //adds tiles to the map. Uses the obsRate float as the chance a tile is placed (can be altered to change the difficulty)
 
         //checking for cross - this should be used for turrets
         for (int y = 0; y < levelSize; y++)
@@ -187,7 +195,7 @@ public class ProcGen : MonoBehaviour
                     if ((level[x, y].type == TileType.Tile && level[x, y + 1].type == TileType.Tile && level[x + 1, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile && level[x - 1, y].type == TileType.Tile))
                     {
                         float rnJesus = UnityEngine.Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             // level[x, y].type = TileType.Turret; //randomize this line?
                             level[x, y].type = TileType.Turret;
@@ -209,7 +217,7 @@ public class ProcGen : MonoBehaviour
                     if ((level[x, y].type == TileType.Tile && level[x, y + 1].type == TileType.Tile && level[x + 1, y].type == TileType.Tile && level[x + 1, y + 1].type == TileType.Tile ))
                     {
                         float rnJesus = Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             // level[x, y].type = TileType.Turret; //randomize this line?
                             level[x, y].type = TileType.Moving;
@@ -236,7 +244,7 @@ public class ProcGen : MonoBehaviour
                     if (level[x, y].type == TileType.Tile && level[x - 1, y].type == TileType.Tile && level[x + 1, y].type == TileType.Tile)
                     {
                         float rnJesus = UnityEngine.Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             //level[x, y].type = TileType.Gap; //randomize this line?
                             level[x, y].type = randomType();
@@ -256,7 +264,7 @@ public class ProcGen : MonoBehaviour
                     if (level[x, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile && level[x, y + 1].type == TileType.Tile)
                     {
                         float rnJesus = UnityEngine.Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             //level[x, y].type = TileType.Gap; //randomize this line?
                             level[x, y].type = randomType();
@@ -276,7 +284,7 @@ public class ProcGen : MonoBehaviour
                     if (level[x, y].type == TileType.Tile && level[x - 1, y].type == TileType.Tile)
                     {
                         float rnJesus = UnityEngine.Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             //   level[x, y].type = TileType.Crumble; //randomize this line?
                             level[x, y].type = randomType();
@@ -296,7 +304,7 @@ public class ProcGen : MonoBehaviour
                     if (level[x, y].type == TileType.Tile && level[x, y - 1].type == TileType.Tile)
                     {
                         float rnJesus = UnityEngine.Random.value;
-                        if (rnJesus > tileChance)
+                        if (rnJesus > obsRate)
                         {
                             //level[x, y].type = TileType.Crumble; //randomize this line?
                             level[x, y].type = randomType();
@@ -309,7 +317,7 @@ public class ProcGen : MonoBehaviour
 
 
 
-    void layTile(DIR dir, TileType type)
+    void layTile(DIR dir, TileType type, MapTile[,] level)
     { //lay a tile in a given direction, if not null then skip over that position in the current direction
         if (dir == DIR.E)
         {
@@ -388,25 +396,25 @@ public class ProcGen : MonoBehaviour
         }
     }
 
-    void generate(float chance)
+    void generate(float chance, MapTile[,] level)
     { //create a tile in a random direction dependant on the chance set within the inspector
         {
             float rng = UnityEngine.Random.value;
             if (rng < chance)
             {
-                layTile(dir, TileType.Tile);
+                layTile(dir, TileType.Tile, level);
                 chance -= 0.10f;
             }
             else
             {
                 dir = rndDir();
-                layTile(dir, TileType.Tile);
+                layTile(dir, TileType.Tile, level);
                 chance = baseDirChance;     //does this need changing to chance's initial value?
             }
         }
     }
 
-    public MapTile[,] createLevel(int lvlSize, int numTiles, float dirChance)
+    public MapTile[,] setupLevel(int lvlSize, int numTiles, float dirChance, MapTile[,] level)
     {
         levelSize = lvlSize;
         posX = levelSize / 2;
@@ -421,19 +429,19 @@ public class ProcGen : MonoBehaviour
         //create subsequent tiles
         while (tiles > 0)
         {
-            generate(chance);
+            generate(chance, level);
 
             //Debug.Log(tiles);
         }
         //create entry and exit points
-        findTopLeft();
-        findBottomRight();
+        findTopLeft(level);
+        findBottomRight(level);
 
 
         if (tiles == 0)
         {
             //place tiles into the array
-            populate();
+            populate(level);
             //print the array to console
             //printLevel();
             tiles = -5;
@@ -443,95 +451,6 @@ public class ProcGen : MonoBehaviour
 
     //==================================================================================================
     //=================Pathfinding======================================================================
-
-    public Coords checkTile(int dir, Coords pos)
-    {//returns coordinates of an available move or null
-        switch (dir)
-        {
-            case 0:
-                if (level[pos.x - 1, pos.y] != null)
-                {
-                    Coords output = new Coords(pos.x - 1, pos.y);
-                    return output;
-                }
-                break;
-            case 1:
-                if (level[pos.x, pos.y + 1] != null)
-                {
-                    Coords output = new Coords(pos.x, pos.y + 1);
-                    return output;
-                }
-                break;
-            case 2:
-                if (level[pos.x + 1, pos.y] != null)
-                {
-                    Coords output = new Coords(pos.x + 1, pos.y);
-                    return output;
-                }
-                break;
-            case 3:
-                if (level[pos.x, pos.y - 1] != null)
-                {
-                    Coords output = new Coords(pos.x, pos.y - 1);
-                    return output;
-                }
-                break;
-            default: return null;
-        }
-        return null;
-    }
-
-
-    public Coords[] checkMoves(Coords tile)
-    {
-        //returns an array of coordinates of available moves up to length 4
-        //if null no moves
-        Coords[] allMoves = new Coords[4];
-        int j = 1;
-        for (int i = 0; i < 4; i++)
-        {
-            allMoves[i] = checkTile(i, tile);
-            if (allMoves[i] != null)
-            {
-                j += 1;
-            }
-        }
-        Coords[] moves = new Coords[j];
-        j = 1;
-        moves[0] = tile;
-        for (int i = 0; i < 4; i++)
-        {
-            if (allMoves[i] != null)
-            {
-                moves[j] = allMoves[i];
-                j += 1;
-            }
-        }
-        if (moves[0] != null)
-        {
-            return moves;
-        }
-        else return null;
-    }
-
-    public bool isExit(Coords pos)
-    {
-        if (pos.x == exitCoords.x && pos.y == exitCoords.y)
-        {
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public bool isSame(Coords i, Coords j)
-    {
-        if (i.x == j.x && i.y == j.y)
-        {
-            return true;
-        }
-        else return false;
-    }
 
     public class Location
     {
@@ -545,8 +464,8 @@ public class ProcGen : MonoBehaviour
 
     public string[] levelToString(MapTile[,] level)
     {
-        string[] output = new string[80];
         int x = level.GetLength(0), y = level.GetLength(1);
+        string[] output = new string[x];
         for (int zx = 79; zx >= 0; zx--)
         {
             for (int zy = 0; zy < y; zy++)
@@ -599,66 +518,38 @@ public class ProcGen : MonoBehaviour
         return output;
     }
 
-    public bool pathfindTest(Coords[] moves, MapTile[,] lvl)
+    public bool pathfindTest(Coords[] moves, MapTile[,] lvl, int baseTiles)
     {
+        //create moveList
+        Coords[] moveList = new Coords[baseTiles]; //should be dynamic, will have to create more variables
 
-        Coords[] moveList = new Coords[60];
+        //convert level from MapTile[,] to string        
+        string[] map = levelToString(lvl);
 
-        //convert map 
-        /*string[] map = new string[]
-        {
-            "+------+",
-            "|      |",
-            "|A X   |",
-            "|XXX   |",
-            "|   X  |",
-            "| B    |",
-            "|      |",
-            "+------+",
-        }; */
-        
-        string[] map = levelToString(level);
-
-        /*
-        foreach (var line in map)
-        {
-            Debug.Log(line);
-        } */
-
-        
-        // algorithm
-
+        //this could return pathfinding between two points if these were passed as parameters...
         Location current = null;
-        //var start = new Location { X = 1, Y = 2 }; //get start point
-        //var target = new Location { X = 2, Y = 5 }; //get end point
-        var start = getTileLocation(level, TileType.Entry);
-        var target = getTileLocation(level, TileType.Exit);
-        var openList = new List<Location>();
-        var closedList = new List<Location>();
-        int g = 0;
+        var start = getTileLocation(lvl, TileType.Entry); //set starting location from entry tile
+        var target = getTileLocation(lvl, TileType.Exit); //set target location from exit tile 
+        var openList = new List<Location>();    //create open list (unvisited)
+        var closedList = new List<Location>();  //create closed list (visited)
+        int g = 0;  //G Score
 
-        // start by adding the original position to the open list
+        //add start point to the open list
         openList.Add(start);
 
         while (openList.Count > 0)
         {
-            // get the square with the lowest F score
+            //find lowest f score location
             var lowest = openList.Min(l => l.F);
             current = openList.First(l => l.F == lowest);
 
-            // add the current square to the closed list
+            //add current lcoation to the closed list
             closedList.Add(current);
 
-            // show current square on the map
-            //(current.X, current.Y);
-            //Console.Write('.');
-            //Console.SetCursorPosition(current.X, current.Y);
-            //System.Threading.Thread.Sleep(100);
-
-            // remove it from the open list
+            //remove current location from the open list
             openList.Remove(current);
 
-            // if we added the destination to the closed list, we've found a path
+            //target has been reached if in the closed list
             if (closedList.FirstOrDefault(l => l.X == target.X && l.Y == target.Y) != null)
                 break;
 
@@ -667,7 +558,7 @@ public class ProcGen : MonoBehaviour
 
             foreach (var adjacentSquare in adjacentSquares)
             {
-                // if this adjacent square is already in the closed list, ignore it
+                //ignore adjacent if already in the closed list
                 if (closedList.FirstOrDefault(l => l.X == adjacentSquare.X
                         && l.Y == adjacentSquare.Y) != null)
                     continue;
@@ -676,13 +567,13 @@ public class ProcGen : MonoBehaviour
                 if (openList.FirstOrDefault(l => l.X == adjacentSquare.X
                         && l.Y == adjacentSquare.Y) == null)
                 {
-                    // compute its score, set the parent
+                    //compute g, h, and f, then set the parent location
                     adjacentSquare.G = g;
                     adjacentSquare.H = ComputeHScore(adjacentSquare.X, adjacentSquare.Y, target.X, target.Y);
                     adjacentSquare.F = adjacentSquare.G + adjacentSquare.H;
                     adjacentSquare.Parent = current;
 
-                    // and add it to the open list
+                    //add to open list
                     openList.Insert(0, adjacentSquare);
                 }
                 else
@@ -699,21 +590,16 @@ public class ProcGen : MonoBehaviour
             }
         }
 
-        // assume path was found; let's show it
+        //save path (will be reversed) into coords array
         int mlx = 0;
         while (current != null)
         {
-            //Console.SetCursorPosition(current.X, current.Y);
-            //Console.Write('_');
-            //Console.SetCursorPosition(current.X, current.Y);
             moveList[mlx] = new Coords(current.X, current.Y);
             mlx++;
             current = current.Parent;
-            //System.Threading.Thread.Sleep(100);
         }
 
-        // end pathfinding
-        // retrieving move list
+        //retrieving move list
         bool hasEntry = false, hasExit = false;
         foreach (Coords c in moveList)
         {
@@ -731,7 +617,7 @@ public class ProcGen : MonoBehaviour
 
             }
         }
-        //return false if path found else apply path to level
+        //return false if no path found else apply path to level
         if (!(hasEntry && hasExit))
         {
             return false;
@@ -756,6 +642,7 @@ public class ProcGen : MonoBehaviour
                     }
                 }
             }
+            //if a single tile has a mainPath value > 0, return true
             foreach(MapTile t in lvl)
             {
                 if(t != null)
@@ -766,6 +653,7 @@ public class ProcGen : MonoBehaviour
                     }
                 }
             }
+            //return false if no path has been found
             return false;
         }
     }
