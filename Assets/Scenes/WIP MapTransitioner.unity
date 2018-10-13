@@ -518,13 +518,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbcf75bbb4890840baf06edaff6fe5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapTransitionOffType: 0
-  TileOffSeparationDelay: 0.005
-  tileOffTransitionOveride: off_floatUp
-  TransitionSeparationDelay: 2
-  MapTransitionOnType: 0
-  TileOnSeparationDelay: 0.05
-  tileOnTransitionOveride: on_popUp
+  OffPass1TransitionPattern: 0
+  OffPass1TileDelay: 0.02
+  OffPass1AnimationOveride: 
+  OnTransitionDelay: 1
+  OnPass1TransitionPattern: 0
+  OnPass1Tiles: 0
+  OnPass1TileDelay: 0.01
+  OnPass1AnimationOveride: 
+  OnPass2TransitionPattern: 0
+  OnPass2Tiles: 0
+  OnPass2TileDelay: 0.01
+  OnPass2AnimationOveride: 
+  OnPass3TransitionPattern: 0
+  OnPass3Tiles: 0
+  OnPass3TileDelay: 0.01
+  OnPass3AnimationOveride: 
+  OnPass4TransitionPattern: 0
+  OnPass4Tiles: 0
+  OnPass4TileDelay: 0.01
+  OnPass4AnimationOveride: 
 --- !u!4 &804884086
 Transform:
   m_ObjectHideFlags: 0

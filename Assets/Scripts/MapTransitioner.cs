@@ -7,32 +7,94 @@ public class MapTransitioner : MonoBehaviour {
     // reference to GameController class
     private GameController gameCtrlScript;
 
-    public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
-    public enum MapTransitionDirection { On, Off }; // TODO: This should be defined in the global class
+    public enum TransitionPattern { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
+    public enum TransitionPatternOptional { Disabled, Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
+    public enum TransitionDirection { On, Off }; // TODO: This should be defined in the global class
+    public enum TileTransitionGrouping { Any, MainPath, Floor, Entries, Exits, MovingTiles, Doors, Switches, Jump, Crumble, Turrets };
     
-
+    ////////////////////////////
     // visibile in developer GUI
+    ////////////////////////////
+    
+    [Header("Transition Off Settings")]
+    ///////////////////////////////////
 
     [Tooltip("The transition pattern to use when a level animates off.")]
-    public MapTransitionType MapTransitionOffType;
+    public TransitionPattern OffPass1TransitionPattern;
 
     [Tooltip("The delay between each tile when they animate off.")]
-    public float TileOffSeparationDelay = 0.02f;
+    public float OffPass1TileDelay = 0.02f;
 
     [Tooltip("Type in the name of the transition you would like to override with.")]
-	public string tileOffTransitionOveride;
+	public string OffPass1AnimationOveride;
 
+    
+    [Header("Transition On Settings")]
+    //////////////////////////////////
     [Tooltip("The delay between starting a level animating off and starting a new one animating on.")]
-    public float TransitionSeparationDelay = 1.0f;
+    public float OnTransitionDelay = 1.0f;
+
+
+    [Header("On Transition - First Pass")]
 
     [Tooltip("The transition pattern to use when a level animates on.")]
-    public MapTransitionType MapTransitionOnType;
+    public TransitionPattern OnPass1TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass1Tiles;
 
     [Tooltip("The delay between each tile when they animate on.")]
-    public float TileOnSeparationDelay = 0.01f;
+    public float OnPass1TileDelay = 0.01f;
 
     [Tooltip("Type in the name of the transition you would like to override with.")]
-	public string tileOnTransitionOveride;
+	public string OnPass1AnimationOveride;
+
+
+    [Header("On Transition - Second Pass")]
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPatternOptional OnPass2TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass2Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass2TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass2AnimationOveride;
+
+
+    [Header("On Transition - Third Pass")]
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPatternOptional OnPass3TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass3Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass3TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass3AnimationOveride;
+
+
+    [Header("On Transition - Fourth Pass")]
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPatternOptional OnPass4TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass4Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass4TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass4AnimationOveride;
+
+    
 
     
 
@@ -190,10 +252,10 @@ public class MapTransitioner : MonoBehaviour {
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
     
-        StartTransitioning(newMapData, MapTransitionDirection.On);
+        StartTransitioning(newMapData, TransitionDirection.On);
 
     }
-    public void StartTransitioning(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    public void StartTransitioning(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("StartTransitioning NEW - Object Array");
 
         InitMapTransition(mapData, mapTransitionDirection);
@@ -212,31 +274,31 @@ public class MapTransitioner : MonoBehaviour {
 
         // start animating the existing level off
         // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
-        InitMapTransition(currentMapData, MapTransitionDirection.Off);
+        InitMapTransition(currentMapData, TransitionDirection.Off);
 
-        yield return new WaitForSeconds(TransitionSeparationDelay);
+        yield return new WaitForSeconds(OnTransitionDelay);
 
         Debug.Log("InitMapTransitions - part 2 (after yield)");
 
         // start animating new level on
         // TODO: Needs to handle not having a new level to bring in
-        InitMapTransition(newMapData, MapTransitionDirection.On);
+        InitMapTransition(newMapData, TransitionDirection.On);
 
     }
 
 
 
     
-    private void InitMapTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private void InitMapTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("InitMapTransition");
 
-        MapTransitionType mapTransitionType; 
+        TransitionPattern mapTransitionType; 
 
-        if(mapTransitionDirection == MapTransitionDirection.On) {
-            mapTransitionType = MapTransitionOnType;
+        if(mapTransitionDirection == TransitionDirection.On) {
+            mapTransitionType = OnPass1TransitionPattern;
             // TODO: overwrite this as it's specified in code directly (needs to be passed through the functions)
         } else {
-            mapTransitionType = MapTransitionOffType;
+            mapTransitionType = OffPass1TransitionPattern;
             // TODO: overwrite this is at's specified in code directly (needs to be passed through the functions)
         }
 
@@ -244,19 +306,19 @@ public class MapTransitioner : MonoBehaviour {
         
         switch(mapTransitionType)
         {
-            case MapTransitionType.Scanline:
+            case TransitionPattern.Scanline:
                 StartCoroutine( RunScanlineTransition(mapData, mapTransitionDirection) );
                 break;
 
-            case MapTransitionType.MainPathFirst:
+            case TransitionPattern.MainPathFirst:
                 StartCoroutine( RunMainPathFirstTransition(mapData, mapTransitionDirection) );
                 break;
 
-            case MapTransitionType.RippleFromCentre:
+            case TransitionPattern.RippleFromCentre:
                 RunRippleFromCentreTransition(mapData, mapTransitionDirection);
                 break;
 
-            case MapTransitionType.JumpsLast:
+            case TransitionPattern.JumpsLast:
                 StartCoroutine( RunJumpsLastTransition(mapData, mapTransitionDirection) );
                 break;
 
@@ -372,7 +434,7 @@ public class MapTransitioner : MonoBehaviour {
      */
 
 
-    private IEnumerator RunScanlineTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private IEnumerator RunScanlineTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunScanlineTransition");
 
         float deltaTimeConsumed = 0.0f;
@@ -381,12 +443,12 @@ public class MapTransitioner : MonoBehaviour {
         // set the tile transition delay based on whether it's animating on or off
         switch(mapTransitionDirection) {
 
-            case MapTransitionDirection.On:
-                tileSeparationDelay = TileOnSeparationDelay;
+            case TransitionDirection.On:
+                tileSeparationDelay = OnPass1TileDelay;
                 break;
             
-            case MapTransitionDirection.Off:
-                tileSeparationDelay = TileOffSeparationDelay;
+            case TransitionDirection.Off:
+                tileSeparationDelay = OffPass1TileDelay;
                 break;
             
             default:
@@ -396,7 +458,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-        if(mapTransitionDirection == MapTransitionDirection.On) {
+        if(mapTransitionDirection == TransitionDirection.On) {
             // TODO: this is getting too deep - rethink how transitions are run with map direction present
 
             // position all tiles first so their positions can be checked easily
@@ -439,11 +501,11 @@ public class MapTransitioner : MonoBehaviour {
 
                 switch(mapTransitionDirection) {
 
-                    case MapTransitionDirection.On:
+                    case TransitionDirection.On:
                         startTileOnTransition(tile);
                         break;
                     
-                    case MapTransitionDirection.Off:
+                    case TransitionDirection.Off:
                         startTileOffTransition(tile);
                         break;
                     
@@ -470,12 +532,12 @@ public class MapTransitioner : MonoBehaviour {
 
 
     private void startTileOnTransition(GameObject tile) {
-        if( tileOnTransitionOveride != null &&
-            tileOnTransitionOveride != "" &&
-            tileOnTransitionOveride != " "
+        if( OnPass1AnimationOveride != null &&
+            OnPass1AnimationOveride != "" &&
+            OnPass1AnimationOveride != " "
             ) {
 
-            tile.GetComponent<TileBase>().TransitionOn(tileOnTransitionOveride);
+            tile.GetComponent<TileBase>().TransitionOn(OnPass1AnimationOveride);
 
         } else {
             tile.GetComponent<TileBase>().TransitionOn();
@@ -484,12 +546,12 @@ public class MapTransitioner : MonoBehaviour {
     }
 
     private void startTileOffTransition(GameObject tile) {
-        if( tileOffTransitionOveride != null &&
-            tileOffTransitionOveride != "" &&
-            tileOffTransitionOveride != " "
+        if( OffPass1AnimationOveride != null &&
+            OffPass1AnimationOveride != "" &&
+            OffPass1AnimationOveride != " "
             ) {
 
-            tile.GetComponent<TileBase>().TransitionOff(tileOffTransitionOveride);
+            tile.GetComponent<TileBase>().TransitionOff(OffPass1AnimationOveride);
 
         } else {
             tile.GetComponent<TileBase>().TransitionOff();
@@ -497,13 +559,13 @@ public class MapTransitioner : MonoBehaviour {
         }
     }
 
-    private IEnumerator RunMainPathFirstTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private IEnumerator RunMainPathFirstTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunMainPathFirstTransition");
 
         // Show the first item
 
         // pause
-        yield return new WaitForSeconds(TileOnSeparationDelay);
+        yield return new WaitForSeconds(OnPass1TileDelay);
 
 
 
@@ -512,7 +574,7 @@ public class MapTransitioner : MonoBehaviour {
     }
 
     
-    private void RunRippleFromCentreTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private void RunRippleFromCentreTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunRippleFromCentreTransition");
     
         Vector3 point = new Vector3(0,0,0);
@@ -521,7 +583,7 @@ public class MapTransitioner : MonoBehaviour {
 
     
 
-    private IEnumerator RunRippleFromPointTransition(MapData mapData, MapTransitionDirection mapTransitionDirection, Vector3 point) {
+    private IEnumerator RunRippleFromPointTransition(MapData mapData, TransitionDirection mapTransitionDirection, Vector3 point) {
 
         float deltaTimeConsumed = 0.0f;
         float radius = 0.0f;
@@ -572,10 +634,10 @@ public class MapTransitioner : MonoBehaviour {
             }
 
             // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileOnSeparationDelay;
+            deltaTimeConsumed += OnPass1TileDelay;
             if(deltaTimeConsumed >= Time.deltaTime) {
                 deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileOnSeparationDelay);
+                yield return new WaitForSeconds(OnPass1TileDelay);
             }
 
             // TODO: Easing would be nice
@@ -592,7 +654,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private IEnumerator RunJumpsLastTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private IEnumerator RunJumpsLastTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
         Debug.Log("Running RunJumpsLastTransition");
 
         float deltaTimeConsumed = 0.0f;
@@ -634,10 +696,10 @@ public class MapTransitioner : MonoBehaviour {
                 tile.SetActive(true);
                 
                 // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-                deltaTimeConsumed += TileOnSeparationDelay;
+                deltaTimeConsumed += OnPass1TileDelay;
                 if(deltaTimeConsumed >= Time.deltaTime) {
                     deltaTimeConsumed = 0.0f;
-                    yield return new WaitForSeconds(TileOnSeparationDelay);
+                    yield return new WaitForSeconds(OnPass1TileDelay);
                 }
 
             }
@@ -655,10 +717,10 @@ public class MapTransitioner : MonoBehaviour {
             jumpTile.SetActive(true);
             
             // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileOnSeparationDelay;
+            deltaTimeConsumed += OnPass1TileDelay;
             if(deltaTimeConsumed >= Time.deltaTime) {
                 deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileOnSeparationDelay);
+                yield return new WaitForSeconds(OnPass1TileDelay);
             }
 
         }
@@ -681,9 +743,9 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private void finalizeLevel(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private void finalizeLevel(MapData mapData, TransitionDirection mapTransitionDirection) {
         
-        if(mapTransitionDirection == MapTransitionDirection.On) {
+        if(mapTransitionDirection == TransitionDirection.On) {
             // replace old mapData with newly created mapData
             gameCtrlScript.MapData = mapData;
 
