@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class TileBase : MonoBehaviour {
 
+	
+	[Header("Values for Monitoring Only")]
+    ///////////////////////////////////
+	
 	[Tooltip("Changing this value won't do anything, it is only for viewing the arraIndices during debugging")]
 	public int[] ArrayIndices = new int[2];
 
 	[Tooltip("Changing this value won't do anything, it is only for viewing the tileType during debugging")]
 	public TileType TileType;
 
+	[Tooltip("Changing this value won't do anything, it is used by MapTransitioner to know if a tile is about to be deleted")]
+	public bool OnDeletionPath = false;
+
+
+	
+	[Header("Editable Values")]
+    ///////////////////////////////////
+	
 	[Tooltip("Type in the name of the transition you would like to override with.")]
 	public string onTransitionOveride;
 
 	[Tooltip("Type in the name of the transition you would like to override with.")]
 	public string offTransitionOveride;
+
+
+	
+
+	
 
 	private Animator tileAnimator;
 	private ArrayList onAnimClips = new ArrayList();

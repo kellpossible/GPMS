@@ -24,15 +24,18 @@ public class MapData {
 	private int mapDepth;
 	public int MapDepth { get {return mapDepth;} }
 	
-	private GameObject[] mainPath;
-	public GameObject[] MainPath { get {return mainPath;} }
 
+	public ArrayList MapObjArray2D = new ArrayList();
+	public ArrayList MainPath = new ArrayList();
+	public ArrayList Floors = new ArrayList();
 	public ArrayList Entries = new ArrayList();
 	public ArrayList Exits = new ArrayList();
 	public ArrayList Turrets = new ArrayList();
 	public ArrayList Jumps = new ArrayList();
 	public ArrayList Doors = new ArrayList();
 	public ArrayList Switches = new ArrayList();
+	public ArrayList Movers = new ArrayList();
+	public ArrayList Crumblers = new ArrayList();
 	
 	
 	
@@ -91,6 +94,9 @@ public class MapData {
 
 
 
+
+
+
 		// populate main path
 
 
@@ -118,12 +124,19 @@ public class MapData {
 				mapObjScript.TileType = mapDataArray[j,k].type;
 
 				// record references to special objects in special arrays
+				MapObjArray2D.Add(mapObjArray[j,k]);
+				if(mapDataArray[j,k].type == TileType.Tile) { Floors.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Entry) { Entries.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Exit) { Exits.Add(mapObjArray[j,k]); };
-				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
-				if(mapDataArray[j,k].type == TileType.Jump) { Jumps.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Moving) { Movers.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Door) { Doors.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Switch) { Switches.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Jump) { Jumps.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Crumble) { Crumblers.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
+
+				// TODO: check if part of main path
+				// TODO: slot in appropriate spot in main path
 				
 			}
 			
