@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class TileBase : MonoBehaviour {
 
+
+	// the amount of time to skip at the start of each animation clip.
+	// Because each animation clip must start at 0.0.0 and then jump to where it needs to be.
+	// This is because root motion calculates relative position based on the first frame.
+
 	
 	[Header("Values for Monitoring Only")]
     ///////////////////////////////////
@@ -117,27 +122,32 @@ public class TileBase : MonoBehaviour {
 	}
 
 	private float startTransitionFromSet(string type, ArrayList animClipSet) {
+		// Debug.Log("startTransitionFromSet: type = "+ type);
+
 		int clipIndex = 0;
 		AnimationClip animClip;
+
 		
-		if(type != "random" ) {
+		if(type == "random") {
+
+			clipIndex = Random.Range(0, animClipSet.Count);
+
+		} else {
 
 			// search the onTransition for the index of the one specified
 			for(int k = 0; k<animClipSet.Count; k++) {
 				if( ((AnimationClip)animClipSet[k]).name == type) {
 					clipIndex = k;
+					break;
 				}
 			}
 
 		}
 
-		if(type == "random") {
-			clipIndex = Random.Range(0, animClipSet.Count);
-		}
+		
 
 		// get a reference to the actual anim clip
 		animClip = (AnimationClip)animClipSet[clipIndex];
-
 		tileAnimator.Play(animClip.name);
 
 		// return the length of the clip

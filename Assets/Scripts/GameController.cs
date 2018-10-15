@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
 	public MapData MapData;
+	public bool LevelAvailable;
 
 	ProcGen procGen;
 	MapTransitioner mapTransitioner;
@@ -22,22 +23,21 @@ public class GameController : MonoBehaviour {
 		playerObject = GameObject.Find("Player");
 		
 		// Run level generation
-		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		// MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		// transition level on
 
 		// register an action handler for when the level 
 		// becomes available
-		mapTransitioner.OnLevelAvailable += delegate {
-			placePlayerOnStart(); 
-		};
+		// mapTransitioner.LevelAvailable += delegate {
+		// 	placePlayerOnStart(); 
+		// };
 
-		mapTransitioner.StartTransitioning(mapArray);
+		// mapTransitioner.StartTransitioning(mapArray);
 
 		// run a demo to transition the level every few seconds
-		// StartCoroutine( levelTransitionDemo() );
+		StartCoroutine( levelTransitionDemo() );
 
-		// run a test transition using randomised tiles
-		// mapTransitioner.RunTestTransition();
+		
 	}
 
 	private void placePlayerOnStart() {
@@ -60,7 +60,11 @@ public class GameController : MonoBehaviour {
 
 			yield return new WaitForSeconds(10);
 
-			MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+			//MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		
+			// run a test transition using randomised tiles
+			MapTile[,] mapArray = mapTransitioner.CreateTestMap();
+
 			// transition level on
 			mapTransitioner.StartTransitioning(MapData, mapArray);
 

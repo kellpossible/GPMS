@@ -7,6 +7,7 @@ public class MapTransitioner : MonoBehaviour {
     // reference to GameController class
     private GameController gameCtrlScript;
 
+
     public enum TransitionPattern { Disabled, Scanline, MainPathFirst, RippleFromCentre };
     public enum TransitionDirection { On, Off }; // TODO: This should be defined in the global class
     public enum TileTransitionGrouping { Any, MainPath, Floors, Entries, Exits, Movers, Doors, Switches, Jumps, Crumblers, Turrets };
@@ -318,7 +319,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    public void RunTestTransition() {
+    public MapTile[,] CreateTestMap() {
 
         MapTile[,] testMap = new MapTile[20,20];
 
@@ -343,9 +344,8 @@ public class MapTransitioner : MonoBehaviour {
 
         }
 
-        Debug.Log("Created Test Map");
+        return testMap;
 
-        StartTransitioning(testMap);
 
     }
 
@@ -720,7 +720,7 @@ public class MapTransitioner : MonoBehaviour {
                 Vector3 size = tile.GetComponent<Renderer>().bounds.size;
 
                 // TODO: the offset doesn't seem visually accurate
-                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
+                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0f, -mapData.MapDepth/2);
 
                 Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
                 tile.transform.position = mapOffset + tilePosition;
