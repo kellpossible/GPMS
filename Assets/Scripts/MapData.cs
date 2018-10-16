@@ -135,9 +135,8 @@ public class MapData {
 				if(mapDataArray[j,k].type == TileType.Crumble) { Crumblers.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
 
-				// TODO: check if part of main path
-				Debug.Log("MainPath: "+mapDataArray[j,k].mainPath);
-				// TODO: slot in appropriate spot in main path
+				// on main path?
+				if(mapDataArray[j,k].mainPath > 0) { MainPath.Add(mapObjArray[j,k]); };
 				
 			}
 			

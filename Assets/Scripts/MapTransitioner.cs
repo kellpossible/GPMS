@@ -657,19 +657,19 @@ public class MapTransitioner : MonoBehaviour {
             switch(mapTransitionTypes[k])
             {
                 case TransitionPattern.Disabled:
-                    runAllAtOnceTransition(tileObjects, mapTransitionDirection);
+                    runAllAtOnceTransition(tileObjects, mapTransitionDirection, animationOverides[k]);
                     break;
 
                 case TransitionPattern.Scanline:
-                    StartCoroutine( runScanlineTransition(tileObjects, mapTransitionDirection, tileDelays[k]) );
+                    StartCoroutine( runScanlineTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]) );
                     break;
 
                 case TransitionPattern.MainPathFirst:
-                    StartCoroutine( runMainPathFirstTransition(tileObjects, mapTransitionDirection, tileDelays[k]) );
+                    StartCoroutine( runMainPathFirstTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]) );
                     break;
 
                 case TransitionPattern.RippleFromCentre:
-                    runRippleFromCentreTransition(tileObjects, mapTransitionDirection, tileDelays[k]);
+                    runRippleFromCentreTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]);
                     break;
 
                 default:
@@ -757,7 +757,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private void runAllAtOnceTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection) {
+    private void runAllAtOnceTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, string animationOveride) {
 
         for(int k=0; k<tileObjects.Count; k++) {
 
@@ -766,11 +766,11 @@ public class MapTransitioner : MonoBehaviour {
             switch(mapTransitionDirection) {
 
                 case TransitionDirection.On:
-                    startTileOnTransition(tile);
+                    startTileOnTransition(tile, animationOveride);
                     break;
                 
                 case TransitionDirection.Off:
-                    startTileOffTransition(tile);
+                    startTileOffTransition(tile, animationOveride);
                     break;
                 
                 default:
@@ -790,7 +790,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private IEnumerator runScanlineTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay) {
+    private IEnumerator runScanlineTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
         if(Verbose) Debug.Log("Running RunScanlineTransition");
 
         float deltaTimeConsumed = 0.0f;
@@ -810,11 +810,11 @@ public class MapTransitioner : MonoBehaviour {
             switch(mapTransitionDirection) {
 
                 case TransitionDirection.On:
-                    startTileOnTransition(tile);
+                    startTileOnTransition(tile, animationOveride);
                     break;
                 
                 case TransitionDirection.Off:
-                    startTileOffTransition(tile);
+                    startTileOffTransition(tile, animationOveride);
                     break;
                 
                 default:
@@ -838,7 +838,7 @@ public class MapTransitioner : MonoBehaviour {
 
     
 
-    private IEnumerator runMainPathFirstTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay) {
+    private IEnumerator runMainPathFirstTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
         if(Verbose) Debug.Log("Running RunMainPathFirstTransition");
 
         // Show the first item
@@ -852,11 +852,11 @@ public class MapTransitioner : MonoBehaviour {
     }
 
     
-    private void runRippleFromCentreTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay) {
+    private void runRippleFromCentreTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
         if(Verbose) Debug.Log("Running RunRippleFromCentreTransition");
     
         Vector3 point = new Vector3(0,0,0);
-        StartCoroutine( runRippleFromPointTransition(tileObjects, mapTransitionDirection, tileSeparationDelay, point) );
+        StartCoroutine( runRippleFromPointTransition(point, tileObjects, mapTransitionDirection, tileSeparationDelay, animationOveride) );
     }
 
     
@@ -864,7 +864,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private IEnumerator runRippleFromPointTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, Vector3 point) {
+    private IEnumerator runRippleFromPointTransition(Vector3 point, ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
 
         float deltaTimeConsumed = 0.0f;
         float radius = 0.0f;
@@ -885,7 +885,7 @@ public class MapTransitioner : MonoBehaviour {
 
                 // if the tile is within the current radius
                 if( Vector3.Distance(point, tile.transform.position) <= radius ) {
-                    startTileOnTransition(tile);
+                    startTileOnTransition(tile, animationOveride);
                 }
 
             }
@@ -909,17 +909,17 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private void startTileOnTransition(GameObject tile) {
+    private void startTileOnTransition(GameObject tile, string animationOveride) {
 
         // if tile is already turned on in a previous pass, then abort
         if(tile.activeSelf == true) {  return; };
 
-        if( OnPass1AnimationOveride != null &&
-            OnPass1AnimationOveride != "" &&
-            OnPass1AnimationOveride != " "
+        if( animationOveride != null &&
+            animationOveride != "" &&
+            animationOveride != " "
             ) {
 
-            tile.GetComponent<TileBase>().TransitionOn(OnPass1AnimationOveride);
+            tile.GetComponent<TileBase>().TransitionOn(animationOveride);
 
         } else {
             tile.GetComponent<TileBase>().TransitionOn();
@@ -927,7 +927,7 @@ public class MapTransitioner : MonoBehaviour {
         }
     }
 
-    private void startTileOffTransition(GameObject tile) {
+    private void startTileOffTransition(GameObject tile, string animationOveride) {
 
         if( tile == null    ||
             tile.GetComponent<TileBase>().OnDeletionPath == true
@@ -942,12 +942,12 @@ public class MapTransitioner : MonoBehaviour {
         tile.GetComponent<TileBase>().OnDeletionPath = true;
 
 
-        if( OffPass1AnimationOveride != null &&
-            OffPass1AnimationOveride != "" &&
-            OffPass1AnimationOveride != " "
+        if( animationOveride != null &&
+            animationOveride != "" &&
+            animationOveride != " "
             ) {
 
-            tile.GetComponent<TileBase>().TransitionOff(OffPass1AnimationOveride);
+            tile.GetComponent<TileBase>().TransitionOff(animationOveride);
 
         } else {
             tile.GetComponent<TileBase>().TransitionOff();
