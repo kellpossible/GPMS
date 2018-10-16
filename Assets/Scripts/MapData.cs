@@ -136,6 +136,7 @@ public class MapData {
 				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
 
 				// TODO: check if part of main path
+				Debug.Log("MainPath: "+mapDataArray[j,k].mainPath);
 				// TODO: slot in appropriate spot in main path
 				
 			}

@@ -60,10 +60,10 @@ public class GameController : MonoBehaviour {
 
 			yield return new WaitForSeconds(10);
 
-			//MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+			MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		
 			// run a test transition using randomised tiles
-			MapTile[,] mapArray = mapTransitioner.CreateTestMap();
+			// MapTile[,] mapArray = mapTransitioner.CreateTestMap();
 
 			// transition level on
 			mapTransitioner.StartTransitioning(MapData, mapArray);
