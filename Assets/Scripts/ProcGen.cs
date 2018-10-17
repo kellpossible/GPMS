@@ -61,21 +61,24 @@ public class ProcGen : MonoBehaviour
         posY = levelSize / 2;
         baseTiles = tiles;
         baseDirChance = chance; //set the base dir from main chance (IMPORTANT)
-        lvl = setupLevel(levelSize, tiles, chance, lvl); //create a level
+        lvl = setupLevel(levelSize, tiles, chance, lvl, obsRate); //create a level
         int attempt = 1; //attempts at making a solvable level
 
         bool levelMade = pathfindTest(moveList, lvl, baseTiles); //test making a level
+        bool doors = addDoors(lvl);
+
 
         while (!levelMade) //keep trying to make levels if one fails, so far works 100%
         {
             attempt++;
             Debug.Log("generating attempt " + attempt);
-            lvl = setupLevel(levelSize, baseTiles, 0.6f, lvl);
+            lvl = setupLevel(levelSize, baseTiles, 0.6f, lvl, obsRate);
             Debug.Log("testing path");
             levelMade = pathfindTest(moveList, lvl, baseTiles);
+            doors = addDoors(lvl);
         }
         Debug.Log("path found on attempt " + attempt);
-        
+
         return lvl;
     }
 
@@ -97,7 +100,8 @@ public class ProcGen : MonoBehaviour
         {
             if (MapTile != null)
             {
-                switch (var) { 
+                switch (var)
+                {
                     case 0: //tile type
                         output += (int)MapTile.type;
                         break;
@@ -115,7 +119,7 @@ public class ProcGen : MonoBehaviour
                     default:
                         break;
                 }
-                
+
             }
             else
             {
@@ -181,7 +185,7 @@ public class ProcGen : MonoBehaviour
     }
 
 
-    void populate(MapTile[,] level)
+    void populate(MapTile[,] level, float obsRate)
     { //adds tiles to the map. Uses the obsRate float as the chance a tile is placed (can be altered to change the difficulty)
 
         //checking for cross - this should be used for turrets
@@ -414,7 +418,7 @@ public class ProcGen : MonoBehaviour
         }
     }
 
-    public MapTile[,] setupLevel(int lvlSize, int numTiles, float dirChance, MapTile[,] level)
+    public MapTile[,] setupLevel(int lvlSize, int numTiles, float dirChance, MapTile[,] level, float obsRate)
     {
         levelSize = lvlSize;
         posX = levelSize / 2;
@@ -441,7 +445,7 @@ public class ProcGen : MonoBehaviour
         if (tiles == 0)
         {
             //place tiles into the array
-            populate(level);
+            populate(level, obsRate);
             //print the array to console
             //printLevel();
             tiles = -5;
@@ -474,11 +478,11 @@ public class ProcGen : MonoBehaviour
                 {
                     output[zx] += "X";
                 }
-                else if(level[zx,zy].type == TileType.Exit)
+                else if (level[zx, zy].type == TileType.Exit)
                 {
                     output[zx] += "B";
                 }
-                else if(level[zx,zy].type == TileType.Entry)
+                else if (level[zx, zy].type == TileType.Entry)
                 {
                     output[zx] += "A";
                 }
@@ -605,7 +609,7 @@ public class ProcGen : MonoBehaviour
         {
             if (c != null)
             {
-                if(c.x == start.X && c.y == start.Y)
+                if (c.x == start.X && c.y == start.Y)
                 {
                     hasEntry = true;
                 }
@@ -633,7 +637,7 @@ public class ProcGen : MonoBehaviour
                     {
                         if (t != null)
                         {
-                            if(c.x == t.pos.y && c.y == t.pos.x)
+                            if (c.x == t.pos.y && c.y == t.pos.x)
                             {
                                 t.mainPath = x;
                                 x++;
@@ -643,11 +647,11 @@ public class ProcGen : MonoBehaviour
                 }
             }
             //if a single tile has a mainPath value > 0, return true
-            foreach(MapTile t in lvl)
+            foreach (MapTile t in lvl)
             {
-                if(t != null)
+                if (t != null)
                 {
-                    if(t.mainPath > 0)
+                    if (t.mainPath > 0)
                     {
                         return true;
                     }
@@ -676,9 +680,64 @@ public class ProcGen : MonoBehaviour
         return Math.Abs(targetX - x) + Math.Abs(targetY - y);
     }
 
-    
-     
-    
+    public bool addDoors(MapTile[,] level)
+    {
+        bool placed = false;
+        int max = 0;
+        foreach(MapTile t in lvl)
+        {
+            if (t != null)
+            {
+                if (t.mainPath > max)
+                {
+                    max = t.mainPath;
+                }
+            }
+        }
+        foreach (MapTile t in lvl)
+        {
+            if (t != null)
+            {
+                if (t.mainPath >= ((max / 3) * 2) && t.mainPath < (((max / 3) * 2) + 10) && t.type == TileType.Tile)
+                {
+                    t.type = TileType.Door;
+                    placed = true;
+                    Debug.Log("Door placed at (" + t.pos.x + ", " + t.pos.y + ")");
+                    break;
+                }
+            }
+        }
+        if(!placed)
+        {
+            Debug.Log("no door placed");
+            return false;
+        }
+        else
+        {
+            placed = false;
+            foreach (MapTile t in lvl)
+            {
+                if (t != null)
+                {
+                    if (t.mainPath >= (max / 3) && t.mainPath < ((max / 3) + 10) && t.type == TileType.Tile)
+                    {
+                        t.type = TileType.Switch;
+                        placed = true;
+                        Debug.Log("Switch placed at (" + t.pos.x + ", " + t.pos.y + ")");
+                        return true;
+                    }
+                }
+            }
+        }
+        if(!placed)
+        {
+            Debug.Log("no switch placed");
+        }
+        return false;
+    }
+
+
+
 
 
 }
