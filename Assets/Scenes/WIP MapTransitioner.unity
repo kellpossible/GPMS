@@ -439,18 +439,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbcf75bbb4890840baf06edaff6fe5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Verbose: 1
+  Verbose: 0
   OffPass1Delay: 0
   OffPass1TransitionPattern: 1
   OffPass1Tiles: 10
-  OffPass1TileDelay: 0.03
+  OffPass1TileDelay: 0.05
   OffPass1AnimationOveride: off_floatUp
-  OffPass2Delay: 0
+  OffPass2Delay: 0.5
   OffPass2TransitionPattern: 1
   OffPass2Tiles: 8
   OffPass2TileDelay: 0.03
   OffPass2AnimationOveride: off_floatUp
-  OffPass3Delay: 1
+  OffPass3Delay: 0.7
   OffPass3TransitionPattern: 1
   OffPass3Tiles: 0
   OffPass3TileDelay: 0.01
@@ -468,29 +468,29 @@ MonoBehaviour:
   OnTransitionDelay: 3
   OnPass1Delay: 0
   OnPass1TransitionPattern: 1
-  OnPass1Tiles: 1
-  OnPass1TileDelay: 0.02
+  OnPass1Tiles: 3
+  OnPass1TileDelay: 0.01
   OnPass1AnimationOveride: on_waveVert
-  OnPass2Delay: 2
+  OnPass2Delay: 0.2
   OnPass2TransitionPattern: 1
-  OnPass2Tiles: 2
+  OnPass2Tiles: 4
   OnPass2TileDelay: 0.01
-  OnPass2AnimationOveride: on_popUp
-  OnPass3Delay: 0.5
+  OnPass2AnimationOveride: on_waveVert
+  OnPass3Delay: 1.5
   OnPass3TransitionPattern: 1
-  OnPass3Tiles: 0
+  OnPass3Tiles: 1
   OnPass3TileDelay: 0.03
-  OnPass3AnimationOveride: on_dropDown
-  OnPass4Delay: 1
-  OnPass4TransitionPattern: 0
-  OnPass4Tiles: 0
+  OnPass3AnimationOveride: on_popUp
+  OnPass4Delay: 1.5
+  OnPass4TransitionPattern: 1
+  OnPass4Tiles: 2
   OnPass4TileDelay: 0.01
-  OnPass4AnimationOveride: 
-  OnPass5Delay: 1
-  OnPass5TransitionPattern: 0
+  OnPass4AnimationOveride: on_waveVert
+  OnPass5Delay: 0.5
+  OnPass5TransitionPattern: 1
   OnPass5Tiles: 0
-  OnPass5TileDelay: 0.01
-  OnPass5AnimationOveride: 
+  OnPass5TileDelay: 0.03
+  OnPass5AnimationOveride: on_dropDown
 --- !u!4 &804884086
 Transform:
   m_ObjectHideFlags: 0

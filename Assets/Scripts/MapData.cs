@@ -111,6 +111,8 @@ public class MapData {
 	
 	private void recordFeatures() {
 
+		ArrayList unorderedMainPath = new ArrayList();
+
 		for(int j=0; j<mapObjArray.GetLength(0); j++) {
 			
 			for(int k=0; k<mapObjArray.GetLength(1); k++) {
@@ -136,13 +138,48 @@ public class MapData {
 				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
 
 				// on main path?
-				if(mapDataArray[j,k].mainPath > 0) { MainPath.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].mainPath > 0) { unorderedMainPath.Add(mapObjArray[j,k]); };
 				
 			}
 			
 		}
 
+
+		orderAndSaveMainPath(unorderedMainPath);
+
 	}
 
 
+	private void orderAndSaveMainPath(ArrayList inputMainPath) {
+		// stupid arse sort
+		
+		int numMainPathTiles = inputMainPath.Count;
+		
+
+		// slotNum is the mainPath number to look for
+		for (int slotNum = numMainPathTiles; slotNum > 0; slotNum--)
+		{
+	
+			for (int k = 0; k < inputMainPath.Count; k++)
+			{
+				GameObject gameObjectTile = (GameObject) inputMainPath[k];
+				TileBase gameObjectScript = (TileBase) gameObjectTile.GetComponent(typeof(TileBase));
+				int colIndex = gameObjectScript.ArrayIndices[0];
+				int rowIndex = gameObjectScript.ArrayIndices[1];
+
+				if( mapDataArray[colIndex,rowIndex].mainPath == slotNum ) {
+					MainPath.Add(gameObjectTile);
+					inputMainPath.RemoveAt(k);
+					k--; // to compensate for the removal
+					break;
+				}
+			}
+
+		}       
+
+
+	}
+	
+
 }
+
