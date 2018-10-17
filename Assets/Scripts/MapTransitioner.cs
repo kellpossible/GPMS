@@ -733,6 +733,26 @@ public class MapTransitioner : MonoBehaviour {
                 // Vector3 tileScale = new Vector3(0, 0.3f, 1);
                 // tile.transform.localScale = tileScale;
 
+                // this is inserted just to create the illusion of variation
+                float randomNumber = Random.Range(0, 3);
+
+                if(randomNumber == 0) {
+                    // leave rotation as is
+
+                } else if(randomNumber == 1) {
+                    tile.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
+
+                } else if(randomNumber == 2) {
+                    tile.transform.rotation = Quaternion.AngleAxis(-90, Vector3.up);
+
+                } else {
+                    tile.transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+
+                }
+                
+                
+                
+
             }
         } 
 
