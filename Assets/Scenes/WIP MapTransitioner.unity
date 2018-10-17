@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbcf75bbb4890840baf06edaff6fe5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Verbose: 1
+  Verbose: 0
   OffPass1Delay: 0
   OffPass1TransitionPattern: 1
   OffPass1Tiles: 10
