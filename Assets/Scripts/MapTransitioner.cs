@@ -6,6 +6,13 @@ public class MapTransitioner : MonoBehaviour {
 
     // reference to GameController class
     private GameController gameCtrlScript;
+    
+    // delegate to be called when level flag changes
+    public delegate void LevelDelegate();
+    // level flag
+    public LevelDelegate LevelAvailable;
+    // TODO: should also have a boolean (set throught he delegate itself) so can be checked at any time
+    
 
 
     public enum TransitionPattern { Disabled, Scanline, MainPathFirst, RippleFromCentre };
@@ -19,6 +26,7 @@ public class MapTransitioner : MonoBehaviour {
     
     [Tooltip("Switch to 'true' notifications in the console.")]
     public bool Verbose = false;
+    
 
 
 
@@ -252,6 +260,10 @@ public class MapTransitioner : MonoBehaviour {
 
         findAndHideTemplateMapTiles();
 
+
+        LevelAvailable += delegate {
+            if(Verbose) Debug.Log("Level Available");
+        };
 
 
 	}
@@ -525,7 +537,7 @@ public class MapTransitioner : MonoBehaviour {
         if(Verbose) Debug.Log("InitMapTransitions - part 1");
 
         // get references to required classes
-		gameCtrlScript.LevelAvailable = false;
+		LevelAvailable();
         // this is made true again during final transition method
 
         // start animating the existing level off
@@ -998,7 +1010,7 @@ public class MapTransitioner : MonoBehaviour {
             //if(Verbose) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
 
             // set the flag to say the level can be played
-            gameCtrlScript.LevelAvailable = true;
+            LevelAvailable();
         }
 
     }

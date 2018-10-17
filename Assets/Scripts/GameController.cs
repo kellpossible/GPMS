@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
 	public MapData MapData;
-	public bool LevelAvailable;
 
 	ProcGen procGen;
 	MapTransitioner mapTransitioner;
@@ -28,9 +27,9 @@ public class GameController : MonoBehaviour {
 
 		// register an action handler for when the level 
 		// becomes available
-		// mapTransitioner.LevelAvailable += delegate {
-		// 	placePlayerOnStart(); 
-		// };
+		mapTransitioner.LevelAvailable += delegate {
+			//placePlayerOnStart(); 
+		};
 
 		// mapTransitioner.StartTransitioning(mapArray);
 
