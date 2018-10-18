@@ -252,6 +252,48 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f368a4f8d1445b4ca1d72a8740d7df1, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1001 &532709033
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241346753541044, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fcbd7acb8278d4fb2ab2e5363cc3e49b, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1001 &557908355
 Prefab:
   m_ObjectHideFlags: 0
@@ -470,17 +512,17 @@ MonoBehaviour:
   OnPass1TransitionPattern: 1
   OnPass1Tiles: 3
   OnPass1TileDelay: 0.01
-  OnPass1AnimationOveride: on_waveVert
+  OnPass1AnimationOveride: on_1
   OnPass2Delay: 0.2
   OnPass2TransitionPattern: 1
   OnPass2Tiles: 4
   OnPass2TileDelay: 0.01
-  OnPass2AnimationOveride: on_waveVert
+  OnPass2AnimationOveride: on_1
   OnPass3Delay: 1.5
   OnPass3TransitionPattern: 1
   OnPass3Tiles: 1
   OnPass3TileDelay: 0.03
-  OnPass3AnimationOveride: on_popUp
+  OnPass3AnimationOveride: on_2
   OnPass4Delay: 1.5
   OnPass4TransitionPattern: 1
   OnPass4Tiles: 2
