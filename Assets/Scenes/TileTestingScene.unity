@@ -197,7 +197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 276304417}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dea906b86a08408d86e4d66e0defbb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 92a3afed267ff4ab9a4970614989aad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterFacingVelocity: {x: 0, y: 0, z: 0}
