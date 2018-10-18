@@ -5,19 +5,236 @@ using UnityEngine;
 public class MapTransitioner : MonoBehaviour {
 
     // reference to GameController class
-    public event System.Action OnLevelAvailable;
     private GameController gameCtrlScript;
-
-    public enum MapTransitionType { Scanline, MainPathFirst, RippleFromCentre, JumpsLast };
-    public enum MapTransitionDirection { On, Off }; // TODO: This should be defined in the global class
+    
+    // delegate to be called when level flag changes
+    public delegate void LevelDelegate();
+    // level flag
+    public LevelDelegate LevelAvailable;
+    // TODO: should also have a boolean (set throught he delegate itself) so can be checked at any time
     
 
+
+    public enum TransitionPattern { Disabled, Scanline, MainPathFirst, RippleFromCentre };
+    public enum TransitionDirection { On, Off }; // TODO: This should be defined in the global class
+    public enum TileTransitionGrouping { Any, MainPath, Floors, Entries, Exits, Movers, Doors, Switches, Jumps, Crumblers, Turrets };
+
+
+    ////////////////////////////
     // visibile in developer GUI
-    public float TransitionSeparationDelay;
-    public float TileSeparationDelay;
-    public MapTransitionType MapTransitionOnType;
-    public MapTransitionType MapTransitionOffType;
-	
+    ////////////////////////////
+    
+    [Tooltip("Switch to 'true' notifications in the console.")]
+    public bool Verbose = false;
+    
+
+
+
+    [Space(10)]
+
+    [Header("Transition Off Settings")]
+
+    [Space(20)]
+
+
+    
+    [Header("Off Transition - First Pass")]
+
+    [Tooltip("Delay from start of Off transition to start of this pass (should usually remain 0).")]
+    public float OffPass1Delay = 0f;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TransitionPattern OffPass1TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TileTransitionGrouping OffPass1Tiles;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float OffPass1TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OffPass1AnimationOveride;
+
+
+    [Header("Off Transition - Second Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OffPass2Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TransitionPattern OffPass2TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TileTransitionGrouping OffPass2Tiles;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float OffPass2TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OffPass2AnimationOveride;
+
+
+    [Header("Off Transition - Third Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OffPass3Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TransitionPattern OffPass3TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TileTransitionGrouping OffPass3Tiles;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float OffPass3TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OffPass3AnimationOveride;
+
+
+    [Header("Off Transition - Fourth Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OffPass4Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TransitionPattern OffPass4TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TileTransitionGrouping OffPass4Tiles;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float OffPass4TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OffPass4AnimationOveride;
+
+
+    [Header("Off Transition - Fifth Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OffPass5Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TransitionPattern OffPass5TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates off.")]
+    public TileTransitionGrouping OffPass5Tiles;
+
+    [Tooltip("The delay between each tile when they animate off.")]
+    public float OffPass5TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OffPass5AnimationOveride;
+
+
+
+    [Space(20)]
+
+    [Header("Transition On Settings")]
+    
+    [Tooltip("The delay between starting a level animating off and starting a new one animating on.")]
+    public float OnTransitionDelay = 1.0f;
+
+    [Space(20)]
+
+
+
+    [Header("On Transition - First Pass")]
+    
+    [Tooltip("Delay from start of On transition to start of this pass (should usually remain 0).")]
+    public float OnPass1Delay = 0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPattern OnPass1TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass1Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass1TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass1AnimationOveride;
+
+
+    [Header("On Transition - Second Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OnPass2Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPattern OnPass2TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass2Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass2TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass2AnimationOveride;
+
+
+    [Header("On Transition - Third Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OnPass3Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPattern OnPass3TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass3Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass3TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass3AnimationOveride;
+
+
+    [Header("On Transition - Fourth Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OnPass4Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPattern OnPass4TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass4Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass4TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass4AnimationOveride;
+
+
+    [Header("On Transition - Fifth Pass")]
+
+    [Tooltip("Delay from start of last pass until this pass is run.")]
+    public float OnPass5Delay = 1.0f;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TransitionPattern OnPass5TransitionPattern;
+
+    [Tooltip("The transition pattern to use when a level animates on.")]
+    public TileTransitionGrouping OnPass5Tiles;
+
+    [Tooltip("The delay between each tile when they animate on.")]
+    public float OnPass5TileDelay = 0.01f;
+
+    [Tooltip("Type in the name of the transition you would like to override with.")]
+	public string OnPass5AnimationOveride;
+
+    
+
+    
+
+    
+	private MapData upcomingMapData;
     
     private GameObject[] entryTiles;
     private GameObject[] floorTiles;
@@ -43,13 +260,10 @@ public class MapTransitioner : MonoBehaviour {
 
         findAndHideTemplateMapTiles();
 
-        
 
-        // TODO: Warn when tile types aren't found. - describe that they must be active (and will be made inactive on launch)
-
-
-        // iterate through the animation on each prefab type and remember what's available for each one
-        // TODO
+        LevelAvailable += delegate {
+            if(Verbose) Debug.Log("Level Available");
+        };
 
 
 	}
@@ -105,14 +319,14 @@ public class MapTransitioner : MonoBehaviour {
     private void setAllInactive(GameObject[] objectArray, string tagName) {
 
         if(objectArray.Length <= 0) {
-            Debug.Log("---------------------------------------------------");
-            Debug.Log("WARNING: No " + tagName + "'s have been found. If these are needed during map creation you will get a runtime error.");
-            Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
-            Debug.Log("---------------------------------------------------");
+            if(Verbose) Debug.Log("---------------------------------------------------");
+            if(Verbose) Debug.Log("WARNING: No " + tagName + "'s have been found. If these are needed during map creation you will get a runtime error.");
+            if(Verbose) Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
+            if(Verbose) Debug.Log("---------------------------------------------------");
             return;
         }
 
-        Debug.Log(tagName+" tiles found: " + objectArray.Length);
+        if(Verbose) Debug.Log(tagName+" tiles found: " + objectArray.Length);
 
         for(int k=0; k<objectArray.Length; k++) {
             objectArray[k].SetActive(false);
@@ -122,7 +336,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    public void RunTestTransition() {
+    public MapTile[,] CreateTestMap() {
 
         MapTile[,] testMap = new MapTile[20,20];
 
@@ -147,107 +361,73 @@ public class MapTransitioner : MonoBehaviour {
 
         }
 
-        Debug.Log("Created Test Map");
+        return testMap;
 
-        StartTransitioning(testMap);
 
     }
 
 
-
+    /// <summary>
+    /// Transitions a map off screen as well as parses new map data and transitions it onto screen.
+    /// </summary>
+    /// <param name="currentMapData">MapTile object representing the current map to be transitioned off.</param>
+    /// <param name="newGeneratedMapArray">New generated map data to be parsed and then transitioned on.</param>
+    /// 
     public void StartTransitioning(MapData currentMapData, MapTile[,] newGeneratedMapArray) {
-        Debug.Log("StartTransitioning OLD & NEW");
+        if(Verbose) Debug.Log("StartTransitioning OLD & NEW");
 
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
         
-        StartCoroutine( InitMapTransitions(currentMapData, newMapData) );
+        StartCoroutine( initMapTransitions(currentMapData, newMapData) );
 
     }
+    /// <summary>
+    /// Parses new map data and transitions it onto screen.
+    /// </summary>
+    /// <param name="newGeneratedMapArray">New generated map data.</param>
+    /// 
     public void StartTransitioning(MapTile[,] newGeneratedMapArray) {
-        Debug.Log("StartTransitioning NEW - Generated Map Array");
+        if(Verbose) Debug.Log("StartTransitioning NEW - Generated Map Array");
 
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
     
-        StartTransitioning(newMapData, MapTransitionDirection.On);
+        StartTransitioning(newMapData, TransitionDirection.On);
 
     }
-    public void StartTransitioning(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("StartTransitioning NEW - Object Array");
+    /// <summary>
+    /// Accepts an already parsed MapData object and transitions it on or off screen.
+    /// </summary>
+    /// <param name="mapData">MapData object.</param>
+    /// <param name="mapTransitionDirection">Specifies transition direction.</param>
+    /// 
+    public void StartTransitioning(MapData mapData, TransitionDirection mapTransitionDirection) {
+        if(Verbose) Debug.Log("StartTransitioning NEW - Object Array");
 
-        InitMapTransition(mapData, mapTransitionDirection);
 
-    }
-
-
-
-
-    private IEnumerator InitMapTransitions(MapData currentMapData, MapData newMapData) {
-        Debug.Log("InitMapTransitions - part 1");
-
-        // start animating the existing level off
-        // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
-        InitMapTransition(currentMapData, MapTransitionDirection.Off);
-
-        yield return new WaitForSeconds(TransitionSeparationDelay);
-
-        Debug.Log("InitMapTransitions - part 2 (after yield)");
-
-        // start animating new level on
-        // TODO: Needs to handle not having a new level to bring in
-        InitMapTransition(newMapData, MapTransitionDirection.On);
+        StartCoroutine( initMapTransition(mapData, mapTransitionDirection) );
 
     }
 
 
 
-    
-    private void InitMapTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("InitMapTransition");
-
-        MapTransitionType mapTransitionType; 
-
-        if(mapTransitionDirection == MapTransitionDirection.On) {
-            mapTransitionType = MapTransitionOnType;
-            // TODO: overwrite this as it's specified in code directly (needs to be passed through the functions)
-        } else {
-            mapTransitionType = MapTransitionOffType;
-            // TODO: overwrite this is at's specified in code directly (needs to be passed through the functions)
-        }
-
-        Debug.Log(mapTransitionDirection + " / " + mapTransitionType);
-        
-        switch(mapTransitionType)
-        {
-            case MapTransitionType.Scanline:
-                StartCoroutine( RunScanlineTransition(mapData, mapTransitionDirection) );
-                break;
-
-            case MapTransitionType.MainPathFirst:
-                StartCoroutine( RunMainPathFirstTransition(mapData, mapTransitionDirection) );
-                break;
-
-            case MapTransitionType.RippleFromCentre:
-                RunRippleFromCentreTransition(mapData, mapTransitionDirection);
-                break;
-
-            case MapTransitionType.JumpsLast:
-                StartCoroutine( RunJumpsLastTransition(mapData, mapTransitionDirection) );
-                break;
-
-            default:
-                Debug.Log("mapTransitionType Issue");
-                break;
-        }
 
 
 
-    }
 
 
+
+
+
+/// <summary>
+    /// Instantiate new MapTiles into the scene (inactive - to be activated and animated later).
+    /// </summary>
+    /// <param name="newGeneratedMapArray">Unparsed generated map data.</param>
+    /// <returns></returns>
+    /// 
     private GameObject[,] InstantiateNewMapTiles(MapTile[,] newGeneratedMapArray) {
-        Debug.Log("InstantiateNewMapTiles");
+        if(Verbose) Debug.Log("InstantiateNewMapTiles");
 
         GameObject[,] newMapObjectArray = new GameObject[newGeneratedMapArray.GetLength(0), newGeneratedMapArray.GetLength(1)];
 
@@ -270,13 +450,15 @@ public class MapTransitioner : MonoBehaviour {
     }
 
 
-
+    /// <summary>
+    /// Accepts a TileType and instantiates the corresponding GameObject.
+    /// </summary>
+    /// <param name="tileType">TileType of the map tile to be instantiated.</param>
+    /// <returns>GameObject corresponding to the instantiated map tile.</returns>
+    ///
     private GameObject CreateMapTile(TileType tileType) {
-        //Debug.Log("CreateMapTile: "+tileType);
 
         GameObject newTileObject;
-
-        //newTileObject = Instantiate(floorTiles[0]);
 
         switch(tileType)
         {
@@ -324,13 +506,267 @@ public class MapTransitioner : MonoBehaviour {
 
             default:
                 // TODO: Default should probably be a normal floor so that the game is still playable - but maybe something that visually represents and error so devs notice? (or maybe just log it)
-                Debug.Log("CreateMapTile function: Unsupported TileType (using floor tile instead)");
+                if(Verbose) Debug.Log("CreateMapTile function: Unsupported TileType (using floor tile instead)");
                 newTileObject = Instantiate(floorTiles[0]);
                 break;
 
         }
 
         return newTileObject;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// Accepts 2 MapData objects, transitions the first off screen and the second onto screen.
+    /// </summary>
+    /// <param name="currentMapData">MapData of map currently on screen to transition off.</param>
+    /// <param name="newMapData">MapData of map to transition onto screen</param>
+    /// <returns></returns>
+    ///
+    private IEnumerator initMapTransitions(MapData currentMapData, MapData newMapData) {
+        if(Verbose) Debug.Log("InitMapTransitions - part 1");
+
+        // get references to required classes
+		LevelAvailable();
+        // this is made true again during final transition method
+
+        // start animating the existing level off
+        // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
+        StartCoroutine( initMapTransition(currentMapData, TransitionDirection.Off) );
+
+        yield return new WaitForSeconds(OnTransitionDelay);
+
+        if(Verbose) Debug.Log("InitMapTransitions - part 2 (after yield)");
+
+        // start animating new level on
+        // TODO: Needs to handle not having a new level to bring in
+        StartCoroutine( initMapTransition(newMapData, TransitionDirection.On) );
+
+    }
+    /// <summary>
+    /// Initialise the transition of the passed in MapData in the specified direction.
+    /// </summary>
+    /// <param name="mapData">MapData object of map to transition.</param>
+    /// <param name="mapTransitionDirection">Direction of transition.</param>
+    /// 
+    private IEnumerator initMapTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
+        if(Verbose) Debug.Log("InitMapTransition");
+
+
+        // set up pass variables
+        TransitionPattern[] mapTransitionTypes;
+        TileTransitionGrouping[] tileGroupings;
+        float[] tileDelays;
+        string[] animationOverides;
+        float[] nextPassDelays;
+
+        ArrayList tileObjects;
+
+        
+        if(mapTransitionDirection == TransitionDirection.Off) {
+
+            // populate pass variables
+            // TODO: Make all these off passes
+            mapTransitionTypes = new TransitionPattern[] { OffPass1TransitionPattern, OffPass2TransitionPattern, OffPass3TransitionPattern, OffPass4TransitionPattern, OffPass5TransitionPattern };
+            tileGroupings = new TileTransitionGrouping[] { OffPass1Tiles, OffPass2Tiles, OffPass3Tiles, OffPass4Tiles, OffPass5Tiles };
+            tileDelays = new float[] { OffPass1TileDelay, OffPass2TileDelay, OffPass3TileDelay, OffPass4TileDelay, OffPass5TileDelay };
+            animationOverides = new string[] { OffPass1AnimationOveride, OffPass2AnimationOveride, OffPass3AnimationOveride, OffPass4AnimationOveride, OffPass5AnimationOveride };
+            nextPassDelays = new float[] { OffPass1Delay, OffPass2Delay, OffPass3Delay, OffPass4Delay, OffPass5Delay };
+
+        } else {
+
+            // store mapData for pushing into the game object when ready
+            upcomingMapData = mapData;
+
+            positionAllTiles(mapData);
+
+            // populate pass variables
+            mapTransitionTypes = new TransitionPattern[] { OnPass1TransitionPattern, OnPass2TransitionPattern, OnPass3TransitionPattern, OnPass4TransitionPattern, OnPass5TransitionPattern };
+            tileGroupings = new TileTransitionGrouping[] { OnPass1Tiles, OnPass2Tiles, OnPass3Tiles, OnPass4Tiles, OnPass5Tiles };
+            tileDelays = new float[] { OnPass1TileDelay, OnPass2TileDelay, OnPass3TileDelay, OnPass4TileDelay, OnPass5TileDelay };
+            animationOverides = new string[] { OnPass1AnimationOveride, OnPass2AnimationOveride, OnPass3AnimationOveride, OnPass4AnimationOveride, OnPass5AnimationOveride };
+            nextPassDelays = new float[] { OnPass1Delay, OnPass2Delay, OnPass3Delay, OnPass4Delay, OnPass5Delay };
+        }
+
+        
+        
+
+
+        
+
+
+        // start loop for passes
+        for( int k=0; k<mapTransitionTypes.Length; k++ ) {
+
+            // Get the gameObjects related to this pass
+            switch(tileGroupings[k])
+            {
+                case TileTransitionGrouping.Any:
+                    tileObjects = mapData.MapObjArray2D;
+                    break;
+
+                case TileTransitionGrouping.MainPath:
+                    tileObjects = mapData.MainPath;
+                    break;
+
+                case TileTransitionGrouping.Floors:
+                    tileObjects = mapData.Floors;
+                    break;
+
+                case TileTransitionGrouping.Entries:
+                    tileObjects = mapData.Entries;
+                    break;
+
+                case TileTransitionGrouping.Exits:
+                    tileObjects = mapData.Exits;
+                    break;
+
+                case TileTransitionGrouping.Movers:
+                    tileObjects = mapData.Movers;
+                    break;
+
+                case TileTransitionGrouping.Doors:
+                    tileObjects = mapData.Doors;
+                    break;
+
+                case TileTransitionGrouping.Switches:
+                    tileObjects = mapData.Switches;
+                    break;
+
+                case TileTransitionGrouping.Jumps:
+                    tileObjects = mapData.Jumps;
+                    break;
+
+                case TileTransitionGrouping.Crumblers:
+                    tileObjects = mapData.Crumblers;
+                    break;
+
+                case TileTransitionGrouping.Turrets:
+                    tileObjects = mapData.Turrets;
+                    break;
+
+                default:
+                    tileObjects = mapData.MapObjArray2D;
+                    break;
+            }
+
+
+        
+            if(Verbose) Debug.Log(mapTransitionDirection + " / " + mapTransitionTypes[k]);
+            
+
+
+            switch(mapTransitionTypes[k])
+            {
+                case TransitionPattern.Disabled:
+                    runAllAtOnceTransition(tileObjects, mapTransitionDirection, animationOverides[k]);
+                    break;
+
+                case TransitionPattern.Scanline:
+                    StartCoroutine( runScanlineTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]) );
+                    break;
+
+                case TransitionPattern.MainPathFirst:
+                    StartCoroutine( runMainPathFirstTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]) );
+                    break;
+
+                case TransitionPattern.RippleFromCentre:
+                    runRippleFromCentreTransition(tileObjects, mapTransitionDirection, tileDelays[k], animationOverides[k]);
+                    break;
+
+                default:
+                    if(Verbose) Debug.Log("mapTransitionType Issue");
+                    break;
+            }
+
+
+
+            if( k < mapTransitionTypes.Length-1 ) {
+                // It's not the last pass, check how to move forward
+
+                if (    mapTransitionTypes[k+1] == TransitionPattern.Disabled ||
+                        tileGroupings[k] == TileTransitionGrouping.Any    
+                ) {
+                    // if the next pass is disabled, or the current pass did all tiles, then no need for subsequent passes
+                    break;
+
+                } else {
+                    // otherwise, pause before the next pass
+                    yield return new WaitForSeconds( nextPassDelays[k+1] );
+                }
+                
+            }
+
+
+        }
+
+
+        // all the passes are started (meaning the last pass was just started)
+        // TODO: wait enought time for the last pass to be over then finalize level
+        finalizeLevel(mapTransitionDirection);
+
+
+    }
+
+
+    
+
+
+    private void positionAllTiles(MapData mapData) {
+
+        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
+            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+
+                GameObject tile = mapData.MapObjArray[j,k];
+                if(tile == null) { continue; }
+
+                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
+                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
+                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
+                // for now it's here.
+                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+
+                // TODO: the offset doesn't seem visually accurate
+                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0f, -mapData.MapDepth/2);
+
+                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
+                tile.transform.position = mapOffset + tilePosition;
+
+                // Vector3 tileScale = new Vector3(0, 0.3f, 1);
+                // tile.transform.localScale = tileScale;
+
+                // this is inserted just to create the illusion of variation
+                float randomNumber = Random.Range(0, 3);
+
+                if(randomNumber == 0) {
+                    // leave rotation as is
+
+                } else if(randomNumber == 1) {
+                    tile.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
+
+                } else if(randomNumber == 2) {
+                    tile.transform.rotation = Quaternion.AngleAxis(-90, Vector3.up);
+
+                } else {
+                    tile.transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+
+                }
+                
+                
+                
+
+            }
+        } 
 
     }
 
@@ -348,160 +784,149 @@ public class MapTransitioner : MonoBehaviour {
      */
 
 
-    private IEnumerator RunScanlineTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("Running RunScanlineTransition");
 
-        float deltaTimeConsumed = 0.0f;
 
-        if(mapTransitionDirection == MapTransitionDirection.On) {
-            // TODO: this is getting too deep - rethink how transitions are run with map direction present
 
-            // position all tiles first so their positions can be checked easily
-            for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-                for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
 
-                    GameObject tile = mapData.MapObjArray[j,k];
-                    if(tile == null) { continue; }
 
-                    // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
-                    // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
-                    // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
-                    // for now it's here.
-                    Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+    private void runAllAtOnceTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, string animationOveride) {
 
-                    // TODO: the offset doesn't seem visually accurate
-                    Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
+        for(int k=0; k<tileObjects.Count; k++) {
 
-                    Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
-                    tile.transform.position = mapOffset + tilePosition;
+            GameObject tile = (GameObject) tileObjects[k];
 
-                    // Vector3 tileScale = new Vector3(0, 0.3f, 1);
-                    // tile.transform.localScale = tileScale;
+            switch(mapTransitionDirection) {
 
-                }
-            } 
-
-        }
-
-        // now start them animating on at the appropriate time
-        // position all tiles first so their positions can be checked easily
-        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
-
-                GameObject tile = mapData.MapObjArray[j,k];
-                if(tile == null) { continue; }
-
-                switch(mapTransitionDirection) {
-
-                    case MapTransitionDirection.On:
-                        tile.GetComponent<TileBase>().TransitionOn();
-                        break;
-                    
-                    case MapTransitionDirection.Off:
-                        tile.GetComponent<TileBase>().TransitionOff();
-                        break;
-                    
-                    default:
-                        Debug.Log("RunScanlineTransition: Error in called mapTransition Direction");
-                        break;
-
-                }
+                case TransitionDirection.On:
+                    startTileOnTransition(tile, animationOveride);
+                    break;
                 
-                // pause for a frame if as many tiles as should have fit in the previous frames time have been initiated (according to the tileDelay set)
-                deltaTimeConsumed += TileSeparationDelay;
-                if(deltaTimeConsumed >= Time.deltaTime) {
-                    deltaTimeConsumed = 0.0f;
-                    yield return new WaitForSeconds(TileSeparationDelay);
-                }
+                case TransitionDirection.Off:
+                    startTileOffTransition(tile, animationOveride);
+                    break;
+                
+                default:
+                    if(Verbose) Debug.Log("RunAllAtOnceTransition: Error in called mapTransition Direction");
+                    break;
 
             }
+
         }
 
-
-        finalizeLevel(mapData, mapTransitionDirection);
 
     }
 
-    private IEnumerator RunMainPathFirstTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("Running RunMainPathFirstTransition");
+
+
+
+
+
+
+    private IEnumerator runScanlineTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
+        if(Verbose) Debug.Log("Running RunScanlineTransition");
+
+        float deltaTimeConsumed = 0.0f;
+
+
+        // TODO: Try removing - This is just put in to try and solve animation on selection bug
+        yield return new WaitForSeconds(0.5f);
+
+
+
+        // now start them animating on at the appropriate time
+        // position all tiles first so their positions can be checked easily
+        for(int k=0; k<tileObjects.Count; k++) {
+
+            GameObject tile = (GameObject) tileObjects[k];
+
+            switch(mapTransitionDirection) {
+
+                case TransitionDirection.On:
+                    startTileOnTransition(tile, animationOveride);
+                    break;
+                
+                case TransitionDirection.Off:
+                    startTileOffTransition(tile, animationOveride);
+                    break;
+                
+                default:
+                    if(Verbose) Debug.Log("RunScanlineTransition: Error in called mapTransition Direction");
+                    break;
+
+            }
+            
+            // pause for a frame if as many tiles as should have fit in the previous frames time have been initiated (according to the tileDelay set)
+            deltaTimeConsumed += tileSeparationDelay;
+            if(deltaTimeConsumed >= Time.deltaTime) {
+                deltaTimeConsumed = 0.0f;
+                yield return new WaitForSeconds(tileSeparationDelay);
+            }
+
+        }
+
+
+    }
+
+
+    
+
+    private IEnumerator runMainPathFirstTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
+        if(Verbose) Debug.Log("Running RunMainPathFirstTransition");
 
         // Show the first item
 
         // pause
-        yield return new WaitForSeconds(TileSeparationDelay);
+        yield return new WaitForSeconds(OnPass1TileDelay);
 
 
 
-        finalizeLevel(mapData, mapTransitionDirection);
 
     }
 
     
-    private void RunRippleFromCentreTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("Running RunRippleFromCentreTransition");
+    private void runRippleFromCentreTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
+        if(Verbose) Debug.Log("Running RunRippleFromCentreTransition");
     
         Vector3 point = new Vector3(0,0,0);
-        StartCoroutine( RunRippleFromPointTransition(mapData, mapTransitionDirection, point) );
+        StartCoroutine( runRippleFromPointTransition(point, tileObjects, mapTransitionDirection, tileSeparationDelay, animationOveride) );
     }
 
     
 
-    private IEnumerator RunRippleFromPointTransition(MapData mapData, MapTransitionDirection mapTransitionDirection, Vector3 point) {
+
+
+
+    private IEnumerator runRippleFromPointTransition(Vector3 point, ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
 
         float deltaTimeConsumed = 0.0f;
         float radius = 0.0f;
         float maxRadius = 0;
 
-        // position all tiles first so their positions can be checked easily
-        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
-
-                GameObject tile = mapData.MapObjArray[j,k];
-                if(tile == null) { continue; }
-
-                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
-                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
-                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
-                // for now it's here.
-                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
-                // TODO: this shouldn't be calculated in this loop either
-                // should also be based off point position or there'll need to be too much excess
-                maxRadius = GetMax(mapData.MapWidth,mapData.MapDepth); ///2;
-
-                // TODO: the offset doesn't seem visually accurate
-                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
-
-                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
-                tile.transform.position = mapOffset + tilePosition;
-
-            }
-        } 
+        
 
         // now start them animating on at the appropriate time
         while (radius < maxRadius) {
 
             // NOTE: this is rather inefficient as it goes through the whole array for every increase in radius
-            for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-                for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+            for(int k=0; k<tileObjects.Count; k++) {
 
-                    GameObject tile = mapData.MapObjArray[j,k];
-                    if(tile == null) { continue; }
-                    if(tile.activeSelf == true) { continue; }
+                GameObject tile = (GameObject) tileObjects[k];
 
-                    // if the tile is within the current radius
-                    if( Vector3.Distance(point, tile.transform.position) <= radius ) {
-                        tile.GetComponent<Animator>().Play("Pop Up");
-                        tile.SetActive(true);
-                    }
+                if(tile == null) { continue; }
+                if(tile.activeSelf == true) { continue; }
 
+                // if the tile is within the current radius
+                if( Vector3.Distance(point, tile.transform.position) <= radius ) {
+                    startTileOnTransition(tile, animationOveride);
                 }
+
             }
 
             // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileSeparationDelay;
+            deltaTimeConsumed += OnPass1TileDelay;
             if(deltaTimeConsumed >= Time.deltaTime) {
                 deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileSeparationDelay);
+                yield return new WaitForSeconds(OnPass1TileDelay);
             }
 
             // TODO: Easing would be nice
@@ -509,8 +934,6 @@ public class MapTransitioner : MonoBehaviour {
         }
         
 
-        finalizeLevel(mapData, mapTransitionDirection);
-
     }
 
 
@@ -518,83 +941,50 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private IEnumerator RunJumpsLastTransition(MapData mapData, MapTransitionDirection mapTransitionDirection) {
-        Debug.Log("Running RunJumpsLastTransition");
+    private void startTileOnTransition(GameObject tile, string animationOveride) {
 
-        float deltaTimeConsumed = 0.0f;
+        // if tile is already turned on in a previous pass, then abort
+        if(tile.activeSelf == true) {  return; };
 
-        // position all tiles first so their positions can be checked easily
-        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
+        if( animationOveride != null &&
+            animationOveride != "" &&
+            animationOveride != " "
+            ) {
 
-                GameObject tile = mapData.MapObjArray[j,k];
-                if(tile == null) { continue; }
+            tile.GetComponent<TileBase>().TransitionOn(animationOveride);
 
-                // TODO: This should be calculated in MapData (but it would restrict all map tiles to same size)
-                // and would need to be done after MapObjArray is populated. It would need to iterate over the list, find a floor, and set the size to that.
-                // Alternatively, could be done quicker in MapData start by finding the actual floor tile int he scene rather than the array.
-                // for now it's here.
-                Vector3 size = tile.GetComponent<Renderer>().bounds.size;
+        } else {
+            tile.GetComponent<TileBase>().TransitionOn();
 
-                // TODO: the offset doesn't seem visually accurate
-                Vector3 mapOffset = new Vector3(-mapData.MapWidth/2, 0, -mapData.MapDepth/2);
-
-                Vector3 tilePosition = new Vector3(size.x*j, 0, size.z*k);
-                tile.transform.position = mapOffset + tilePosition;
-
-            }
-        } 
-
-
-        // now start them animating on at the appropriate time
-        for(int j=0; j<mapData.MapObjArray.GetLength(0); j++) {
-            for(int k=0; k<mapData.MapObjArray.GetLength(1); k++) {
-
-                GameObject tile = mapData.MapObjArray[j,k];
-                if(tile == null) { continue; }
-
-                // don't do jumps
-                if(mapData.MapDataArray[j,k].type == TileType.Jump) { continue; };
-                
-                //tile.GetComponent<Animator>().Play("Pop Up");
-                tile.SetActive(true);
-                
-                // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-                deltaTimeConsumed += TileSeparationDelay;
-                if(deltaTimeConsumed >= Time.deltaTime) {
-                    deltaTimeConsumed = 0.0f;
-                    yield return new WaitForSeconds(TileSeparationDelay);
-                }
-
-            }
         }
+    }
 
+    private void startTileOffTransition(GameObject tile, string animationOveride) {
 
-        // pause before doing features tiles
-        yield return new WaitForSeconds(1);
+        if( tile == null    ||
+            tile.GetComponent<TileBase>().OnDeletionPath == true
+            ) {
 
-
-        // now pop on the doors
-        foreach(GameObject jumpTile in mapData.Jumps) {
-            
-            Debug.Log("starting jump transition");
-            jumpTile.SetActive(true);
-            
-            // initiation as many tiles as should have fit in the previous frames time (according to the tileDelay set)
-            deltaTimeConsumed += TileSeparationDelay;
-            if(deltaTimeConsumed >= Time.deltaTime) {
-                deltaTimeConsumed = 0.0f;
-                yield return new WaitForSeconds(TileSeparationDelay);
-            }
+            // if the tile is already deleted or if it's already animating and will delete itself, then abort.
+            return;
 
         }
 
-
         
-        
-        finalizeLevel(mapData, mapTransitionDirection);
+        tile.GetComponent<TileBase>().OnDeletionPath = true;
 
 
+        if( animationOveride != null &&
+            animationOveride != "" &&
+            animationOveride != " "
+            ) {
+
+            tile.GetComponent<TileBase>().TransitionOff(animationOveride);
+
+        } else {
+            tile.GetComponent<TileBase>().TransitionOff();
+
+        }
     }
 
 
@@ -607,14 +997,20 @@ public class MapTransitioner : MonoBehaviour {
 
 
 
-    private void finalizeLevel(MapData mapData, MapTransitionDirection mapTransitionDirection) {
+    private void finalizeLevel(TransitionDirection mapTransitionDirection) {
+
+        if(Verbose) Debug.Log("finalizeLevel: Transitioning "+mapTransitionDirection);
         
-        if(mapTransitionDirection == MapTransitionDirection.On) {
+        if(mapTransitionDirection == TransitionDirection.On) {
             // replace old mapData with newly created mapData
-            gameCtrlScript.MapData = mapData;
-            
-            // fire this event to say the level can be played
-            OnLevelAvailable();
+            if(Verbose) Debug.Log("finalizeLevel: upcomingMapData: "+upcomingMapData);
+            gameCtrlScript.MapData = upcomingMapData;
+            if(Verbose) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
+            //upcomingMapData = null;
+            //if(Verbose) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
+
+            // set the flag to say the level can be played
+            LevelAvailable();
         }
 
     }

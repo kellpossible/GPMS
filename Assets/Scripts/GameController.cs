@@ -22,25 +22,25 @@ public class GameController : MonoBehaviour {
 		playerObject = GameObject.Find("Player");
 		
 		// Run level generation
-		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		// MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
 		// transition level on
 
 		// register an action handler for when the level 
 		// becomes available
-		mapTransitioner.OnLevelAvailable += delegate {
+		
+		mapTransitioner.LevelAvailable += delegate {
 			placePlayerOnStart(); 
 		};
 
-		mapTransitioner.StartTransitioning(mapArray);
+		// mapTransitioner.StartTransitioning(mapArray);
 
 		// run a demo to transition the level every few seconds
 		// StartCoroutine( levelTransitionDemo() );
-
-		// run a test transition using randomised tiles
-		// mapTransitioner.RunTestTransition();
+		levelDemo();
 	}
 
 	private void placePlayerOnStart() {
+		Debug.Log("placing player on start");
 		GameObject entryTile = (GameObject) this.MapData.Entries[0];
 		var entryPosition = entryTile.transform.position;
 		var startPosition = new Vector3(entryPosition.x, 4.0f, entryPosition.z);
@@ -52,15 +52,26 @@ public class GameController : MonoBehaviour {
 	}
 
 
+	private void levelDemo() {
+		Debug.Log("starting level transition ...");
+		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		mapTransitioner.StartTransitioning(MapData, mapArray);
+	}
+
+
 
 
 	private IEnumerator  levelTransitionDemo() {
 
 		while(true) {
 
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(10);
 
 			MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		
+			// run a test transition using randomised tiles
+			// MapTile[,] mapArray = mapTransitioner.CreateTestMap();
+
 			// transition level on
 			mapTransitioner.StartTransitioning(MapData, mapArray);
 

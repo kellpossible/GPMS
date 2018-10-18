@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4473797436961426}
   - component: {fileID: 33494675855373154}
   - component: {fileID: 23847619678554154}
+  - component: {fileID: 64019022886509744}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -69,8 +70,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1087794000128134}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04751271, y: 0.01229855, z: 1.2610666}
-  m_LocalScale: {x: 1.2035005, y: 1.2035006, z: 0.3610502}
+  m_LocalPosition: {x: -0.04751277, y: 1.2610664, z: -0.012298346}
+  m_LocalScale: {x: 1.2035004, y: 1.2035006, z: 0.3610502}
   m_Children: []
   m_Father: {fileID: 4473797436961426}
   m_RootOrder: 1
@@ -81,7 +82,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499848832168432}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.0468626, y: -0.5000001, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -97,8 +98,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1640395753829516}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.043668985, y: -0.06043556, z: 1.0622426}
-  m_LocalScale: {x: 1.2035005, y: 1.2035006, z: 0.3610502}
+  m_LocalPosition: {x: -0.043669105, y: 1.0622425, z: 0.060435772}
+  m_LocalScale: {x: 1.2035004, y: 1.2035006, z: 0.3610502}
   m_Children: []
   m_Father: {fileID: 4473797436961426}
   m_RootOrder: 0
@@ -231,3 +232,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1499848832168432}
   m_Mesh: {fileID: 4300002, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}
+--- !u!64 &64019022886509744
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499848832168432}
+  m_Material: {fileID: 13400000, guid: 43b192f7b3fe4496abdad67c76eaeadd, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300008, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}

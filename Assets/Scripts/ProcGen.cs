@@ -83,9 +83,6 @@ public class ProcGen : MonoBehaviour
     }
 
 
-
-
-
     // Update is called once per frame
     void Update()
     {
@@ -184,7 +181,6 @@ public class ProcGen : MonoBehaviour
         return output;
     }
 
-
     void populate(MapTile[,] level, float obsRate)
     { //adds tiles to the map. Uses the obsRate float as the chance a tile is placed (can be altered to change the difficulty)
 
@@ -236,7 +232,6 @@ public class ProcGen : MonoBehaviour
                 }
             }
         } */
-
         //vertical 3 * 1 object placement
         for (int y = 0; y < levelSize; y++)
         {
