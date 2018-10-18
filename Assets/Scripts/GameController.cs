@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
 		GameObject procGenCtrl = GameObject.Find("ProcGen Ctrl");
 		procGen = (ProcGen) procGenCtrl.GetComponent(typeof(ProcGen));
 		playerObject = GameObject.Find("Player");
+		playerObject.SetActive(false);
 		
 		// Run level generation
 		// MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
@@ -47,6 +48,7 @@ public class GameController : MonoBehaviour {
 
 		Debug.Log("Moving player to " + startPosition);
 
+		playerObject.SetActive(true);
 		CharacterController characterController = (CharacterController) playerObject.GetComponent(typeof(CharacterController));
 		characterController.moveToStartPosition(startPosition);
 	}

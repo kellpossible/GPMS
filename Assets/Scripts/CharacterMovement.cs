@@ -6,7 +6,7 @@ using System;
 public class CharacterMovement : MonoBehaviour {
 	private static float LATERAL_FORCE_ON_GROUND = 120000.0f;
 	private static float LATERAL_FORCE_IN_AIR = 10000.0f;
-	private static float JUMP_FORCE = 8000.0f;
+	private static float JUMP_FORCE = 12000.0f;
 	private static float MAX_GROUND_VELOCITY = 5.0f;
 	private static float MAX_Z_GROUNDED_VELOCITY = 0.01f;
 	private static float ROTATION_START_THRESHOLD_VELOCITY = 0.1f;

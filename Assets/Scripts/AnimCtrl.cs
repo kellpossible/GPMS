@@ -22,8 +22,7 @@ public class AnimCtrl : MonoBehaviour {
     void OnTriggerEnter (Collider col)
     {
         if (col.tag == "Player" ) {
-          // TODO 
-          // button's animation.play
+            Debug.Log("Player collided with exit");
         }
     }
 }
