@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles: 80
-  chance: 0.9
+  chance: 0.6
   levelSize: 100
   obsRate: 0.5
 --- !u!1 &223283847
