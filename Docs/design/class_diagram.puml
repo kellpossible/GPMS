@@ -1,0 +1,123 @@
+@startuml class_diagram
+
+class GameObject
+
+GameObject *-- MonoBehaviour : Attached as a script component
+
+class MonoBehaviour
+
+note left of MonoBehaviour
+Base class that every script in Unity 
+derives from. Classes which derive from
+this exist as components of game objects,
+and are owned by the game object.
+end note
+
+abstract class MonoBehaviour <<Provided by Unity>> {
+    +Start()
+    +Update()
+}
+
+class GameController {
+    +Start()
+}
+
+class MapData
+
+class TileBase {
+    +Start()
+    +TransitionOn()
+    +TransitionOff()
+}
+
+class CharacterController {
+    +void Start()
+
+}
+
+class CharacterMovement {
+    +void Start()
+    +void Update()
+}
+
+note right of CharacterMovement
+Notes that CharacterMovement implements
+the Update() method in order to 
+evaluate the character physics
+and character control loop each time 
+the Unity game engine performs an update 
+in the game loop.
+endnote
+
+MonoBehaviour <|-- CharacterController
+MonoBehaviour <|-- CharacterMovement
+MonoBehaviour <|-- TileBase
+MonoBehaviour <|-- GameController
+
+GameController *-- MapData
+
+package "ProcGen.cs" {
+    class MapTile {
+        +int mainPath
+        +int creationOrder
+        +TileType TileType
+        +int variation
+        +Coords pos
+    }
+
+    class Coords {
+        +int x
+        +int y
+    }
+
+    MapTile *-- Coords
+    
+    enum TileType {
+        Entry
+        Exit
+        Tile
+        Gap
+        Jump
+        Crumble
+        Turret
+        Door
+        Switch
+        Moving
+    }
+
+    MapTile *-- TileType
+    
+    class ProcGen {
+        +MapTile[,] level
+        +MapTile[,] createLevel(lvlSize, numTiles, dirChance)
+    }
+
+    ProcGen "1" *-- "many" MapTile
+    note left on link
+    Tiles contained in
+    in the level
+    endnote
+
+    MonoBehaviour <|-- ProcGen
+}
+
+GameController o-- ProcGen
+
+class MapTransitioner {
+    +event OnLevelAvailable
+    +StartTransitioning(MapTile[,])
+}
+
+GameController *-- MapTransitioner
+
+class PauseMenu {
+    +void Update()
+    +void QuitGame()
+    +void Pause()
+    +void LoadMenu()
+    +void Resume()
+}
+
+MonoBehaviour <|-- PauseMenu
+
+@enduml

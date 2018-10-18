@@ -24,15 +24,18 @@ public class MapData {
 	private int mapDepth;
 	public int MapDepth { get {return mapDepth;} }
 	
-	private GameObject[] mainPath;
-	public GameObject[] MainPath { get {return mainPath;} }
 
+	public ArrayList MapObjArray2D = new ArrayList();
+	public ArrayList MainPath = new ArrayList();
+	public ArrayList Floors = new ArrayList();
 	public ArrayList Entries = new ArrayList();
 	public ArrayList Exits = new ArrayList();
 	public ArrayList Turrets = new ArrayList();
 	public ArrayList Jumps = new ArrayList();
 	public ArrayList Doors = new ArrayList();
 	public ArrayList Switches = new ArrayList();
+	public ArrayList Movers = new ArrayList();
+	public ArrayList Crumblers = new ArrayList();
 	
 	
 	
@@ -91,6 +94,9 @@ public class MapData {
 
 
 
+
+
+
 		// populate main path
 
 
@@ -105,6 +111,8 @@ public class MapData {
 	
 	private void recordFeatures() {
 
+		ArrayList unorderedMainPath = new ArrayList();
+
 		for(int j=0; j<mapObjArray.GetLength(0); j++) {
 			
 			for(int k=0; k<mapObjArray.GetLength(1); k++) {
@@ -118,18 +126,60 @@ public class MapData {
 				mapObjScript.TileType = mapDataArray[j,k].type;
 
 				// record references to special objects in special arrays
+				MapObjArray2D.Add(mapObjArray[j,k]);
+				if(mapDataArray[j,k].type == TileType.Tile) { Floors.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Entry) { Entries.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Exit) { Exits.Add(mapObjArray[j,k]); };
-				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
-				if(mapDataArray[j,k].type == TileType.Jump) { Jumps.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Moving) { Movers.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Door) { Doors.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Switch) { Switches.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Jump) { Jumps.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Crumble) { Crumblers.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
+
+				// on main path?
+				if(mapDataArray[j,k].mainPath > 0) { unorderedMainPath.Add(mapObjArray[j,k]); };
 				
 			}
 			
 		}
 
+
+		orderAndSaveMainPath(unorderedMainPath);
+
 	}
 
 
+	private void orderAndSaveMainPath(ArrayList inputMainPath) {
+		// stupid arse sort
+		
+		int numMainPathTiles = inputMainPath.Count;
+		
+
+		// slotNum is the mainPath number to look for
+		for (int slotNum = numMainPathTiles; slotNum > 0; slotNum--)
+		{
+	
+			for (int k = 0; k < inputMainPath.Count; k++)
+			{
+				GameObject gameObjectTile = (GameObject) inputMainPath[k];
+				TileBase gameObjectScript = (TileBase) gameObjectTile.GetComponent(typeof(TileBase));
+				int colIndex = gameObjectScript.ArrayIndices[0];
+				int rowIndex = gameObjectScript.ArrayIndices[1];
+
+				if( mapDataArray[colIndex,rowIndex].mainPath == slotNum ) {
+					MainPath.Add(gameObjectTile);
+					inputMainPath.RemoveAt(k);
+					k--; // to compensate for the removal
+					break;
+				}
+			}
+
+		}       
+
+
+	}
+	
+
 }
+
