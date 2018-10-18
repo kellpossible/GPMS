@@ -492,9 +492,9 @@ public class MapTransitioner : MonoBehaviour {
             //     newTileObject = Instantiate(doorTiles[0]);
             //     break;
 
-            case TileType.Switch:
-                newTileObject = Instantiate(switchTiles[0]);
-                break;
+            // case TileType.Switch:
+            //     newTileObject = Instantiate(switchTiles[0]);
+            //     break;
 
             case TileType.Turret:
                 newTileObject = Instantiate(turretTiles[0]);
