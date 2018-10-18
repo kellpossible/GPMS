@@ -27,19 +27,20 @@ public class GameController : MonoBehaviour {
 
 		// register an action handler for when the level 
 		// becomes available
+		
 		mapTransitioner.LevelAvailable += delegate {
-			//placePlayerOnStart(); 
+			placePlayerOnStart(); 
 		};
 
 		// mapTransitioner.StartTransitioning(mapArray);
 
 		// run a demo to transition the level every few seconds
-		StartCoroutine( levelTransitionDemo() );
-
-		
+		// StartCoroutine( levelTransitionDemo() );
+		levelDemo();
 	}
 
 	private void placePlayerOnStart() {
+		Debug.Log("placing player on start");
 		GameObject entryTile = (GameObject) this.MapData.Entries[0];
 		var entryPosition = entryTile.transform.position;
 		var startPosition = new Vector3(entryPosition.x, 4.0f, entryPosition.z);
@@ -48,6 +49,13 @@ public class GameController : MonoBehaviour {
 
 		CharacterController characterController = (CharacterController) playerObject.GetComponent(typeof(CharacterController));
 		characterController.moveToStartPosition(startPosition);
+	}
+
+
+	private void levelDemo() {
+		Debug.Log("starting level transition ...");
+		MapTile[,] mapArray = procGen.createLevel(80, 60, 0.60f);  
+		mapTransitioner.StartTransitioning(MapData, mapArray);
 	}
 
 
