@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 33261523891673990}
   - component: {fileID: 23371355142615598}
   - component: {fileID: 64782912805304410}
+  - component: {fileID: 95323609129809346}
+  - component: {fileID: 114837603932557738}
   m_Layer: 0
   m_Name: End
   m_TagString: Untagged
@@ -171,3 +173,35 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300008, guid: 875a9967b988e5542b11dc1d9a10cdb2, type: 3}
+--- !u!95 &95323609129809346
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1052309318741100}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5721fa275b018544693051ac0173cd61, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114837603932557738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1052309318741100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7078e14c7d1768a43a6b09798d92519c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorUnlock: 0
+  exitEntered: 0
+  exitEnterAvailable: 0
