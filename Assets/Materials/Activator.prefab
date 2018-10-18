@@ -39,8 +39,8 @@ GameObject:
   - component: {fileID: 33910646784454376}
   - component: {fileID: 23055665577705594}
   - component: {fileID: 64196089690138030}
-  - component: {fileID: 95879012461982322}
   - component: {fileID: 65452184197818168}
+  - component: {fileID: 95879012461982322}
   - component: {fileID: 114537155102489378}
   m_Layer: 0
   m_Name: Activator
@@ -290,4 +290,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 95879012461982322}
   doorUnlock: 0
-  exitEnter: 0
+  exitEntered: 0
+  exitEnterAvailable: 0

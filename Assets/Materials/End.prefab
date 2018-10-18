@@ -202,6 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7078e14c7d1768a43a6b09798d92519c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 95323609129809346}
   doorUnlock: 0
-  exitEnter: 0
+  exitEntered: 0
+  exitEnterAvailable: 0
