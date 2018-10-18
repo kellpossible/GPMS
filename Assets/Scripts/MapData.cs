@@ -135,7 +135,7 @@ public class MapData {
 				if(mapDataArray[j,k].type == TileType.Switch) { Switches.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Jump) { Jumps.Add(mapObjArray[j,k]); };
 				if(mapDataArray[j,k].type == TileType.Crumble) { Crumblers.Add(mapObjArray[j,k]); };
-				if(mapDataArray[j,k].type == TileType.Turret) { Turrets.Add(mapObjArray[j,k]); };
+				if(mapDataArray[j,k].type == TileType.Turret) {	Turrets.Add(mapObjArray[j,k]); };
 
 				// on main path?
 				if(mapDataArray[j,k].mainPath > 0) { unorderedMainPath.Add(mapObjArray[j,k]); };
