@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 64196089690138030}
   - component: {fileID: 65452184197818168}
   - component: {fileID: 95879012461982322}
-  - component: {fileID: 114537155102489378}
   m_Layer: 0
   m_Name: Activator
   m_TagString: Untagged
@@ -277,18 +276,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114537155102489378
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1562865693431950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7078e14c7d1768a43a6b09798d92519c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 95879012461982322}
-  doorUnlock: 0
-  exitEntered: 0
-  exitEnterAvailable: 0
