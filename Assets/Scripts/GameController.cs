@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
 		// register an action handler for when the level 
 		// becomes available
 		mapTransitioner.LevelAvailable += delegate {
-			//placePlayerOnStart(); 
+			placePlayerOnStart(); 
 		};
 
 		// mapTransitioner.StartTransitioning(mapArray);

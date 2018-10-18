@@ -25,7 +25,7 @@ public class MapTransitioner : MonoBehaviour {
     ////////////////////////////
     
     [Tooltip("Switch to 'true' notifications in the console.")]
-    public bool Verbose = false;
+    public int Verbose = 0;
     
 
 
@@ -262,7 +262,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
         LevelAvailable += delegate {
-            if(Verbose) Debug.Log("Level Available");
+            if(Verbose>=1) Debug.Log("Level Available");
         };
 
 
@@ -319,14 +319,14 @@ public class MapTransitioner : MonoBehaviour {
     private void setAllInactive(GameObject[] objectArray, string tagName) {
 
         if(objectArray.Length <= 0) {
-            if(Verbose) Debug.Log("---------------------------------------------------");
-            if(Verbose) Debug.Log("WARNING: No " + tagName + "'s have been found. If these are needed during map creation you will get a runtime error.");
-            if(Verbose) Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
-            if(Verbose) Debug.Log("---------------------------------------------------");
+            if(Verbose>=2) Debug.Log("---------------------------------------------------");
+            if(Verbose>=2) Debug.Log("WARNING: No " + tagName + "'s have been found. If these are needed during map creation you will get a runtime error.");
+            if(Verbose>=2) Debug.Log("Tiles must be included in the SCENE in which they are to be used and given the appropriate tag ("+tagName+"). They will be hidden on initialisation.");
+            if(Verbose>=2) Debug.Log("---------------------------------------------------");
             return;
         }
 
-        if(Verbose) Debug.Log(tagName+" tiles found: " + objectArray.Length);
+        if(Verbose>=2) Debug.Log(tagName+" tiles found: " + objectArray.Length);
 
         for(int k=0; k<objectArray.Length; k++) {
             objectArray[k].SetActive(false);
@@ -374,7 +374,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <param name="newGeneratedMapArray">New generated map data to be parsed and then transitioned on.</param>
     /// 
     public void StartTransitioning(MapData currentMapData, MapTile[,] newGeneratedMapArray) {
-        if(Verbose) Debug.Log("StartTransitioning OLD & NEW");
+        if(Verbose>=2) Debug.Log("StartTransitioning OLD & NEW");
 
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
@@ -388,7 +388,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <param name="newGeneratedMapArray">New generated map data.</param>
     /// 
     public void StartTransitioning(MapTile[,] newGeneratedMapArray) {
-        if(Verbose) Debug.Log("StartTransitioning NEW - Generated Map Array");
+        if(Verbose>=2) Debug.Log("StartTransitioning NEW - Generated Map Array");
 
         MapData newMapData = new MapData(newGeneratedMapArray);
         newMapData.MapObjArray = InstantiateNewMapTiles(newMapData.MapDataArray);
@@ -403,7 +403,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <param name="mapTransitionDirection">Specifies transition direction.</param>
     /// 
     public void StartTransitioning(MapData mapData, TransitionDirection mapTransitionDirection) {
-        if(Verbose) Debug.Log("StartTransitioning NEW - Object Array");
+        if(Verbose>=2) Debug.Log("StartTransitioning NEW - Object Array");
 
 
         StartCoroutine( initMapTransition(mapData, mapTransitionDirection) );
@@ -427,7 +427,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <returns></returns>
     /// 
     private GameObject[,] InstantiateNewMapTiles(MapTile[,] newGeneratedMapArray) {
-        if(Verbose) Debug.Log("InstantiateNewMapTiles");
+        if(Verbose>=2) Debug.Log("InstantiateNewMapTiles");
 
         GameObject[,] newMapObjectArray = new GameObject[newGeneratedMapArray.GetLength(0), newGeneratedMapArray.GetLength(1)];
 
@@ -506,7 +506,7 @@ public class MapTransitioner : MonoBehaviour {
 
             default:
                 // TODO: Default should probably be a normal floor so that the game is still playable - but maybe something that visually represents and error so devs notice? (or maybe just log it)
-                if(Verbose) Debug.Log("CreateMapTile function: Unsupported TileType (using floor tile instead)");
+                if(Verbose>=2) Debug.Log("CreateMapTile function: Unsupported TileType (using floor tile instead)");
                 newTileObject = Instantiate(floorTiles[0]);
                 break;
 
@@ -534,11 +534,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <returns></returns>
     ///
     private IEnumerator initMapTransitions(MapData currentMapData, MapData newMapData) {
-        if(Verbose) Debug.Log("InitMapTransitions - part 1");
-
-        // get references to required classes
-		LevelAvailable();
-        // this is made true again during final transition method
+        if(Verbose>=2) Debug.Log("InitMapTransitions - part 1");
 
         // start animating the existing level off
         // TODO: Needs to handle not starting with an existing level (or maybe they're called directly with startTransition?)
@@ -546,7 +542,7 @@ public class MapTransitioner : MonoBehaviour {
 
         yield return new WaitForSeconds(OnTransitionDelay);
 
-        if(Verbose) Debug.Log("InitMapTransitions - part 2 (after yield)");
+        if(Verbose>=2) Debug.Log("InitMapTransitions - part 2 (after yield)");
 
         // start animating new level on
         // TODO: Needs to handle not having a new level to bring in
@@ -560,7 +556,7 @@ public class MapTransitioner : MonoBehaviour {
     /// <param name="mapTransitionDirection">Direction of transition.</param>
     /// 
     private IEnumerator initMapTransition(MapData mapData, TransitionDirection mapTransitionDirection) {
-        if(Verbose) Debug.Log("InitMapTransition");
+        if(Verbose>=2) Debug.Log("InitMapTransition");
 
 
         // set up pass variables
@@ -662,7 +658,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
         
-            if(Verbose) Debug.Log(mapTransitionDirection + " / " + mapTransitionTypes[k]);
+            if(Verbose>=2) Debug.Log(mapTransitionDirection + " / " + mapTransitionTypes[k]);
             
 
 
@@ -685,7 +681,7 @@ public class MapTransitioner : MonoBehaviour {
                     break;
 
                 default:
-                    if(Verbose) Debug.Log("mapTransitionType Issue");
+                    if(Verbose>=2) Debug.Log("mapTransitionType Issue");
                     break;
             }
 
@@ -806,7 +802,7 @@ public class MapTransitioner : MonoBehaviour {
                     break;
                 
                 default:
-                    if(Verbose) Debug.Log("RunAllAtOnceTransition: Error in called mapTransition Direction");
+                    if(Verbose>=2) Debug.Log("RunAllAtOnceTransition: Error in called mapTransition Direction");
                     break;
 
             }
@@ -823,7 +819,7 @@ public class MapTransitioner : MonoBehaviour {
 
 
     private IEnumerator runScanlineTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
-        if(Verbose) Debug.Log("Running RunScanlineTransition");
+        if(Verbose>=2) Debug.Log("Running RunScanlineTransition");
 
         float deltaTimeConsumed = 0.0f;
 
@@ -850,7 +846,7 @@ public class MapTransitioner : MonoBehaviour {
                     break;
                 
                 default:
-                    if(Verbose) Debug.Log("RunScanlineTransition: Error in called mapTransition Direction");
+                    if(Verbose>=2) Debug.Log("RunScanlineTransition: Error in called mapTransition Direction");
                     break;
 
             }
@@ -871,7 +867,7 @@ public class MapTransitioner : MonoBehaviour {
     
 
     private IEnumerator runMainPathFirstTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
-        if(Verbose) Debug.Log("Running RunMainPathFirstTransition");
+        if(Verbose>=2) Debug.Log("Running RunMainPathFirstTransition");
 
         // Show the first item
 
@@ -885,7 +881,7 @@ public class MapTransitioner : MonoBehaviour {
 
     
     private void runRippleFromCentreTransition(ArrayList tileObjects, TransitionDirection mapTransitionDirection, float tileSeparationDelay, string animationOveride) {
-        if(Verbose) Debug.Log("Running RunRippleFromCentreTransition");
+        if(Verbose>=2) Debug.Log("Running RunRippleFromCentreTransition");
     
         Vector3 point = new Vector3(0,0,0);
         StartCoroutine( runRippleFromPointTransition(point, tileObjects, mapTransitionDirection, tileSeparationDelay, animationOveride) );
@@ -999,15 +995,15 @@ public class MapTransitioner : MonoBehaviour {
 
     private void finalizeLevel(TransitionDirection mapTransitionDirection) {
 
-        if(Verbose) Debug.Log("finalizeLevel: Transitioning "+mapTransitionDirection);
+        if(Verbose>=2) Debug.Log("finalizeLevel: Transitioning "+mapTransitionDirection);
         
         if(mapTransitionDirection == TransitionDirection.On) {
             // replace old mapData with newly created mapData
-            if(Verbose) Debug.Log("finalizeLevel: upcomingMapData: "+upcomingMapData);
+            if(Verbose>=2) Debug.Log("finalizeLevel: upcomingMapData: "+upcomingMapData);
             gameCtrlScript.MapData = upcomingMapData;
-            if(Verbose) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
+            if(Verbose>=2) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
             //upcomingMapData = null;
-            //if(Verbose) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
+            //if(Verbose>=2) Debug.Log("finalizeLevel: gameCtrlScript.MapData: "+gameCtrlScript.MapData);
 
             // set the flag to say the level can be played
             LevelAvailable();
