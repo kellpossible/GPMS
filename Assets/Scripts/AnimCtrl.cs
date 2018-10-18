@@ -9,9 +9,12 @@ public class AnimCtrl : MonoBehaviour {
     public bool exitEntered;
     public bool exitEnterAvailable;
 
+    private GameObject gameController;
+
     // Use this for initialization
     void Start ()
     {
+        gameController = GameObject.Find("Game Ctrl");
         anim = GetComponent<Animator>();
         doorUnlock = false;
         exitEntered = false;
@@ -34,11 +37,11 @@ public class AnimCtrl : MonoBehaviour {
         if (col.tag == "Player" ) {
             doorUnlock = true;
             anim.SetTrigger("Active");
-            //anim.SetTrigger("Unlock");
-          //  anim.SetTrigger("Touch");
-            //anim.SetBool("Unlock", true);
 
-            Debug.Log("door unlocked.");
+            Debug.Log("end level");
+
+            var controllerComponent = (GameController) gameController.GetComponent(typeof(GameController));
+            controllerComponent.restartLevel();
         }
     }
     void OnTriggerExit(Collider col)

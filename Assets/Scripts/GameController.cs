@@ -60,8 +60,11 @@ public class GameController : MonoBehaviour {
 		mapTransitioner.StartTransitioning(MapData, mapArray);
 	}
 
-
-
+	public void restartLevel()
+	{
+		playerObject.SetActive(false);
+		levelDemo();
+	}
 
 	private IEnumerator  levelTransitionDemo() {
 
